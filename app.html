@@ -1,459 +1,910 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>ARC OS | Dashboard</title>
+<title>ARC OS | Business Management</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7f5;
+    color: #111815;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar {
+    height: 72px;
+    background: #ffffff;
+    border-bottom: 1px solid #dce5df;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 28px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand img {
+    width: 120px;
+    height: 52px;
+    object-fit: contain;
+}
+
+.brand-text {
+    border-left: 1px solid #dce5df;
+    padding-left: 14px;
+
+    color: #68736e;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .7px;
+}
+
+.profile {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    background: #276349;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 700;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.layout {
+    display: flex;
+    min-height: calc(100vh - 72px);
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+
+    background: #063b2d;
+    color: white;
+
+    padding: 25px 16px;
+}
+
+.sidebar-title {
+    margin: 10px 12px 12px;
+
+    font-size: 11px;
+    letter-spacing: 1.5px;
+
+    opacity: .55;
+}
+
+.nav-item {
+    width: 100%;
+
+    border: 0;
+    background: transparent;
+
+    color: #dce9e2;
+
+    text-align: left;
+
+    padding: 13px 14px;
+    margin-bottom: 4px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background: #0a5b3e;
+    color: white;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.content {
+    flex: 1;
+    width: 100%;
+    max-width: 1450px;
+
+    padding: 32px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 28px;
+}
+
+.page-heading h1 {
+    margin: 0;
+
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.page-heading p {
+    margin: 8px 0 0;
+
+    color: #68736e;
+    font-size: 14px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.button {
+    border: 0;
+
+    background: #0a5b3e;
+    color: white;
+
+    padding: 13px 18px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: .2s ease;
+}
+
+.button:hover {
+    opacity: .9;
+}
+
+.button.secondary {
+    background: #edf2ef;
+    color: #0a5b3e;
+}
+
+.button.danger {
+    background: #fbeaea;
+    color: #a52d2d;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: white;
+
+    border: 1px solid #dce5df;
+    border-radius: 13px;
+
+    padding: 21px;
+}
+
+.stat-label {
+    color: #68736e;
+
+    font-size: 13px;
+
+    margin-bottom: 9px;
+}
+
+.stat-number {
+    color: #0a5b3e;
+
+    font-size: 30px;
+    font-weight: 800;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    background: white;
+
+    border: 1px solid #dce5df;
+
+    border-radius: 13px;
+
+    padding: 22px;
+
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+}
+
+.card-header h2 {
+    margin: 0;
+
+    font-size: 18px;
+}
+
+/* =========================
+   DASHBOARD GRID
+========================= */
+
+.dashboard-grid {
+    display: grid;
+
+    grid-template-columns: 1.5fr 1fr;
+
+    gap: 20px;
+}
+
+/* =========================
+   LEAD ROW
+========================= */
+
+.lead-row {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #edf1ee;
+}
+
+.lead-row:last-child {
+    border-bottom: 0;
+}
+
+.lead-name {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.lead-contact {
+    margin-top: 5px;
+
+    color: #68736e;
+
+    font-size: 12px;
+}
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.status-nieuw {
+    background: #edf1ee;
+    color: #56615b;
+}
+
+.status-gebeld {
+    background: #eee9ff;
+    color: #634ea3;
+}
+
+.status-email {
+    background: #e6f0ff;
+    color: #275b9c;
+}
+
+.status-warm {
+    background: #fff1cf;
+    color: #8a6200;
+}
+
+.status-afspraak {
+    background: #e1f4e9;
+    color: #28704a;
+}
+
+.status-offerte {
+    background: #e5f5f2;
+    color: #147265;
+}
+
+.status-gewonnen {
+    background: #dff5e5;
+    color: #176738;
+}
+
+.status-afgewezen {
+    background: #fbeaea;
+    color: #a52d2d;
+}
+
+/* =========================
+   FOLLOW UPS
+========================= */
+
+.followup {
+    padding: 14px 0;
+
+    border-bottom: 1px solid #edf1ee;
+}
+
+.followup:last-child {
+    border-bottom: 0;
+}
+
+.followup-date {
+    color: #0a5b3e;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    margin-bottom: 5px;
+}
+
+.followup-name {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.followup-note {
+    color: #68736e;
+
+    font-size: 12px;
+
+    margin-top: 4px;
+}
+
+/* =========================
+   LEADS TOOLBAR
+========================= */
+
+.toolbar {
+    display: flex;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+.search-box {
+    flex: 1;
+}
+
+.search-box input,
+.toolbar select {
+    width: 100%;
+
+    height: 46px;
+
+    border: 1px solid #d4dfd8;
+    border-radius: 9px;
+
+    background: white;
+
+    padding: 0 14px;
+
+    outline: none;
+
+    color: #111815;
+}
+
+.search-box input:focus,
+.toolbar select:focus {
+    border-color: #0a5b3e;
+}
+
+/* =========================
+   LEADS TABLE
+========================= */
+
+.leads-list {
+    background: white;
+
+    border: 1px solid #dce5df;
+
+    border-radius: 13px;
+
+    overflow: hidden;
+}
+
+.lead-card {
+    display: grid;
+
+    grid-template-columns: 1.5fr 1fr .8fr .9fr auto;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 18px 20px;
+
+    border-bottom: 1px solid #edf1ee;
+}
+
+.lead-card:last-child {
+    border-bottom: 0;
+}
+
+.lead-company {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.lead-person {
+    margin-top: 5px;
+
+    color: #68736e;
+
+    font-size: 12px;
+}
+
+.lead-small {
+    color: #68736e;
+
+    font-size: 12px;
+}
+
+.lead-actions {
+    display: flex;
+
+    gap: 7px;
+
+    justify-content: flex-end;
+}
+
+.icon-button {
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid #dce5df;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #0a5b3e;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-button:hover {
+    background: #edf5f1;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty {
+    text-align: center;
+
+    padding: 55px 20px;
+
+    color: #68736e;
+}
+
+.empty-icon {
+    font-size: 42px;
+
+    margin-bottom: 12px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, .48);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 1000;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal {
+    width: 100%;
+    max-width: 650px;
+
+    max-height: 92vh;
+
+    overflow-y: auto;
+
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 25px;
+}
+
+.modal-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 22px;
+}
+
+.modal-header h2 {
+    margin: 0;
+
+    font-size: 22px;
+}
+
+.close-button {
+    border: 0;
+
+    background: #edf2ef;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 50%;
+
+    font-size: 20px;
+
+    color: #53605a;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    border: 1px solid #d4dfd8;
+
+    border-radius: 8px;
+
+    padding: 12px;
+
+    outline: none;
+
+    background: #fff;
+
+    color: #111815;
+}
+
+.form-group textarea {
+    min-height: 110px;
+
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #0a5b3e;
+}
+
+.modal-footer {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .sidebar {
+        display: none;
     }
 
-    body {
-      margin: 0;
-      background: #f4f7f5;
-      color: #111815;
-      font-family: Arial, sans-serif;
+    .content {
+        padding: 24px 18px;
     }
 
-    .app {
-      min-height: 100vh;
+    .stats {
+        grid-template-columns: 1fr 1fr;
     }
 
-    /* HEADER */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lead-card {
+        grid-template-columns: 1fr;
+        gap: 9px;
+    }
+
+    .lead-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 600px) {
 
     .topbar {
-      height: 72px;
-      background: #ffffff;
-      border-bottom: 1px solid #dce5df;
+        height: 68px;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 0 28px;
-
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+        padding: 0 14px;
     }
 
     .brand img {
-      width: 115px;
-      height: 48px;
-      object-fit: cover;
+        width: 110px;
     }
 
     .brand-text {
-      border-left: 1px solid #dce5df;
-      padding-left: 12px;
-
-      color: #68736e;
-      font-size: 13px;
-      font-weight: 600;
+        display: none;
     }
 
     .profile {
-      width: 42px;
-      height: 42px;
-
-      border-radius: 50%;
-
-      background: #0a5b3e;
-      color: white;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-weight: bold;
+        width: 39px;
+        height: 39px;
     }
-
-    /* LAYOUT */
-
-    .layout {
-      display: flex;
-      min-height: calc(100vh - 72px);
-    }
-
-    /* SIDEBAR */
-
-    .sidebar {
-      width: 240px;
-      background: #063b2d;
-      color: white;
-
-      padding: 24px 16px;
-    }
-
-    .sidebar-title {
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      opacity: 0.6;
-      margin: 10px 12px 12px;
-    }
-
-    .nav-item {
-      width: 100%;
-
-      border: 0;
-      background: transparent;
-      color: #dce9e2;
-
-      text-align: left;
-
-      padding: 13px 14px;
-      margin-bottom: 4px;
-
-      border-radius: 8px;
-
-      font-size: 14px;
-      font-weight: 600;
-
-      cursor: pointer;
-    }
-
-    .nav-item:hover,
-    .nav-item.active {
-      background: #0a5b3e;
-      color: white;
-    }
-
-    /* CONTENT */
 
     .content {
-      flex: 1;
-      padding: 32px;
-      max-width: 1400px;
+        padding: 20px 14px;
     }
 
     .page-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+        flex-direction: column;
 
-      margin-bottom: 28px;
+        align-items: flex-start;
     }
 
     .page-heading h1 {
-      margin: 0;
-      font-size: 30px;
+        font-size: 26px;
     }
 
-    .page-heading p {
-      margin: 7px 0 0;
-      color: #68736e;
-      font-size: 14px;
+    .page-heading .button {
+        width: 100%;
     }
-
-    .button {
-      border: 0;
-      background: #0a5b3e;
-      color: white;
-
-      padding: 13px 18px;
-      border-radius: 8px;
-
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .button:hover {
-      opacity: 0.9;
-    }
-
-    /* STATS */
 
     .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-
-      margin-bottom: 28px;
+        gap: 10px;
     }
 
     .stat-card {
-      background: white;
-      border: 1px solid #dce5df;
-      border-radius: 12px;
-
-      padding: 20px;
-    }
-
-    .stat-label {
-      color: #68736e;
-      font-size: 13px;
-      margin-bottom: 8px;
+        padding: 15px;
     }
 
     .stat-number {
-      font-size: 30px;
-      font-weight: 800;
-      color: #0a5b3e;
+        font-size: 25px;
     }
 
-    /* MAIN GRID */
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 20px;
-    }
-
-    .card {
-      background: white;
-      border: 1px solid #dce5df;
-      border-radius: 12px;
-
-      padding: 22px;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-bottom: 18px;
-    }
-
-    .card-header h2 {
-      margin: 0;
-      font-size: 18px;
-    }
-
-    .view-all {
-      color: #0a5b3e;
-      font-size: 13px;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    /* LEADS */
-
-    .lead {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 15px 0;
-      border-bottom: 1px solid #edf1ee;
-    }
-
-    .lead:last-child {
-      border-bottom: 0;
-    }
-
-    .lead-name {
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .lead-contact {
-      color: #68736e;
-      font-size: 12px;
-      margin-top: 4px;
-    }
-
-    .status {
-      display: inline-block;
-
-      padding: 6px 9px;
-      border-radius: 20px;
-
-      font-size: 11px;
-      font-weight: bold;
-    }
-
-    .status-warm {
-      background: #fff1cf;
-      color: #8a6200;
-    }
-
-    .status-email {
-      background: #e6f0ff;
-      color: #275b9c;
-    }
-
-    .status-new {
-      background: #edf1ee;
-      color: #56615b;
-    }
-
-    /* FOLLOW UPS */
-
-    .followup {
-      padding: 14px 0;
-      border-bottom: 1px solid #edf1ee;
-    }
-
-    .followup:last-child {
-      border-bottom: 0;
-    }
-
-    .followup-date {
-      color: #0a5b3e;
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .followup-name {
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .followup-note {
-      color: #68736e;
-      font-size: 12px;
-      margin-top: 3px;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 900px) {
-
-      .sidebar {
-        display: none;
-      }
-
-      .content {
-        padding: 20px 16px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .brand-text {
-        display: none;
-      }
-
-      .topbar {
-        padding: 0 16px;
-      }
-    }
-
-    @media (max-width: 520px) {
-
-      .page-heading {
-        align-items: flex-start;
-        gap: 15px;
+    .toolbar {
         flex-direction: column;
-      }
-
-      .page-heading h1 {
-        font-size: 25px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-
-      .stat-card {
-        padding: 15px;
-      }
-
-      .stat-number {
-        font-size: 25px;
-      }
-
-      .card {
-        padding: 17px;
-      }
     }
-  </style>
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .modal {
+        padding: 20px;
+
+        border-radius: 14px;
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .modal-footer button {
+        width: 100%;
+    }
+}
+
+</style>
 </head>
+
 
 <body>
 
-<div class="app">
-
-  <!-- TOPBAR -->
-
-  <header class="topbar">
+<header class="topbar">
 
     <div class="brand">
 
-      <img
-        src="arc-logo-reference.jpg"
-        alt="ARC Cleaning Business"
-      >
+        <img
+            src="arc-logo-reference.jpg"
+            alt="ARC Cleaning Business"
+        >
 
-      <div class="brand-text">
-        BUSINESS MANAGEMENT
-      </div>
+        <div class="brand-text">
+            BUSINESS MANAGEMENT
+        </div>
 
     </div>
 
     <div class="profile">
-      CA
+        CA
     </div>
 
-  </header>
+</header>
 
 
-  <div class="layout">
+<div class="layout">
+
 
     <!-- SIDEBAR -->
 
     <aside class="sidebar">
 
-      <div class="sidebar-title">
-        ARC OS
-      </div>
+        <div class="sidebar-title">
+            ARC OS
+        </div>
 
-      <button class="nav-item active">
-        📊 Dashboard
-      </button>
+        <button class="nav-item active" onclick="showPage('dashboard', this)">
+            📊 Dashboard
+        </button>
 
-      <button class="nav-item">
-        👥 Leads
-      </button>
+        <button class="nav-item" onclick="showPage('leads', this)">
+            👥 Leads
+        </button>
 
-      <button class="nav-item">
-        📞 Follow-ups
-      </button>
+        <button class="nav-item" onclick="showPage('followups', this)">
+            📞 Follow-ups
+        </button>
 
-      <button class="nav-item">
-        📄 Offertes
-      </button>
+        <button class="nav-item" onclick="showPage('offertes', this)">
+            📄 Offertes
+        </button>
 
-      <button class="nav-item">
-        🤝 Klanten
-      </button>
+        <button class="nav-item" onclick="showPage('klanten', this)">
+            🤝 Klanten
+        </button>
 
-      <div class="sidebar-title">
-        BEHEER
-      </div>
 
-      <button class="nav-item">
-        👷 Personeel
-      </button>
+        <div class="sidebar-title">
+            BEHEER
+        </div>
 
-      <button class="nav-item">
-        🏢 Locaties
-      </button>
+        <button class="nav-item">
+            👷 Personeel
+        </button>
 
-      <button class="nav-item">
-        💰 Facturen
-      </button>
+        <button class="nav-item">
+            🏢 Locaties
+        </button>
 
-      <button class="nav-item">
-        ⚙ Instellingen
-      </button>
+        <button class="nav-item">
+            💰 Facturen
+        </button>
+
+        <button class="nav-item">
+            ⚙ Instellingen
+        </button>
 
     </aside>
 
@@ -462,269 +913,1604 @@
 
     <main class="content">
 
-      <div class="page-heading">
 
-        <div>
+        <!-- =========================
+             DASHBOARD
+        ========================== -->
 
-          <h1>
-            Goedemorgen, Caleb 👋🏽
-          </h1>
+        <section id="dashboard" class="page active">
 
-          <p>
-            Hier is je ARC-overzicht voor vandaag.
-          </p>
+            <div class="page-heading">
 
-        </div>
+                <div>
 
-        <button class="button">
-          + Nieuwe lead
-        </button>
+                    <h1>
+                        Goedemorgen, Caleb 👋🏽
+                    </h1>
 
-      </div>
+                    <p>
+                        Hier is je ARC-overzicht voor vandaag.
+                    </p>
 
+                </div>
 
-      <!-- STATS -->
-
-      <section class="stats">
-
-        <div class="stat-card">
-
-          <div class="stat-label">
-            Totale leads
-          </div>
-
-          <div class="stat-number">
-            0
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <div class="stat-label">
-            Warme leads
-          </div>
-
-          <div class="stat-number">
-            0
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <div class="stat-label">
-            Openstaande offertes
-          </div>
-
-          <div class="stat-number">
-            0
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <div class="stat-label">
-            Actieve klanten
-          </div>
-
-          <div class="stat-number">
-            0
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- DASHBOARD -->
-
-      <section class="dashboard-grid">
-
-
-        <!-- RECENT LEADS -->
-
-        <div class="card">
-
-          <div class="card-header">
-
-            <h2>
-              Recente leads
-            </h2>
-
-            <a href="#" class="view-all">
-              Bekijk alles →
-            </a>
-
-          </div>
-
-
-          <div class="lead">
-
-            <div>
-
-              <div class="lead-name">
-                SamSam Offices
-              </div>
-
-              <div class="lead-contact">
-                E-mail gestuurd
-              </div>
+                <button class="button" onclick="openLeadModal()">
+                    + Nieuwe lead
+                </button>
 
             </div>
 
-            <span class="status status-email">
-              E-mail
-            </span>
 
-          </div>
+            <div class="stats">
 
+                <div class="stat-card">
 
-          <div class="lead">
+                    <div class="stat-label">
+                        Totale leads
+                    </div>
 
-            <div>
+                    <div class="stat-number" id="totalLeads">
+                        0
+                    </div>
 
-              <div class="lead-name">
-                Amsterdam Offices
-              </div>
-
-              <div class="lead-contact">
-                E-mail gestuurd
-              </div>
-
-            </div>
-
-            <span class="status status-email">
-              E-mail
-            </span>
-
-          </div>
+                </div>
 
 
-          <div class="lead">
+                <div class="stat-card">
 
-            <div>
+                    <div class="stat-label">
+                        Warme leads
+                    </div>
 
-              <div class="lead-name">
-                HOFF Offices
-              </div>
+                    <div class="stat-number" id="warmLeads">
+                        0
+                    </div>
 
-              <div class="lead-contact">
-                Heeft al schoonmaakteam
-              </div>
-
-            </div>
-
-            <span class="status status-warm">
-              Warm
-            </span>
-
-          </div>
+                </div>
 
 
-          <div class="lead">
+                <div class="stat-card">
 
-            <div>
+                    <div class="stat-label">
+                        Openstaande offertes
+                    </div>
 
-              <div class="lead-name">
-                Synderella Serviced Offices
-              </div>
+                    <div class="stat-number" id="openQuotes">
+                        0
+                    </div>
 
-              <div class="lead-contact">
-                Nog te bellen
-              </div>
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Actieve klanten
+                    </div>
+
+                    <div class="stat-number" id="activeClients">
+                        0
+                    </div>
+
+                </div>
 
             </div>
 
-            <span class="status status-new">
-              Nieuw
-            </span>
 
-          </div>
-
-        </div>
+            <div class="dashboard-grid">
 
 
-        <!-- FOLLOW UPS -->
+                <div class="card">
 
-        <div class="card">
+                    <div class="card-header">
 
-          <div class="card-header">
+                        <h2>
+                            Recente leads
+                        </h2>
 
-            <h2>
-              Follow-ups
-            </h2>
+                        <button
+                            class="button secondary"
+                            onclick="showPageById('leads')"
+                        >
+                            Bekijk alles →
+                        </button>
 
-            <a href="#" class="view-all">
-              Alles →
-            </a>
+                    </div>
 
-          </div>
+                    <div id="recentLeads"></div>
+
+                </div>
 
 
-          <div class="followup">
+                <div class="card">
 
-            <div class="followup-date">
-              VRIJDAG
+                    <div class="card-header">
+
+                        <h2>
+                            Follow-ups
+                        </h2>
+
+                    </div>
+
+                    <div id="dashboardFollowups"></div>
+
+                </div>
+
+
             </div>
 
-            <div class="followup-name">
-              SamSam Offices
+        </section>
+
+
+        <!-- =========================
+             LEADS
+        ========================== -->
+
+        <section id="leads" class="page">
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>
+                        Leads
+                    </h1>
+
+                    <p>
+                        Beheer al je potentiële klanten op één plek.
+                    </p>
+
+                </div>
+
+                <button class="button" onclick="openLeadModal()">
+                    + Nieuwe lead
+                </button>
+
             </div>
 
-            <div class="followup-note">
-              Controleren of e-mail is bekeken
+
+            <div class="toolbar">
+
+                <div class="search-box">
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Zoek bedrijf, contactpersoon of e-mail..."
+                        oninput="renderLeads()"
+                    >
+
+                </div>
+
+
+                <div style="width:210px;">
+
+                    <select
+                        id="statusFilter"
+                        onchange="renderLeads()"
+                    >
+
+                        <option value="Alle">Alle statussen</option>
+
+                        <option value="Nieuw">Nieuw</option>
+
+                        <option value="Gebeld">Gebeld</option>
+
+                        <option value="E-mail gestuurd">E-mail gestuurd</option>
+
+                        <option value="Warm">Warm</option>
+
+                        <option value="Afspraak">Afspraak</option>
+
+                        <option value="Offerte verstuurd">Offerte verstuurd</option>
+
+                        <option value="Gewonnen">Gewonnen</option>
+
+                        <option value="Afgewezen">Afgewezen</option>
+
+                    </select>
+
+                </div>
+
             </div>
 
-          </div>
 
+            <div class="leads-list">
 
-          <div class="followup">
+                <div id="leadsContainer"></div>
 
-            <div class="followup-date">
-              VRIJDAG
             </div>
 
-            <div class="followup-name">
-              Amsterdam Offices
+        </section>
+
+
+        <!-- =========================
+             FOLLOW UPS
+        ========================== -->
+
+        <section id="followups" class="page">
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>
+                        Follow-ups
+                    </h1>
+
+                    <p>
+                        Zorg dat geen enkele lead wordt vergeten.
+                    </p>
+
+                </div>
+
             </div>
 
-            <div class="followup-note">
-              Follow-up na verstuurde e-mail
+
+            <div class="card">
+
+                <div id="allFollowups"></div>
+
             </div>
 
-          </div>
+        </section>
 
 
-          <div class="followup">
+        <!-- =========================
+             OFFERTES
+        ========================== -->
 
-            <div class="followup-date">
-              VOLGENDE WEEK
+        <section id="offertes" class="page">
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>
+                        Offertes
+                    </h1>
+
+                    <p>
+                        Overzicht van je offerte-aanvragen.
+                    </p>
+
+                </div>
+
             </div>
 
-            <div class="followup-name">
-              HOFF Offices
+
+            <div class="card">
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        📄
+                    </div>
+
+                    <strong>
+                        Offertes komt eraan
+                    </strong>
+
+                    <p>
+                        In de volgende versie bouwen we hier je offertebeheer.
+                    </p>
+
+                </div>
+
             </div>
 
-            <div class="followup-note">
-              Opnieuw contact opnemen
+        </section>
+
+
+        <!-- =========================
+             KLANTEN
+        ========================== -->
+
+        <section id="klanten" class="page">
+
+            <div class="page-heading">
+
+                <div>
+
+                    <h1>
+                        Klanten
+                    </h1>
+
+                    <p>
+                        Je actieve ARC-klanten.
+                    </p>
+
+                </div>
+
             </div>
 
-          </div>
 
-        </div>
+            <div class="card">
 
-      </section>
+                <div id="clientsContainer"></div>
+
+            </div>
+
+        </section>
+
 
     </main>
 
-  </div>
+</div>
+
+
+<!-- =========================
+     LEAD MODAL
+========================== -->
+
+<div
+    class="modal-overlay"
+    id="leadModal"
+    onclick="closeModalOutside(event)"
+>
+
+    <div
+        class="modal"
+        onclick="event.stopPropagation()"
+    >
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Nieuwe lead
+            </h2>
+
+            <button
+                class="close-button"
+                onclick="closeLeadModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="leadForm" onsubmit="saveLead(event)">
+
+            <input
+                type="hidden"
+                id="leadId"
+            >
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Bedrijfsnaam *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="company"
+                        required
+                        placeholder="Bijv. CBRE Amsterdam"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Contactpersoon
+                    </label>
+
+                    <input
+                        type="text"
+                        id="contact"
+                        placeholder="Naam contactpersoon"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Telefoonnummer
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="020 123 4567"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        E-mailadres
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="naam@bedrijf.nl"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select id="status">
+
+                        <option>Nieuw</option>
+
+                        <option>Gebeld</option>
+
+                        <option>E-mail gestuurd</option>
+
+                        <option>Warm</option>
+
+                        <option>Afspraak</option>
+
+                        <option>Offerte verstuurd</option>
+
+                        <option>Gewonnen</option>
+
+                        <option>Afgewezen</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Follow-up datum
+                    </label>
+
+                    <input
+                        type="date"
+                        id="followup"
+                    >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Adres
+                    </label>
+
+                    <input
+                        type="text"
+                        id="address"
+                        placeholder="Straat + huisnummer, Amsterdam"
+                    >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Notities
+                    </label>
+
+                    <textarea
+                        id="notes"
+                        placeholder="Bijvoorbeeld: huidige schoonmaakpartner, terugbellen in september, interesse in dagelijkse schoonmaak..."
+                    ></textarea>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="button secondary"
+                    onclick="closeLeadModal()"
+                >
+                    Annuleren
+                </button>
+
+                <button
+                    type="submit"
+                    class="button"
+                >
+                    Lead opslaan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
 
 </div>
+
+
+<script>
+
+/* =====================================================
+   INITIAL LEADS
+===================================================== */
+
+const starterLeads = [
+
+    {
+        id: "1",
+        company: "CURO Vastgoed",
+        contact: "",
+        phone: "",
+        email: "",
+        address: "",
+        status: "E-mail gestuurd",
+        followup: "",
+        notes: "E-mail gestuurd voor mogelijke schoonmaakopdracht."
+    },
+
+    {
+        id: "2",
+        company: "Minerva Vastgoedbeheer",
+        contact: "",
+        phone: "",
+        email: "",
+        address: "",
+        status: "E-mail gestuurd",
+        followup: "",
+        notes: "E-mail gestuurd voor mogelijke schoonmaakopdracht."
+    },
+
+    {
+        id: "3",
+        company: "DRS Makelaars",
+        contact: "",
+        phone: "",
+        email: "",
+        address: "",
+        status: "E-mail gestuurd",
+        followup: "",
+        notes: "E-mail gestuurd voor mogelijke schoonmaakopdracht."
+    },
+
+    {
+        id: "4",
+        company: "CBRE Amsterdam",
+        contact: "",
+        phone: "",
+        email: "",
+        address: "Amsterdam",
+        status: "Nieuw",
+        followup: "",
+        notes: "Vastgoedbeheerder. Nog benaderen."
+    },
+
+    {
+        id: "5",
+        company: "Cushman & Wakefield",
+        contact: "",
+        phone: "",
+        email: "",
+        address: "Amsterdam",
+        status: "Nieuw",
+        followup: "",
+        notes: "Nog benaderen."
+    },
+
+    {
+        id: "6",
+        company: "ASR Real Estate",
+        contact: "",
+        phone: "",
+        email: "",
+        address: "Utrecht",
+        status: "Nieuw",
+        followup: "",
+        notes: "Nog benaderen."
+    },
+
+    {
+        id: "7",
+        company: "SamSam Offices",
+        contact: "",
+        phone: "",
+        email: "",
+        address: "Amsterdam",
+        status: "E-mail gestuurd",
+        followup: "",
+        notes: "E-mail gestuurd."
+    },
+
+    {
+        id: "8",
+        company: "Amsterdam Offices",
+        contact: "",
+        phone: "",
+        email: "",
+        address: "Amsterdam",
+        status: "E-mail gestuurd",
+        followup: "",
+        notes: "E-mail gestuurd."
+    },
+
+    {
+        id: "9",
+        company: "HOFF Offices",
+        contact: "",
+        phone: "",
+        email: "",
+        address: "Amsterdam",
+        status: "Warm",
+        followup: "",
+        notes: "Heeft al een schoonmaakteam. Informatie gestuurd. Later opnieuw opvolgen."
+    },
+
+    {
+        id: "10",
+        company: "Synderella Serviced Offices",
+        contact: "",
+        phone: "",
+        email: "",
+        address: "Amsterdam",
+        status: "Nieuw",
+        followup: "",
+        notes: "Nog benaderen."
+    },
+
+    {
+        id: "11",
+        company: "B. Amsterdam",
+        contact: "Max Wigmans",
+        phone: "",
+        email: "",
+        address: "Amsterdam",
+        status: "E-mail gestuurd",
+        followup: "",
+        notes: "E-mail gestuurd naar Max Wigmans."
+    }
+
+];
+
+
+/* =====================================================
+   LOAD DATA
+===================================================== */
+
+let leads = JSON.parse(
+    localStorage.getItem("arcLeads")
+);
+
+if (!leads || !Array.isArray(leads)) {
+
+    leads = starterLeads;
+
+    saveData();
+
+}
+
+
+/* =====================================================
+   SAVE DATA
+===================================================== */
+
+function saveData() {
+
+    localStorage.setItem(
+        "arcLeads",
+        JSON.stringify(leads)
+    );
+
+}
+
+
+/* =====================================================
+   STATUS CLASS
+===================================================== */
+
+function statusClass(status) {
+
+    const classes = {
+
+        "Nieuw": "status-nieuw",
+
+        "Gebeld": "status-gebeld",
+
+        "E-mail gestuurd": "status-email",
+
+        "Warm": "status-warm",
+
+        "Afspraak": "status-afspraak",
+
+        "Offerte verstuurd": "status-offerte",
+
+        "Gewonnen": "status-gewonnen",
+
+        "Afgewezen": "status-afgewezen"
+
+    };
+
+    return classes[status] || "status-nieuw";
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showPage(pageId, button) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+            page.classList.remove("active");
+        });
+
+    const page = document.getElementById(pageId);
+
+    if (page) {
+        page.classList.add("active");
+    }
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(item => {
+            item.classList.remove("active");
+        });
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+    renderAll();
+
+}
+
+
+function showPageById(pageId) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+            page.classList.remove("active");
+        });
+
+    document
+        .getElementById(pageId)
+        .classList.add("active");
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(item => {
+            item.classList.remove("active");
+        });
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function renderDashboard() {
+
+    const total = leads.length;
+
+    const warm = leads.filter(
+        lead =>
+            lead.status === "Warm" ||
+            lead.status === "Afspraak"
+    ).length;
+
+    const quotes = leads.filter(
+        lead =>
+            lead.status === "Offerte verstuurd"
+    ).length;
+
+    const clients = leads.filter(
+        lead =>
+            lead.status === "Gewonnen"
+    ).length;
+
+
+    document.getElementById("totalLeads").textContent = total;
+
+    document.getElementById("warmLeads").textContent = warm;
+
+    document.getElementById("openQuotes").textContent = quotes;
+
+    document.getElementById("activeClients").textContent = clients;
+
+
+    const recentContainer =
+        document.getElementById("recentLeads");
+
+    const recent = leads.slice(-5).reverse();
+
+
+    if (recent.length === 0) {
+
+        recentContainer.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">👥</div>
+                Nog geen leads.
+            </div>
+        `;
+
+    } else {
+
+        recentContainer.innerHTML =
+            recent.map(lead => `
+
+                <div class="lead-row">
+
+                    <div>
+
+                        <div class="lead-name">
+                            ${escapeHTML(lead.company)}
+                        </div>
+
+                        <div class="lead-contact">
+                            ${escapeHTML(
+                                lead.contact || "Geen contactpersoon"
+                            )}
+                        </div>
+
+                    </div>
+
+                    <span class="status ${statusClass(lead.status)}">
+                        ${escapeHTML(lead.status)}
+                    </span>
+
+                </div>
+
+            `).join("");
+
+    }
+
+
+    renderDashboardFollowups();
+
+}
+
+
+/* =====================================================
+   DASHBOARD FOLLOWUPS
+===================================================== */
+
+function renderDashboardFollowups() {
+
+    const container =
+        document.getElementById(
+            "dashboardFollowups"
+        );
+
+    const followups = leads
+        .filter(lead => lead.followup)
+        .sort(
+            (a, b) =>
+                new Date(a.followup) -
+                new Date(b.followup)
+        )
+        .slice(0, 5);
+
+
+    if (followups.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">📅</div>
+                Nog geen follow-ups gepland.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        followups.map(lead => `
+
+            <div class="followup">
+
+                <div class="followup-date">
+                    ${formatDate(lead.followup)}
+                </div>
+
+                <div class="followup-name">
+                    ${escapeHTML(lead.company)}
+                </div>
+
+                <div class="followup-note">
+                    ${escapeHTML(
+                        lead.notes ||
+                        "Follow-up gepland."
+                    )}
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* =====================================================
+   RENDER LEADS
+===================================================== */
+
+function renderLeads() {
+
+    const container =
+        document.getElementById(
+            "leadsContainer"
+        );
+
+    const search =
+        (
+            document.getElementById(
+                "searchInput"
+            )?.value || ""
+        ).toLowerCase();
+
+
+    const filter =
+        document.getElementById(
+            "statusFilter"
+        )?.value || "Alle";
+
+
+    const filtered = leads.filter(lead => {
+
+        const matchesSearch =
+            lead.company.toLowerCase().includes(search) ||
+            (lead.contact || "")
+                .toLowerCase()
+                .includes(search) ||
+            (lead.email || "")
+                .toLowerCase()
+                .includes(search);
+
+
+        const matchesStatus =
+            filter === "Alle" ||
+            lead.status === filter;
+
+
+        return matchesSearch && matchesStatus;
+
+    });
+
+
+    if (filtered.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🔎
+                </div>
+
+                <strong>
+                    Geen leads gevonden
+                </strong>
+
+                <p>
+                    Probeer een andere zoekterm of status.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        filtered.map(lead => `
+
+            <div class="lead-card">
+
+                <div>
+
+                    <div class="lead-company">
+                        ${escapeHTML(lead.company)}
+                    </div>
+
+                    <div class="lead-person">
+                        ${escapeHTML(
+                            lead.contact ||
+                            "Geen contactpersoon"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="lead-small">
+
+                    ${
+                        lead.email
+                        ? `✉️ ${escapeHTML(lead.email)}`
+                        : "Geen e-mail"
+                    }
+
+                </div>
+
+
+                <div>
+
+                    <span class="status ${statusClass(lead.status)}">
+                        ${escapeHTML(lead.status)}
+                    </span>
+
+                </div>
+
+
+                <div class="lead-small">
+
+                    ${
+                        lead.followup
+                        ? "📅 " +
+                          formatDate(lead.followup)
+                        : "Geen follow-up"
+                    }
+
+                </div>
+
+
+                <div class="lead-actions">
+
+                    ${
+                        lead.phone
+                        ? `
+                            <a
+                                class="icon-button"
+                                href="tel:${escapeHTML(lead.phone)}"
+                                title="Bellen"
+                            >
+                                📞
+                            </a>
+                        `
+                        : ""
+                    }
+
+
+                    ${
+                        lead.email
+                        ? `
+                            <a
+                                class="icon-button"
+                                href="mailto:${escapeHTML(lead.email)}"
+                                title="E-mail"
+                            >
+                                ✉️
+                            </a>
+                        `
+                        : ""
+                    }
+
+
+                    <button
+                        class="icon-button"
+                        onclick="editLead('${lead.id}')"
+                        title="Bewerken"
+                    >
+                        ✏️
+                    </button>
+
+
+                    <button
+                        class="icon-button"
+                        onclick="deleteLead('${lead.id}')"
+                        title="Verwijderen"
+                    >
+                        🗑️
+                    </button>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* =====================================================
+   FOLLOWUPS PAGE
+===================================================== */
+
+function renderAllFollowups() {
+
+    const container =
+        document.getElementById(
+            "allFollowups"
+        );
+
+    const followups = leads
+        .filter(lead => lead.followup)
+        .sort(
+            (a, b) =>
+                new Date(a.followup) -
+                new Date(b.followup)
+        );
+
+
+    if (followups.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📅
+                </div>
+
+                <strong>
+                    Geen follow-ups gepland
+                </strong>
+
+                <p>
+                    Voeg een follow-up datum toe aan een lead.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        followups.map(lead => `
+
+            <div class="followup">
+
+                <div class="followup-date">
+                    ${formatDate(lead.followup)}
+                </div>
+
+                <div class="followup-name">
+                    ${escapeHTML(lead.company)}
+                </div>
+
+                <div class="followup-note">
+                    ${escapeHTML(
+                        lead.notes ||
+                        "Geen notitie."
+                    )}
+                </div>
+
+                <br>
+
+                <button
+                    class="button secondary"
+                    onclick="editLead('${lead.id}')"
+                >
+                    Lead bekijken
+                </button>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* =====================================================
+   CLIENTS
+===================================================== */
+
+function renderClients() {
+
+    const container =
+        document.getElementById(
+            "clientsContainer"
+        );
+
+    const clients =
+        leads.filter(
+            lead =>
+                lead.status === "Gewonnen"
+        );
+
+
+    if (clients.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🤝
+                </div>
+
+                <strong>
+                    Nog geen actieve klanten
+                </strong>
+
+                <p>
+                    Zodra een lead "Gewonnen" wordt,
+                    verschijnt hij hier.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        clients.map(lead => `
+
+            <div class="lead-row">
+
+                <div>
+
+                    <div class="lead-name">
+                        ${escapeHTML(lead.company)}
+                    </div>
+
+                    <div class="lead-contact">
+                        ${escapeHTML(
+                            lead.contact ||
+                            "Geen contactpersoon"
+                        )}
+                    </div>
+
+                </div>
+
+                <span class="status status-gewonnen">
+                    Actieve klant
+                </span>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* =====================================================
+   OPEN MODAL
+===================================================== */
+
+function openLeadModal(lead = null) {
+
+    document
+        .getElementById("leadModal")
+        .classList.add("show");
+
+
+    if (lead) {
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent = "Lead bewerken";
+
+        document.getElementById(
+            "leadId"
+        ).value = lead.id;
+
+        document.getElementById(
+            "company"
+        ).value = lead.company || "";
+
+        document.getElementById(
+            "contact"
+        ).value = lead.contact || "";
+
+        document.getElementById(
+            "phone"
+        ).value = lead.phone || "";
+
+        document.getElementById(
+            "email"
+        ).value = lead.email || "";
+
+        document.getElementById(
+            "status"
+        ).value = lead.status || "Nieuw";
+
+        document.getElementById(
+            "followup"
+        ).value = lead.followup || "";
+
+        document.getElementById(
+            "address"
+        ).value = lead.address || "";
+
+        document.getElementById(
+            "notes"
+        ).value = lead.notes || "";
+
+    } else {
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent = "Nieuwe lead";
+
+        document.getElementById(
+            "leadForm"
+        ).reset();
+
+        document.getElementById(
+            "leadId"
+        ).value = "";
+
+    }
+
+}
+
+
+function closeLeadModal() {
+
+    document
+        .getElementById("leadModal")
+        .classList.remove("show");
+
+}
+
+
+function closeModalOutside(event) {
+
+    if (
+        event.target.id ===
+        "leadModal"
+    ) {
+
+        closeLeadModal();
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE LEAD
+===================================================== */
+
+function saveLead(event) {
+
+    event.preventDefault();
+
+
+    const id =
+        document.getElementById(
+            "leadId"
+        ).value;
+
+
+    const leadData = {
+
+        id:
+            id ||
+            Date.now().toString(),
+
+        company:
+            document.getElementById(
+                "company"
+            ).value.trim(),
+
+        contact:
+            document.getElementById(
+                "contact"
+            ).value.trim(),
+
+        phone:
+            document.getElementById(
+                "phone"
+            ).value.trim(),
+
+        email:
+            document.getElementById(
+                "email"
+            ).value.trim(),
+
+        status:
+            document.getElementById(
+                "status"
+            ).value,
+
+        followup:
+            document.getElementById(
+                "followup"
+            ).value,
+
+        address:
+            document.getElementById(
+                "address"
+            ).value.trim(),
+
+        notes:
+            document.getElementById(
+                "notes"
+            ).value.trim()
+
+    };
+
+
+    if (id) {
+
+        const index =
+            leads.findIndex(
+                lead =>
+                    lead.id === id
+            );
+
+        if (index !== -1) {
+
+            leads[index] = leadData;
+
+        }
+
+    } else {
+
+        leads.push(leadData);
+
+    }
+
+
+    saveData();
+
+    closeLeadModal();
+
+    renderAll();
+
+
+    alert(
+        id
+        ? "Lead bijgewerkt."
+        : "Nieuwe lead toegevoegd."
+    );
+
+}
+
+
+/* =====================================================
+   EDIT LEAD
+===================================================== */
+
+function editLead(id) {
+
+    const lead =
+        leads.find(
+            item =>
+                item.id === id
+        );
+
+    if (!lead) return;
+
+    openLeadModal(lead);
+
+}
+
+
+/* =====================================================
+   DELETE LEAD
+===================================================== */
+
+function deleteLead(id) {
+
+    const lead =
+        leads.find(
+            item =>
+                item.id === id
+        );
+
+    if (!lead) return;
+
+
+    const confirmed =
+        confirm(
+            `Weet je zeker dat je "${lead.company}" wilt verwijderen?`
+        );
+
+
+    if (!confirmed) return;
+
+
+    leads =
+        leads.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    saveData();
+
+    renderAll();
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "";
+    }
+
+    const date =
+        new Date(
+            dateString + "T00:00:00"
+        );
+
+    return date.toLocaleDateString(
+        "nl-NL",
+        {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value) {
+
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   RENDER EVERYTHING
+===================================================== */
+
+function renderAll() {
+
+    renderDashboard();
+
+    renderLeads();
+
+    renderAllFollowups();
+
+    renderClients();
+
+}
+
+
+/* =====================================================
+   START APP
+===================================================== */
+
+renderAll();
+
+</script>
 
 </body>
 </html>
