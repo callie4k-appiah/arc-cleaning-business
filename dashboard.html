@@ -9,576 +9,560 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+:root{
+    --green:#07583f;
+    --green-dark:#064632;
+    --green-light:#e9f3ee;
+    --bg:#f5f8f6;
+    --white:#ffffff;
+    --text:#14201b;
+    --muted:#6b7772;
+    --border:#dce5e0;
+    --blue:#e7f0ff;
+    --blue-text:#245a9b;
+    --yellow:#fff2cf;
+    --yellow-text:#8b6500;
+    --red:#ffe5e5;
+    --red-text:#b42318;
+    --purple:#eee8ff;
+    --purple-text:#6548a8;
+    --shadow:0 4px 20px rgba(0,0,0,.05);
+}
 
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#f4f7f5;
-color:#111815
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
 }
 
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
 
 .topbar{
-height:72px;
-background:#fff;
-border-bottom:1px solid #dce5df;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 28px;
-position:sticky;
-top:0;
-z-index:100
+    height:82px;
+    background:white;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    position:sticky;
+    top:0;
+    z-index:50;
 }
 
-.brand img{
-width:120px;
-height:52px;
-object-fit:contain
+.logo{
+    height:55px;
+    width:auto;
+    object-fit:contain;
 }
 
-.top-actions{
-display:flex;
-align-items:center;
-gap:12px
-}
-
-.logout{
-border:1px solid #dce5df;
-background:#fff;
-color:#315b49;
-padding:9px 13px;
-border-radius:8px;
-font-size:13px;
-font-weight:700
-}
-
-.profile{
-width:42px;
-height:42px;
-border-radius:50%;
-background:#286247;
-color:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:700
+.user{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:var(--green);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
 }
 
 .layout{
-display:flex;
-min-height:calc(100vh - 72px)
+    display:flex;
+    min-height:calc(100vh - 82px);
 }
 
 .sidebar{
-width:240px;
-flex-shrink:0;
-background:#063b2d;
-color:#fff;
-padding:25px 16px
+    width:235px;
+    background:var(--green-dark);
+    color:white;
+    padding:24px 14px;
+    flex-shrink:0;
 }
 
-.sidebar-title{
-margin:10px 12px 12px;
-font-size:11px;
-letter-spacing:1.5px;
-opacity:.55
+.nav-title{
+    font-size:12px;
+    letter-spacing:1.5px;
+    opacity:.6;
+    margin:20px 12px 8px;
 }
 
 .nav-item{
-width:100%;
-border:0;
-background:transparent;
-color:#dce9e2;
-text-align:left;
-padding:13px 14px;
-margin-bottom:4px;
-border-radius:9px;
-font-size:14px;
-font-weight:600
+    width:100%;
+    border:0;
+    background:transparent;
+    color:white;
+    padding:13px 14px;
+    border-radius:10px;
+    text-align:left;
+    font-weight:600;
+    margin-bottom:4px;
 }
 
 .nav-item:hover,
 .nav-item.active{
-background:#0a5b3e;
-color:#fff
+    background:#08724f;
 }
 
-.content{
-flex:1;
-max-width:1450px;
-padding:32px;
-width:100%
+.main{
+    flex:1;
+    padding:30px;
+    min-width:0;
 }
 
-.page{display:none}
-.page.active{display:block}
-
-.page-heading{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px;
-margin-bottom:28px
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:24px;
 }
 
-.page-heading h1{
-margin:0;
-font-size:30px
+.page-title{
+    margin:0;
+    font-size:32px;
 }
 
-.page-heading p{
-margin:8px 0 0;
-color:#68736e;
-font-size:14px
+.page-subtitle{
+    margin:6px 0 0;
+    color:var(--muted);
 }
 
-.button{
-border:0;
-background:#0a5b3e;
-color:#fff;
-padding:13px 18px;
-border-radius:9px;
-font-size:14px;
-font-weight:700
+.primary{
+    background:var(--green);
+    color:white;
+    border:0;
+    padding:13px 20px;
+    border-radius:10px;
+    font-weight:700;
 }
 
-.button.secondary{
-background:#edf2ef;
-color:#0a5b3e
+.primary:hover{
+    background:#08694b;
 }
 
 .stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:16px;
-margin-bottom:28px
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:24px;
 }
 
-.stat-card{
-background:#fff;
-border:1px solid #dce5df;
-border-radius:13px;
-padding:21px
+.stat{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+    box-shadow:var(--shadow);
 }
 
 .stat-label{
-color:#68736e;
-font-size:13px;
-margin-bottom:9px
+    color:var(--muted);
+    font-size:15px;
+    margin-bottom:8px;
 }
 
-.stat-number{
-color:#0a5b3e;
-font-size:30px;
-font-weight:800
-}
-
-.grid{
-display:grid;
-grid-template-columns:1.4fr 1fr;
-gap:20px
-}
-
-.card{
-background:#fff;
-border:1px solid #dce5df;
-border-radius:13px;
-padding:22px;
-margin-bottom:20px
-}
-
-.card-header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
-margin-bottom:18px
-}
-
-.card-header h2{
-margin:0;
-font-size:18px
-}
-
-.lead-row{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
-padding:15px 0;
-border-bottom:1px solid #edf1ee
-}
-
-.lead-row:last-child{border-bottom:0}
-
-.lead-name{
-font-weight:700;
-font-size:14px
-}
-
-.lead-contact{
-margin-top:5px;
-color:#68736e;
-font-size:12px
-}
-
-.status{
-display:inline-flex;
-padding:6px 10px;
-border-radius:20px;
-font-size:11px;
-font-weight:700;
-white-space:nowrap
-}
-
-.status-nieuw{background:#edf1ee;color:#56615b}
-.status-gebeld{background:#eee9ff;color:#634ea3}
-.status-email{background:#e6f0ff;color:#275b9c}
-.status-warm{background:#fff1cf;color:#8a6200}
-.status-afspraak{background:#e1f4e9;color:#28704a}
-.status-offerte{background:#e5f5f2;color:#147265}
-.status-gewonnen{background:#dff5e5;color:#176738}
-.status-afgewezen{background:#fbeaea;color:#a52d2d}
-
-.priority{
-display:inline-flex;
-padding:5px 9px;
-border-radius:20px;
-font-size:10px;
-font-weight:800
-}
-
-.priority-high{background:#fde8e8;color:#b42318}
-.priority-normal{background:#fff3d6;color:#8a6200}
-.priority-low{background:#e8f2ec;color:#26704b}
-
-.empty{
-text-align:center;
-padding:45px 20px;
-color:#68736e
-}
-
-.empty-icon{
-font-size:40px;
-margin-bottom:10px
+.stat-value{
+    color:var(--green);
+    font-size:34px;
+    font-weight:800;
 }
 
 .toolbar{
-display:flex;
-gap:12px;
-margin-bottom:18px
+    background:white;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px;
+    display:flex;
+    gap:12px;
+    margin-bottom:16px;
 }
 
 .search{
-flex:1;
-height:46px;
-border:1px solid #d4dfd8;
-border-radius:9px;
-padding:0 14px;
-background:#fff;
-outline:none
+    flex:1;
+    min-width:0;
 }
 
-.filter{
-height:46px;
-border:1px solid #d4dfd8;
-border-radius:9px;
-padding:0 14px;
-background:#fff
+.search input,
+.toolbar select{
+    width:100%;
+    height:46px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:0 14px;
+    outline:none;
+    background:white;
 }
 
-.lead-actions{
-display:flex;
-gap:7px
+.search input:focus,
+.toolbar select:focus{
+    border-color:var(--green);
 }
 
-.icon-button{
-width:36px;
-height:36px;
-border:1px solid #dce5df;
-border-radius:8px;
-background:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-text-decoration:none
+.leads-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
 }
 
-.modal-overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.48);
-display:none;
-align-items:center;
-justify-content:center;
-padding:20px;
-z-index:1000
+.lead-row{
+    display:grid;
+    grid-template-columns:2.2fr 1.2fr 1fr 1fr auto;
+    gap:18px;
+    align-items:center;
+    padding:18px 20px;
+    border-bottom:1px solid #edf1ef;
 }
 
-.modal-overlay.show{display:flex}
+.lead-row:last-child{
+    border-bottom:0;
+}
+
+.company{
+    font-weight:800;
+    font-size:16px;
+}
+
+.contact{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:4px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:max-content;
+    padding:7px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.status-new{
+    background:#edf1ef;
+    color:#59645f;
+}
+
+.status-email{
+    background:var(--blue);
+    color:var(--blue-text);
+}
+
+.status-call{
+    background:var(--purple);
+    color:var(--purple-text);
+}
+
+.status-warm{
+    background:var(--yellow);
+    color:var(--yellow-text);
+}
+
+.status-closed{
+    background:#e8f7ec;
+    color:#27733e;
+}
+
+.priority-normal{
+    background:var(--yellow);
+    color:var(--yellow-text);
+}
+
+.priority-high{
+    background:var(--red);
+    color:var(--red-text);
+}
+
+.priority-low{
+    background:#edf1ef;
+    color:#59645f;
+}
+
+.actions{
+    display:flex;
+    gap:7px;
+    justify-content:flex-end;
+}
+
+.icon-btn{
+    width:38px;
+    height:38px;
+    border:1px solid var(--border);
+    background:white;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
+}
+
+.icon-btn:hover{
+    background:var(--green-light);
+}
+
+.icon-btn:disabled{
+    opacity:.3;
+    cursor:not-allowed;
+    background:#f5f6f5;
+}
+
+.empty{
+    padding:70px 20px;
+    text-align:center;
+    color:var(--muted);
+}
+
+.loading{
+    padding:50px;
+    text-align:center;
+    color:var(--muted);
+}
+
+.modal-bg{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+}
+
+.modal-bg.show{
+    display:flex;
+}
 
 .modal{
-width:100%;
-max-width:700px;
-max-height:92vh;
-overflow-y:auto;
-background:#fff;
-border-radius:16px;
-padding:25px
+    background:white;
+    width:min(650px,100%);
+    max-height:90vh;
+    overflow:auto;
+    border-radius:18px;
+    padding:28px;
+    box-shadow:0 20px 60px rgba(0,0,0,.2);
 }
 
 .modal-header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:22px
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:24px;
 }
 
-.modal-header h2{
-margin:0;
-font-size:22px
+.modal-title{
+    margin:0;
+    font-size:25px;
 }
 
 .close{
-border:0;
-background:#edf2ef;
-width:36px;
-height:36px;
-border-radius:50%;
-font-size:20px
+    border:0;
+    background:#f1f4f2;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    font-size:20px;
 }
 
 .form-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
 }
 
 .form-group{
-display:flex;
-flex-direction:column;
-gap:7px
+    display:flex;
+    flex-direction:column;
+    gap:7px;
 }
 
 .form-group.full{
-grid-column:1/-1
+    grid-column:1/-1;
 }
 
 .form-group label{
-font-size:13px;
-font-weight:700
+    font-size:13px;
+    font-weight:700;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea{
-width:100%;
-border:1px solid #d4dfd8;
-border-radius:8px;
-padding:12px;
-outline:none;
-background:#fff
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:11px 12px;
+    outline:none;
 }
 
 .form-group textarea{
-min-height:110px;
-resize:vertical
+    min-height:100px;
+    resize:vertical;
 }
 
 .modal-footer{
-display:flex;
-justify-content:flex-end;
-gap:10px;
-margin-top:22px
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:24px;
 }
 
-/* FOLLOW-UPS */
-
-.followup-summary{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:14px;
-margin-bottom:18px
+.secondary{
+    border:1px solid var(--border);
+    background:white;
+    padding:12px 18px;
+    border-radius:9px;
+    font-weight:600;
 }
 
-.followup-box{
-background:#fff;
-border:1px solid #dce5df;
-border-radius:12px;
-padding:18px
+.danger{
+    background:#fff0f0;
+    color:#b42318;
+    border:1px solid #ffd1d1;
+    padding:12px 18px;
+    border-radius:9px;
+    font-weight:700;
 }
 
-.followup-box strong{
-display:block;
-font-size:24px;
-color:#0a5b3e;
-margin-top:5px
+.toast{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    background:#14201b;
+    color:white;
+    padding:14px 18px;
+    border-radius:10px;
+    display:none;
+    z-index:200;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
 }
 
-.followup-box span{
-font-size:12px;
-color:#68736e
-}
-
-.followup-toolbar{
-display:flex;
-gap:10px;
-margin-bottom:18px;
-flex-wrap:wrap
-}
-
-.followup-toolbar select,
-.followup-toolbar input{
-height:44px;
-border:1px solid #d4dfd8;
-border-radius:8px;
-padding:0 12px;
-background:#fff
-}
-
-.followup-toolbar input{
-flex:1;
-min-width:220px
-}
-
-.followup-card{
-padding:17px 0;
-border-bottom:1px solid #edf1ee
-}
-
-.followup-card:last-child{
-border-bottom:0
-}
-
-.followup-main{
-display:flex;
-align-items:flex-start;
-justify-content:space-between;
-gap:15px
-}
-
-.followup-company{
-font-size:15px;
-font-weight:800
-}
-
-.followup-meta{
-font-size:12px;
-color:#68736e;
-margin-top:6px;
-line-height:1.6
-}
-
-.followup-actions{
-display:flex;
-gap:7px;
-margin-top:12px;
-flex-wrap:wrap
-}
-
-.followup-actions button,
-.followup-actions a{
-border:0;
-padding:8px 11px;
-border-radius:7px;
-background:#edf2ef;
-color:#0a5b3e;
-font-size:12px;
-font-weight:700;
-text-decoration:none
-}
-
-.followup-overdue{
-border-left:4px solid #b42318;
-padding-left:13px
-}
-
-.followup-today{
-border-left:4px solid #d18b00;
-padding-left:13px
-}
-
-.followup-upcoming{
-border-left:4px solid #28704a;
-padding-left:13px
-}
-
-.followup-done{
-opacity:.58
-}
-
-.error-box{
-background:#fff1f1;
-border:1px solid #efc4c4;
-color:#a52d2d;
-border-radius:10px;
-padding:15px;
-margin-bottom:20px;
-font-size:14px
-}
-
-@media(max-width:1100px){
-.grid{grid-template-columns:1fr}
+.toast.show{
+    display:block;
 }
 
 @media(max-width:1000px){
-.sidebar{display:none}
-.content{padding:24px 18px}
-.stats{grid-template-columns:1fr 1fr}
+    .sidebar{
+        width:190px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .lead-row{
+        grid-template-columns:2fr 1fr 1fr auto;
+    }
+
+    .lead-contact{
+        display:none;
+    }
 }
 
-@media(max-width:700px){
-.followup-summary{grid-template-columns:1fr}
-.followup-main{flex-direction:column}
+@media(max-width:720px){
+    .topbar{
+        height:70px;
+        padding:0 16px;
+    }
+
+    .logo{
+        height:48px;
+    }
+
+    .layout{
+        display:block;
+    }
+
+    .sidebar{
+        width:100%;
+        padding:8px;
+        display:flex;
+        overflow-x:auto;
+        gap:5px;
+    }
+
+    .nav-title{
+        display:none;
+    }
+
+    .nav-item{
+        width:auto;
+        white-space:nowrap;
+        margin:0;
+    }
+
+    .main{
+        padding:18px 12px;
+    }
+
+    .page-header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .page-title{
+        font-size:27px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .stat{
+        padding:16px;
+    }
+
+    .stat-value{
+        font-size:28px;
+    }
+
+    .toolbar{
+        flex-direction:column;
+    }
+
+    .lead-row{
+        grid-template-columns:1fr auto;
+        gap:10px;
+        padding:16px;
+    }
+
+    .lead-status,
+    .lead-priority{
+        display:none;
+    }
+
+    .actions{
+        grid-row:1/3;
+        grid-column:2;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
 }
-
-@media(max-width:600px){
-
-.topbar{
-height:68px;
-padding:0 14px
-}
-
-.brand img{width:110px}
-
-.content{padding:20px 14px}
-
-.page-heading{
-flex-direction:column;
-align-items:flex-start
-}
-
-.page-heading h1{font-size:26px}
-
-.page-heading .button{width:100%}
-
-.stats{gap:10px}
-
-.stat-card{padding:15px}
-
-.stat-number{font-size:25px}
-
-.toolbar{flex-direction:column}
-
-.form-grid{grid-template-columns:1fr}
-
-.form-group.full{grid-column:auto}
-
-.modal-footer{
-flex-direction:column-reverse
-}
-
-.modal-footer button{width:100%}
-
-.logout{display:none}
-
-}
-
 </style>
 </head>
 
@@ -586,2738 +570,1187 @@ flex-direction:column-reverse
 
 <header class="topbar">
 
-<div class="brand">
+    <img
+        src="arc-logo-reference.jpg"
+        class="logo"
+        alt="ARC Cleaning Business"
+        onerror="this.style.display='none'"
+    >
 
-<img
-src="arc-logo-reference.jpg"
-alt="ARC Cleaning Business">
-
-</div>
-
-<div class="top-actions">
-
-<button
-class="logout"
-onclick="logout()">
-Uitloggen
-</button>
-
-<div
-class="profile"
-id="profile">
-CA
-</div>
-
-</div>
+    <div class="user">CA</div>
 
 </header>
 
-
 <div class="layout">
 
+    <aside class="sidebar">
+
+        <button class="nav-item active" onclick="showSection('leads')">
+            👥 Leads
+        </button>
+
+        <button class="nav-item" onclick="showSection('followups')">
+            📅 Follow-ups
+        </button>
 
-<aside class="sidebar">
+        <button class="nav-item" onclick="showSection('offers')">
+            📄 Offertes
+        </button>
+
+        <button class="nav-item" onclick="showSection('customers')">
+            🤝 Klanten
+        </button>
 
-<div class="sidebar-title">
-ARC OS
-</div>
+        <div class="nav-title">BEHEER</div>
 
-<button
-class="nav-item active"
-onclick="showPage('dashboard',this)">
-📊 Dashboard
-</button>
+        <button class="nav-item">
+            👷 Personeel
+        </button>
 
-<button
-class="nav-item"
-onclick="showPage('leads',this)">
-👥 Leads
-</button>
+        <button class="nav-item">
+            🏢 Locaties
+        </button>
 
-<button
-class="nav-item"
-onclick="showPage('followups',this)">
-📅 Follow-ups
-</button>
+        <button class="nav-item">
+            💰 Facturen
+        </button>
 
-<button
-class="nav-item"
-onclick="showPage('offertes',this)">
-📄 Offertes
-</button>
+        <button class="nav-item">
+            ⚙️ Instellingen
+        </button>
 
-<button
-class="nav-item"
-onclick="showPage('klanten',this)">
-🤝 Klanten
-</button>
+    </aside>
+
+    <main class="main">
 
-<div class="sidebar-title">
-BEHEER
-</div>
+        <section id="leadsSection">
 
-<button class="nav-item">
-👷 Personeel
-</button>
+            <div class="page-header">
 
-<button class="nav-item">
-🏢 Locaties
-</button>
+                <div>
+                    <h1 class="page-title">Leads</h1>
+                    <p class="page-subtitle">
+                        Beheer je potentiële klanten vanuit één overzicht.
+                    </p>
+                </div>
 
-<button class="nav-item">
-💰 Facturen
-</button>
+                <button class="primary" onclick="openNewLead()">
+                    + Nieuwe lead
+                </button>
 
-<button class="nav-item">
-⚙ Instellingen
-</button>
+            </div>
 
-</aside>
+            <div class="stats">
 
+                <div class="stat">
+                    <div class="stat-label">Totale leads</div>
+                    <div class="stat-value" id="totalLeads">0</div>
+                </div>
 
-<main class="content">
+                <div class="stat">
+                    <div class="stat-label">Warme leads</div>
+                    <div class="stat-value" id="warmLeads">0</div>
+                </div>
 
+                <div class="stat">
+                    <div class="stat-label">Openstaande offertes</div>
+                    <div class="stat-value" id="openOffers">0</div>
+                </div>
 
-<!-- DASHBOARD -->
+                <div class="stat">
+                    <div class="stat-label">Actieve klanten</div>
+                    <div class="stat-value" id="activeCustomers">0</div>
+                </div>
 
-<section
-id="dashboard"
-class="page active">
+            </div>
 
-<div class="page-heading">
+            <div class="toolbar">
 
-<div>
+                <div class="search">
+                    <input
+                        id="searchInput"
+                        type="search"
+                        placeholder="Zoek bedrijf, contactpersoon of e-mail..."
+                        oninput="renderLeads()"
+                    >
+                </div>
 
-<h1>
-Goedemorgen 👋🏽
-</h1>
+                <div style="width:190px">
+                    <select id="statusFilter" onchange="renderLeads()">
+                        <option value="">Alle statussen</option>
+                        <option value="Nieuw">Nieuw</option>
+                        <option value="E-mail gestuurd">E-mail gestuurd</option>
+                        <option value="Gebeld">Gebeld</option>
+                        <option value="Warm">Warm</option>
+                        <option value="Klant">Klant</option>
+                        <option value="Geen interesse">Geen interesse</option>
+                    </select>
+                </div>
 
-<p id="welcome">
-Welkom in ARC OS.
-</p>
+            </div>
 
-</div>
+            <div class="leads-card">
 
-<button
-class="button"
-onclick="openLeadModal()">
-+ Nieuwe lead
-</button>
+                <div id="leadsContainer">
+                    <div class="loading">
+                        Leads laden...
+                    </div>
+                </div>
 
-</div>
+            </div>
 
+        </section>
 
-<div class="stats">
+        <section id="placeholderSection" style="display:none">
 
-<div class="stat-card">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title" id="placeholderTitle">
+                        Onderdeel
+                    </h1>
 
-<div class="stat-label">
-Totale leads
-</div>
+                    <p class="page-subtitle">
+                        Dit onderdeel bouwen we als volgende stap.
+                    </p>
+                </div>
+            </div>
 
-<div
-class="stat-number"
-id="totalLeads">
-0
-</div>
+            <div class="leads-card">
+                <div class="empty">
+                    🚧 Dit onderdeel komt eraan.
+                </div>
+            </div>
 
-</div>
+        </section>
 
-
-<div class="stat-card">
-
-<div class="stat-label">
-Warme leads
-</div>
-
-<div
-class="stat-number"
-id="warmLeads">
-0
-</div>
-
-</div>
-
-
-<div class="stat-card">
-
-<div class="stat-label">
-Openstaande offertes
-</div>
-
-<div
-class="stat-number"
-id="openQuotes">
-0
-</div>
-
-</div>
-
-
-<div class="stat-card">
-
-<div class="stat-label">
-Actieve klanten
-</div>
-
-<div
-class="stat-number"
-id="activeClients">
-0
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-header">
-
-<h2>
-📅 Vandaag opvolgen
-</h2>
-
-<span
-class="status status-warm"
-id="todayCount">
-0 acties
-</span>
-
-</div>
-
-<div id="todayFollowups">
-</div>
-
-</div>
-
-
-<div class="grid">
-
-<div class="card">
-
-<div class="card-header">
-
-<h2>
-👥 Recente leads
-</h2>
-
-</div>
-
-<div id="recentLeads">
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-header">
-
-<h2>
-📅 Komende follow-ups
-</h2>
-
-</div>
-
-<div id="upcomingFollowups">
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- LEADS -->
-
-<section
-id="leads"
-class="page">
-
-<div class="page-heading">
-
-<div>
-
-<h1>
-Leads
-</h1>
-
-<p>
-Alle leads uit je online ARC database.
-</p>
-
-</div>
-
-<button
-class="button"
-onclick="openLeadModal()">
-+ Nieuwe lead
-</button>
-
-</div>
-
-
-<div class="toolbar">
-
-<input
-class="search"
-id="search"
-placeholder="Zoek bedrijf, contactpersoon of e-mail..."
-oninput="renderLeads()">
-
-<select
-class="filter"
-id="statusFilter"
-onchange="renderLeads">
-
-<option value="Alle">
-Alle statussen
-</option>
-
-<option>Nieuw</option>
-<option>Gebeld</option>
-<option>E-mail gestuurd</option>
-<option>Warm</option>
-<option>Afspraak</option>
-<option>Offerte verstuurd</option>
-<option>Gewonnen</option>
-<option>Afgewezen</option>
-
-</select>
-
-</div>
-
-
-<div class="card">
-
-<div id="databaseLeads">
-</div>
-
-</div>
-
-</section>
-
-
-<!-- FOLLOW-UPS -->
-
-<section
-id="followups"
-class="page">
-
-<div class="page-heading">
-
-<div>
-
-<h1>
-Follow-ups
-</h1>
-
-<p>
-Je geplande opvolgingen.
-</p>
-
-</div>
-
-<button
-class="button"
-onclick="openFollowupModal()">
-+ Nieuwe follow-up
-</button>
-
-</div>
-
-
-<div class="followup-summary">
-
-<div class="followup-box">
-
-<span>
-Achterstallig
-</span>
-
-<strong id="overdueCount">
-0
-</strong>
-
-</div>
-
-
-<div class="followup-box">
-
-<span>
-Vandaag
-</span>
-
-<strong id="followupTodayCount">
-0
-</strong>
-
-</div>
-
-
-<div class="followup-box">
-
-<span>
-Komend
-</span>
-
-<strong id="upcomingCount">
-0
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="followup-toolbar">
-
-<input
-id="followupSearch"
-placeholder="Zoek bedrijf of actie..."
-oninput="renderFollowups()">
-
-
-<select
-id="followupFilter"
-onchange="renderFollowups()">
-
-<option value="open">
-Openstaand
-</option>
-
-<option value="all">
-Alles
-</option>
-
-<option value="overdue">
-Achterstallig
-</option>
-
-<option value="today">
-Vandaag
-</option>
-
-<option value="upcoming">
-Komend
-</option>
-
-<option value="completed">
-Afgerond
-</option>
-
-</select>
-
-</div>
-
-
-<div class="card">
-
-<div id="allFollowups">
-</div>
-
-</div>
-
-</section>
-
-
-<!-- OFFERTES -->
-
-<section
-id="offertes"
-class="page">
-
-<div class="page-heading">
-
-<div>
-
-<h1>
-Offertes
-</h1>
-
-<p>
-Overzicht van offerteaanvragen.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="empty">
-
-<div class="empty-icon">
-📄
-</div>
-
-<strong>
-Offertebeheer
-</strong>
-
-<p>
-Dit koppelen we in de volgende fase.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- KLANTEN -->
-
-<section
-id="klanten"
-class="page">
-
-<div class="page-heading">
-
-<div>
-
-<h1>
-Klanten
-</h1>
-
-<p>
-Actieve ARC klanten.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div id="clients">
-</div>
-
-</div>
-
-</section>
-
-
-</main>
+    </main>
 
 </div>
 
 
 <!-- LEAD MODAL -->
 
-<div
-class="modal-overlay"
-id="modal"
-onclick="closeOutside(event)">
+<div class="modal-bg" id="leadModal">
 
-<div
-class="modal"
-onclick="event.stopPropagation()">
+    <div class="modal">
 
-<div class="modal-header">
+        <div class="modal-header">
 
-<h2 id="modalTitle">
-Nieuwe lead
-</h2>
+            <div>
+                <h2 class="modal-title" id="modalTitle">
+                    Nieuwe lead
+                </h2>
+            </div>
 
-<button
-class="close"
-onclick="closeLeadModal()">
-×
-</button>
+            <button class="close" onclick="closeModal()">
+                ×
+            </button>
 
-</div>
+        </div>
 
+        <div class="form-grid">
 
-<form
-id="leadForm"
-onsubmit="saveLead(event)">
+            <div class="form-group">
+                <label>Bedrijfsnaam *</label>
+                <input id="companyInput" placeholder="Bijv. CURO Vastgoed">
+            </div>
 
-<input
-type="hidden"
-id="leadId">
+            <div class="form-group">
+                <label>Contactpersoon</label>
+                <input id="contactInput" placeholder="Naam contactpersoon">
+            </div>
 
+            <div class="form-group">
+                <label>E-mailadres</label>
+                <input id="emailInput" type="email" placeholder="naam@bedrijf.nl">
+            </div>
 
-<div class="form-grid">
+            <div class="form-group">
+                <label>Telefoonnummer</label>
+                <input id="phoneInput" type="tel" placeholder="06 12345678">
+            </div>
 
-<div class="form-group">
+            <div class="form-group">
+                <label>Status</label>
+                <select id="statusInput">
+                    <option>Nieuw</option>
+                    <option>E-mail gestuurd</option>
+                    <option>Gebeld</option>
+                    <option>Warm</option>
+                    <option>Klant</option>
+                    <option>Geen interesse</option>
+                </select>
+            </div>
 
-<label>
-Bedrijfsnaam *
-</label>
+            <div class="form-group">
+                <label>Prioriteit</label>
+                <select id="priorityInput">
+                    <option>Normaal</option>
+                    <option>Hoog</option>
+                    <option>Laag</option>
+                </select>
+            </div>
 
-<input
-id="company"
-required
-placeholder="Bijv. B. Amsterdam">
+            <div class="form-group full">
+                <label>Adres</label>
+                <input id="addressInput" placeholder="Straat + huisnummer, plaats">
+            </div>
 
-</div>
+            <div class="form-group full">
+                <label>Notities</label>
+                <textarea id="notesInput" placeholder="Notities over deze lead..."></textarea>
+            </div>
 
+        </div>
 
-<div class="form-group">
+        <div class="modal-footer">
 
-<label>
-Contactpersoon
-</label>
+            <button
+                class="danger"
+                id="deleteFromModal"
+                style="display:none"
+                onclick="deleteCurrentLead()">
+                Verwijderen
+            </button>
 
-<input
-id="contact"
-placeholder="Naam contactpersoon">
+            <button class="secondary" onclick="closeModal()">
+                Annuleren
+            </button>
 
-</div>
+            <button class="primary" onclick="saveLead()">
+                Opslaan
+            </button>
 
+        </div>
 
-<div class="form-group">
-
-<label>
-E-mailadres
-</label>
-
-<input
-type="email"
-id="email"
-placeholder="naam@bedrijf.nl">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Telefoonnummer
-</label>
-
-<input
-type="tel"
-id="phone"
-placeholder="020 123 4567">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Status
-</label>
-
-<select id="status">
-
-<option>Nieuw</option>
-<option>Gebeld</option>
-<option>E-mail gestuurd</option>
-<option>Warm</option>
-<option>Afspraak</option>
-<option>Offerte verstuurd</option>
-<option>Gewonnen</option>
-<option>Afgewezen</option>
-
-</select>
+    </div>
 
 </div>
 
-
-<div class="form-group">
-
-<label>
-Prioriteit
-</label>
-
-<select id="priority">
-
-<option>Normaal</option>
-<option>Hoog</option>
-<option>Laag</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Follow-up datum
-</label>
-
-<input
-type="date"
-id="followupDate">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Follow-up tijd
-</label>
-
-<input
-type="time"
-id="followupTime">
-
-</div>
-
-
-<div class="form-group full">
-
-<label>
-Adres
-</label>
-
-<input
-id="address"
-placeholder="Straat + huisnummer">
-
-</div>
-
-
-<div class="form-group full">
-
-<label>
-Plaats
-</label>
-
-<input
-id="city"
-value="Amsterdam">
-
-</div>
-
-
-<div class="form-group full">
-
-<label>
-Dienst
-</label>
-
-<select id="service">
-
-<option value="">
-Selecteer dienst
-</option>
-
-<option>
-Kantoorschoonmaak
-</option>
-
-<option>
-Dagelijkse schoonmaak
-</option>
-
-<option>
-Periodieke schoonmaak
-</option>
-
-<option>
-Glasbewassing
-</option>
-
-<option>
-Dieptereiniging
-</option>
-
-<option>
-Vloeronderhoud
-</option>
-
-<option>
-Overige
-</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group full">
-
-<label>
-Notities
-</label>
-
-<textarea
-id="notes"
-placeholder="Notities over deze lead..."></textarea>
-
-</div>
-
-</div>
-
-
-<div class="modal-footer">
-
-<button
-type="button"
-class="button secondary"
-onclick="closeLeadModal()">
-Annuleren
-</button>
-
-<button
-type="submit"
-class="button"
-id="saveButton">
-Lead opslaan
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-
-<!-- FOLLOW-UP MODAL -->
-
-<div
-class="modal-overlay"
-id="followupModal"
-onclick="closeFollowupOutside(event)">
-
-<div
-class="modal"
-onclick="event.stopPropagation()">
-
-<div class="modal-header">
-
-<h2>
-Nieuwe follow-up
-</h2>
-
-<button
-class="close"
-onclick="closeFollowupModal()">
-×
-</button>
-
-</div>
-
-
-<form
-onsubmit="saveFollowup(event)">
-
-<div class="form-grid">
-
-
-<div class="form-group full">
-
-<label>
-Lead *
-</label>
-
-<select
-id="followupLead"
-required>
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Actie *
-</label>
-
-<select
-id="followupAction"
-required>
-
-<option value="">
-Kies actie
-</option>
-
-<option>
-Bellen
-</option>
-
-<option>
-E-mail opvolgen
-</option>
-
-<option>
-Offerte opvolgen
-</option>
-
-<option>
-Afspraak bevestigen
-</option>
-
-<option>
-Terugbellen
-</option>
-
-<option>
-Anders
-</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Datum *
-</label>
-
-<input
-type="date"
-id="newFollowupDate"
-required>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Tijd
-</label>
-
-<input
-type="time"
-id="newFollowupTime">
-
-</div>
-
-
-<div class="form-group full">
-
-<label>
-Notitie
-</label>
-
-<textarea
-id="followupNotes"
-placeholder="Wat moet je doen of onthouden?"></textarea>
-
-</div>
-
-</div>
-
-
-<div class="modal-footer">
-
-<button
-type="button"
-class="button secondary"
-onclick="closeFollowupModal()">
-Annuleren
-</button>
-
-<button
-type="submit"
-class="button"
-id="followupSaveButton">
-Follow-up opslaan
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
+<div class="toast" id="toast"></div>
 
 
 <script>
 
-/* =====================================================
-SUPABASE
-===================================================== */
+/* =========================================================
+   SUPABASE
+========================================================= */
 
 const SUPABASE_URL =
-"https://dsmiokncislpdwhauleu.supabase.co";
+    "https://dsmiokncislpdwhauleu.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_FGXia9BmU2mW2yYv9iwfxw_hvhMFnbB";
-
+const SUPABASE_KEY =
+    "sb_publishable_FGXia9BmU2mW2yYv9iwfxw_hvhMFnbB";
 
 const supabaseClient =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_PUBLISHABLE_KEY
-);
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
-let leads=[];
-let followups=[];
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
 
+let leads = [];
+let editingLeadId = null;
 
-/* =====================================================
-AUTH
-===================================================== */
 
-async function checkAuth(){
+/* =========================================================
+   HELPERS
+========================================================= */
 
-const {
-data,
-error
-} =
-await supabaseClient.auth.getSession();
+function escapeHTML(value){
 
+    if(value === null || value === undefined){
+        return "";
+    }
 
-if(error || !data.session){
-
-window.location.href="login.html";
-
-return;
-
-}
-
-
-const email =
-data.session.user.email || "";
-
-
-document.getElementById(
-"welcome"
-).textContent =
-`Ingelogd als ${email}`;
-
-
-await loadLeads();
-
-await loadFollowups();
-
-}
-
-
-async function logout(){
-
-await supabaseClient.auth.signOut();
-
-window.location.href="login.html";
-
-}
-
-
-/* =====================================================
-LEADS
-===================================================== */
-
-async function loadLeads(){
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("leads")
-.select("*")
-.order(
-"created_at",
-{
-ascending:false
-}
-);
-
-
-if(error){
-
-console.error(error);
-
-document.getElementById(
-"recentLeads"
-).innerHTML =
-`
-<div class="error-box">
-<strong>Database fout</strong>
-<p>${escapeHTML(error.message)}</p>
-</div>
-`;
-
-return;
-
-}
-
-
-leads=data||[];
-
-renderAll();
-
-}
-
-
-function renderAll(){
-
-renderStats();
-
-renderRecent();
-
-renderLeads();
-
-renderClients();
-
-}
-
-
-/* =====================================================
-STATS
-===================================================== */
-
-function renderStats(){
-
-document.getElementById(
-"totalLeads"
-).textContent=
-leads.length;
-
-
-document.getElementById(
-"warmLeads"
-).textContent=
-leads.filter(
-l =>
-l.status==="Warm" ||
-l.status==="Afspraak"
-).length;
-
-
-document.getElementById(
-"openQuotes"
-).textContent=
-leads.filter(
-l =>
-l.status==="Offerte verstuurd"
-).length;
-
-
-document.getElementById(
-"activeClients"
-).textContent=
-leads.filter(
-l =>
-l.status==="Gewonnen"
-).length;
-
-}
-
-
-/* =====================================================
-RECENT LEADS
-===================================================== */
-
-function renderRecent(){
-
-const container =
-document.getElementById(
-"recentLeads"
-);
-
-
-const recent =
-leads.slice(0,5);
-
-
-if(!recent.length){
-
-container.innerHTML=
-`
-<div class="empty">
-<div class="empty-icon">👥</div>
-<strong>Nog geen leads</strong>
-<p>Klik op "Nieuwe lead" om je eerste lead toe te voegen.</p>
-</div>
-`;
-
-return;
-
-}
-
-
-container.innerHTML=
-recent.map(
-lead =>
-`
-<div class="lead-row">
-
-<div>
-
-<div class="lead-name">
-${escapeHTML(lead.company_name)}
-</div>
-
-<div class="lead-contact">
-${escapeHTML(lead.contact_name||"Geen contactpersoon")}
-</div>
-
-</div>
-
-<span class="status ${statusClass(lead.status)}">
-${escapeHTML(lead.status||"Nieuw")}
-</span>
-
-</div>
-`
-).join("");
-
-}
-
-
-/* =====================================================
-LEADS LIST
-===================================================== */
-
-function renderLeads(){
-
-const container =
-document.getElementById(
-"databaseLeads"
-);
-
-if(!container)return;
-
-
-const search =
-(
-document.getElementById("search")?.value||""
-).toLowerCase();
-
-
-const filter =
-document.getElementById(
-"statusFilter"
-)?.value||"Alle";
-
-
-const filtered =
-leads.filter(
-lead => {
-
-const text =
-`
-${lead.company_name||""}
-${lead.contact_name||""}
-${lead.email||""}
-`
-.toLowerCase();
-
-
-return (
-text.includes(search) &&
-(
-filter==="Alle" ||
-lead.status===filter
-)
-);
-
-}
-);
-
-
-if(!filtered.length){
-
-container.innerHTML=
-`
-<div class="empty">
-<div class="empty-icon">🔎</div>
-<strong>Geen leads gevonden</strong>
-</div>
-`;
-
-return;
-
-}
-
-
-container.innerHTML=
-filtered.map(
-lead =>
-`
-<div class="lead-row">
-
-<div>
-
-<div class="lead-name">
-${escapeHTML(lead.company_name)}
-</div>
-
-<div class="lead-contact">
-${escapeHTML(lead.contact_name||"Geen contactpersoon")}
-</div>
-
-</div>
-
-
-<span class="status ${statusClass(lead.status)}">
-${escapeHTML(lead.status||"Nieuw")}
-</span>
-
-
-<span class="priority ${priorityClass(lead.priority)}">
-${escapeHTML(lead.priority||"Normaal")}
-</span>
-
-
-<div class="lead-actions">
-
-${
-lead.phone
-?
-`
-<a
-class="icon-button"
-href="tel:${escapeHTML(lead.phone)}">
-📞
-</a>
-`
-:""
-}
-
-
-${
-lead.email
-?
-`
-<a
-class="icon-button"
-href="mailto:${escapeHTML(lead.email)}">
-✉️
-</a>
-`
-:""
-}
-
-
-<button
-class="icon-button"
-onclick="editLead('${lead.id}')">
-✏️
-</button>
-
-
-<button
-class="icon-button"
-onclick="deleteLead('${lead.id}')">
-🗑️
-</button>
-
-</div>
-
-</div>
-`
-).join("");
-
-}
-
-
-/* =====================================================
-ADD / EDIT LEAD
-===================================================== */
-
-function openLeadModal(lead=null){
-
-document
-.getElementById("modal")
-.classList.add("show");
-
-
-if(lead){
-
-document.getElementById(
-"modalTitle"
-).textContent=
-"Lead bewerken";
-
-
-document.getElementById(
-"leadId"
-).value=
-lead.id;
-
-
-document.getElementById(
-"company"
-).value=
-lead.company_name||"";
-
-
-document.getElementById(
-"contact"
-).value=
-lead.contact_name||"";
-
-
-document.getElementById(
-"email"
-).value=
-lead.email||"";
-
-
-document.getElementById(
-"phone"
-).value=
-lead.phone||"";
-
-
-document.getElementById(
-"status"
-).value=
-lead.status||"Nieuw";
-
-
-document.getElementById(
-"priority"
-).value=
-lead.priority||"Normaal";
-
-
-document.getElementById(
-"followupDate"
-).value=
-lead.follow_up_date||"";
-
-
-document.getElementById(
-"followupTime"
-).value=
-lead.follow_up_time||"";
-
-
-document.getElementById(
-"address"
-).value=
-lead.address||"";
-
-
-document.getElementById(
-"city"
-).value=
-lead.city||"Amsterdam";
-
-
-document.getElementById(
-"service"
-).value=
-lead.service||"";
-
-
-document.getElementById(
-"notes"
-).value=
-lead.notes||"";
-
-}
-else{
-
-document
-.getElementById("leadForm")
-.reset();
-
-
-document.getElementById(
-"leadId"
-).value="";
-
-
-document.getElementById(
-"city"
-).value=
-"Amsterdam";
-
-
-document.getElementById(
-"priority"
-).value=
-"Normaal";
-
-
-document.getElementById(
-"modalTitle"
-).textContent=
-"Nieuwe lead";
-
-}
-
-}
-
-
-function closeLeadModal(){
-
-document
-.getElementById("modal")
-.classList.remove("show");
-
-}
-
-
-function closeOutside(event){
-
-if(event.target.id==="modal"){
-closeLeadModal();
-}
-
-}
-
-
-async function saveLead(event){
-
-event.preventDefault();
-
-
-const button =
-document.getElementById(
-"saveButton"
-);
-
-
-button.disabled=true;
-
-button.textContent=
-"Opslaan...";
-
-
-const id =
-document.getElementById(
-"leadId"
-).value;
-
-
-const leadData={
-
-company_name:
-document.getElementById("company").value.trim(),
-
-contact_name:
-document.getElementById("contact").value.trim(),
-
-email:
-document.getElementById("email").value.trim(),
-
-phone:
-document.getElementById("phone").value.trim(),
-
-address:
-document.getElementById("address").value.trim(),
-
-city:
-document.getElementById("city").value.trim(),
-
-service:
-document.getElementById("service").value,
-
-status:
-document.getElementById("status").value,
-
-priority:
-document.getElementById("priority").value,
-
-follow_up_date:
-document.getElementById("followupDate").value||null,
-
-follow_up_time:
-document.getElementById("followupTime").value||null,
-
-notes:
-document.getElementById("notes").value.trim(),
-
-updated_at:
-new Date().toISOString()
-
-};
-
-
-let result;
-
-
-if(id){
-
-result=
-await supabaseClient
-.from("leads")
-.update(leadData)
-.eq("id",id)
-.select()
-.single();
-
-}
-else{
-
-result=
-await supabaseClient
-.from("leads")
-.insert([leadData])
-.select()
-.single();
-
-}
-
-
-if(result.error){
-
-alert(
-"Opslaan mislukt:\n\n"+
-result.error.message
-);
-
-button.disabled=false;
-
-button.textContent=
-"Lead opslaan";
-
-return;
-
-}
-
-
-closeLeadModal();
-
-button.disabled=false;
-
-button.textContent=
-"Lead opslaan";
-
-await loadLeads();
-
-}
-
-
-function editLead(id){
-
-const lead =
-leads.find(
-l=>l.id===id
-);
-
-if(lead)
-openLeadModal(lead);
-
-}
-
-
-async function deleteLead(id){
-
-const lead =
-leads.find(
-l=>l.id===id
-);
-
-if(!lead)return;
-
-
-if(
-!confirm(
-`Weet je zeker dat je "${lead.company_name}" wilt verwijderen?`
-)
-)return;
-
-
-const {
-error
-}=
-await supabaseClient
-.from("leads")
-.delete()
-.eq("id",id);
-
-
-if(error){
-
-alert(
-"Verwijderen mislukt:\n\n"+
-error.message
-);
-
-return;
-
-}
-
-
-await loadLeads();
-
-}
-
-
-/* =====================================================
-FOLLOW-UPS
-===================================================== */
-
-async function loadFollowups(){
-
-const {
-data,
-error
-}=
-await supabaseClient
-.from("follow_ups")
-.select("*")
-.order(
-"due_date",
-{
-ascending:true
-}
-);
-
-
-if(error){
-
-console.error(error);
-
-document.getElementById(
-"allFollowups"
-).innerHTML=
-`
-<div class="error-box">
-<strong>Follow-up database fout</strong>
-<p>${escapeHTML(error.message)}</p>
-</div>
-`;
-
-return;
-
-}
-
-
-followups=data||[];
-
-renderFollowups();
-
-renderTodayFollowups();
-
-renderUpcomingFollowups();
-
-}
-
-
-function renderTodayFollowups(){
-
-const today=
-todayString();
-
-
-const items=
-followups.filter(
-f =>
-!f.completed &&
-f.due_date===today
-);
-
-
-document.getElementById(
-"todayCount"
-).textContent=
-`${items.length} actie${items.length===1?"":"s"}`;
-
-
-const container=
-document.getElementById(
-"todayFollowups"
-);
-
-
-if(!items.length){
-
-container.innerHTML=
-`
-<div class="empty">
-<div class="empty-icon">🎯</div>
-<strong>Geen follow-ups voor vandaag</strong>
-<p>Plan een follow-up om hier een actie te zien.</p>
-</div>
-`;
-
-return;
-
-}
-
-
-container.innerHTML=
-items.map(
-f=>followupHTML(f)
-).join("");
-
-}
-
-
-function renderUpcomingFollowups(){
-
-const today=
-todayString();
-
-
-const items=
-followups
-.filter(
-f =>
-!f.completed &&
-f.due_date>today
-)
-.sort(
-(a,b)=>
-a.due_date.localeCompare(
-b.due_date
-)
-)
-.slice(0,5);
-
-
-const container=
-document.getElementById(
-"upcomingFollowups"
-);
-
-
-if(!items.length){
-
-container.innerHTML=
-`
-<div class="empty">
-<div class="empty-icon">📅</div>
-Geen komende follow-ups.
-</div>
-`;
-
-return;
-
-}
-
-
-container.innerHTML=
-items.map(
-f=>followupHTML(f)
-).join("");
-
-}
-
-
-function getLeadForFollowup(f){
-
-return leads.find(
-l=>l.id===f.lead_id
-)||{};
-
-}
-
-
-function followupHTML(f){
-
-const lead=
-getLeadForFollowup(f);
-
-
-const today=
-todayString();
-
-
-const overdue=
-!f.completed &&
-f.due_date<today;
-
-
-const todayDue=
-!f.completed &&
-f.due_date===today;
-
-
-const cls=
-f.completed
-?"followup-done"
-:overdue
-?"followup-overdue"
-:todayDue
-?"followup-today"
-:"followup-upcoming";
-
-
-return `
-
-<div class="followup-card ${cls}">
-
-<div class="followup-main">
-
-<div>
-
-<div class="followup-company">
-
-${escapeHTML(
-lead.company_name||
-"Onbekende lead"
-)}
-
-</div>
-
-
-<div class="followup-meta">
-
-<strong>
-${escapeHTML(
-f.action||
-"Follow-up"
-)}
-</strong>
-
-<br>
-
-📅 ${formatDate(f.due_date)}
-
-${
-f.due_time
-?
-" · ⏰ "+
-escapeHTML(f.due_time)
-:
-""
-}
-
-${
-lead.contact_name
-?
-" · "+
-escapeHTML(
-lead.contact_name
-)
-:
-""
-}
-
-
-${
-f.notes
-?
-"<br>📝 "+
-escapeHTML(
-f.notes
-)
-:
-""
-}
-
-</div>
-
-</div>
-
-
-<span
-class="priority ${priorityClass(
-lead.priority
-)}">
-
-${
-f.completed
-?
-"Afgerond"
-:
-overdue
-?
-"Te laat"
-:
-todayDue
-?
-"Vandaag"
-:
-"Gepland"
-}
-
-</span>
-
-</div>
-
-
-<div class="followup-actions">
-
-
-${
-lead.phone
-?
-`
-<a
-href="tel:${escapeHTML(
-lead.phone
-)}">
-📞 Bellen
-</a>
-`
-:
-""
-}
-
-
-${
-lead.email
-?
-`
-<a
-href="mailto:${escapeHTML(
-lead.email
-)}">
-✉️ E-mail
-</a>
-`
-:
-""
-}
-
-
-<button
-onclick=
-"toggleFollowup(
-'${f.id}',
-${!f.completed}
-)">
-
-${
-f.completed
-?
-"↩️ Openen"
-:
-"✅ Afgerond"
-}
-
-</button>
-
-
-<button
-onclick=
-"deleteFollowup(
-'${f.id}'
-)">
-
-🗑️ Verwijderen
-
-</button>
-
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-function renderFollowups(){
-
-const container=
-document.getElementById(
-"allFollowups"
-);
-
-
-if(!container)return;
-
-
-const search=
-(
-document.getElementById(
-"followupSearch"
-)?.value||""
-)
-.toLowerCase();
-
-
-const filter=
-document.getElementById(
-"followupFilter"
-)?.value||"open";
-
-
-const today=
-todayString();
-
-
-let items=
-followups.filter(
-f=>{
-
-const lead=
-getLeadForFollowup(f);
-
-
-const text=
-`
-${lead.company_name||""}
-${lead.contact_name||""}
-${f.action||""}
-${f.notes||""}
-`
-.toLowerCase();
-
-
-if(
-search &&
-!text.includes(search)
-)
-return false;
-
-
-if(filter==="open")
-return !f.completed;
-
-
-if(filter==="completed")
-return f.completed;
-
-
-if(filter==="overdue")
-return !f.completed &&
-f.due_date<today;
-
-
-if(filter==="today")
-return !f.completed &&
-f.due_date===today;
-
-
-if(filter==="upcoming")
-return !f.completed &&
-f.due_date>today;
-
-
-return true;
-
-}
-);
-
-
-items.sort(
-(a,b)=>
-(
-`${a.due_date||""}${a.due_time||""}`
-)
-.localeCompare(
-`${b.due_date||""}${b.due_time||""}`
-)
-);
-
-
-document.getElementById(
-"overdueCount"
-).textContent=
-followups.filter(
-f =>
-!f.completed &&
-f.due_date<today
-).length;
-
-
-document.getElementById(
-"followupTodayCount"
-).textContent=
-followups.filter(
-f =>
-!f.completed &&
-f.due_date===today
-).length;
-
-
-document.getElementById(
-"upcomingCount"
-).textContent=
-followups.filter(
-f =>
-!f.completed &&
-f.due_date>today
-).length;
-
-
-if(!items.length){
-
-container.innerHTML=
-`
-<div class="empty">
-<div class="empty-icon">📅</div>
-<strong>Geen follow-ups gevonden</strong>
-<p>Maak een nieuwe follow-up aan via de knop hierboven.</p>
-</div>
-`;
-
-return;
-
-}
-
-
-container.innerHTML=
-items.map(
-f=>followupHTML(f)
-).join("");
-
-}
-
-
-/* =====================================================
-FOLLOW-UP MODAL
-===================================================== */
-
-function openFollowupModal(){
-
-const select=
-document.getElementById(
-"followupLead"
-);
-
-
-select.innerHTML=
-`
-<option value="">
-Kies een lead
-</option>
-`+
-leads.map(
-lead =>
-`
-<option value="${lead.id}">
-${escapeHTML(
-lead.company_name
-)}
-</option>
-`
-).join("");
-
-
-document.getElementById(
-"newFollowupDate"
-).value=
-todayString();
-
-
-document.getElementById(
-"followupAction"
-).value="";
-
-
-document.getElementById(
-"followupNotes"
-).value="";
-
-
-document.getElementById(
-"newFollowupTime"
-).value="";
-
-
-document.getElementById(
-"followupModal"
-).classList.add(
-"show"
-);
-
-}
-
-
-function closeFollowupModal(){
-
-document.getElementById(
-"followupModal"
-).classList.remove(
-"show"
-);
-
-}
-
-
-function closeFollowupOutside(event){
-
-if(
-event.target.id===
-"followupModal"
-){
-
-closeFollowupModal();
-
-}
-
-}
-
-
-/* =====================================================
-SAVE FOLLOW-UP
-===================================================== */
-
-async function saveFollowup(event){
-
-event.preventDefault();
-
-
-const button=
-document.getElementById(
-"followupSaveButton"
-);
-
-
-button.disabled=true;
-
-button.textContent=
-"Opslaan...";
-
-
-const leadId=
-document.getElementById(
-"followupLead"
-).value;
-
-
-const action=
-document.getElementById(
-"followupAction"
-).value;
-
-
-const dueDate=
-document.getElementById(
-"newFollowupDate"
-).value;
-
-
-const dueTime=
-document.getElementById(
-"newFollowupTime"
-).value ||
-null;
-
-
-const notes=
-document.getElementById(
-"followupNotes"
-).value.trim();
-
-
-const {
-error
-}=
-await supabaseClient
-.from("follow_ups")
-.insert([
-
-{
-
-lead_id:
-leadId,
-
-action:
-action,
-
-notes:
-notes,
-
-due_date:
-dueDate,
-
-due_time:
-dueTime,
-
-completed:
-false
-
-}
-
-]);
-
-
-if(error){
-
-alert(
-"Follow-up opslaan mislukt:\n\n"+
-error.message
-);
-
-
-button.disabled=false;
-
-button.textContent=
-"Follow-up opslaan";
-
-return;
-
-}
-
-
-closeFollowupModal();
-
-
-button.disabled=false;
-
-button.textContent=
-"Follow-up opslaan";
-
-
-await loadFollowups();
-
-}
-
-
-/* =====================================================
-COMPLETE FOLLOW-UP
-===================================================== */
-
-async function toggleFollowup(
-id,
-completed
-){
-
-const update=
-completed
-?
-{
-completed:true,
-completed_at:
-new Date().toISOString()
-}
-:
-{
-completed:false,
-completed_at:null
-};
-
-
-const {
-error
-}=
-await supabaseClient
-.from("follow_ups")
-.update(update)
-.eq("id",id);
-
-
-if(error){
-
-alert(
-"Bijwerken mislukt:\n\n"+
-error.message
-);
-
-return;
-
-}
-
-
-await loadFollowups();
-
-}
-
-
-/* =====================================================
-DELETE FOLLOW-UP
-===================================================== */
-
-async function deleteFollowup(id){
-
-if(
-!confirm(
-"Deze follow-up verwijderen?"
-)
-)
-return;
-
-
-const {
-error
-}=
-await supabaseClient
-.from("follow_ups")
-.delete()
-.eq("id",id);
-
-
-if(error){
-
-alert(
-"Verwijderen mislukt:\n\n"+
-error.message
-);
-
-return;
-
-}
-
-
-await loadFollowups();
-
-}
-
-
-/* =====================================================
-NAVIGATION
-===================================================== */
-
-function showPage(
-pageId,
-button
-){
-
-document
-.querySelectorAll(".page")
-.forEach(
-page =>
-page.classList.remove(
-"active"
-)
-);
-
-
-document
-.getElementById(pageId)
-.classList.add(
-"active"
-);
-
-
-document
-.querySelectorAll(".nav-item")
-.forEach(
-item =>
-item.classList.remove(
-"active"
-)
-);
-
-
-if(button){
-
-button.classList.add(
-"active"
-);
-
-}
-
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
-function showPageById(
-pageId
-){
+function getField(lead, names){
 
-document
-.querySelectorAll(".page")
-.forEach(
-page =>
-page.classList.remove(
-"active"
-)
-);
+    for(const name of names){
 
+        if(
+            lead[name] !== undefined &&
+            lead[name] !== null
+        ){
+            return lead[name];
+        }
 
-document
-.getElementById(pageId)
-.classList.add(
-"active"
-);
+    }
 
+    return "";
 }
-
 
-/* =====================================================
-CLIENTS
-===================================================== */
 
-function renderClients(){
+function normalizeStatus(value){
 
-const container=
-document.getElementById(
-"clients"
-);
+    if(!value) return "Nieuw";
 
+    const v = String(value).toLowerCase();
 
-const clients=
-leads.filter(
-lead =>
-lead.status==="Gewonnen"
-);
+    if(v.includes("email") || v.includes("e-mail")){
+        return "E-mail gestuurd";
+    }
 
+    if(v.includes("gebeld") || v.includes("call")){
+        return "Gebeld";
+    }
 
-if(!clients.length){
+    if(v.includes("warm")){
+        return "Warm";
+    }
 
-container.innerHTML=
-`
-<div class="empty">
-<div class="empty-icon">🤝</div>
-<strong>Nog geen actieve klanten</strong>
-<p>Leads met status "Gewonnen" verschijnen hier.</p>
-</div>
-`;
+    if(v.includes("klant")){
+        return "Klant";
+    }
 
-return;
+    if(v.includes("geen interesse")){
+        return "Geen interesse";
+    }
 
+    return "Nieuw";
 }
 
 
-container.innerHTML=
-clients.map(
-lead =>
-`
-<div class="lead-row">
+function normalizePriority(value){
 
-<div>
+    if(!value) return "Normaal";
 
-<div class="lead-name">
-${escapeHTML(
-lead.company_name
-)}
-</div>
+    const v = String(value).toLowerCase();
 
-<div class="lead-contact">
-${escapeHTML(
-lead.contact_name||
-"Geen contactpersoon"
-)}
-</div>
+    if(v.includes("hoog") || v.includes("high")){
+        return "Hoog";
+    }
 
-</div>
+    if(v.includes("laag") || v.includes("low")){
+        return "Laag";
+    }
 
-<span class="status status-gewonnen">
-Actieve klant
-</span>
-
-</div>
-`
-).join("");
-
+    return "Normaal";
 }
-
 
-/* =====================================================
-HELPERS
-===================================================== */
 
 function statusClass(status){
 
-const map={
+    switch(status){
 
-"Nieuw":
-"status-nieuw",
+        case "E-mail gestuurd":
+            return "status-email";
 
-"Gebeld":
-"status-gebeld",
+        case "Gebeld":
+            return "status-call";
 
-"E-mail gestuurd":
-"status-email",
+        case "Warm":
+            return "status-warm";
 
-"Warm":
-"status-warm",
+        case "Klant":
+            return "status-closed";
 
-"Afspraak":
-"status-afspraak",
-
-"Offerte verstuurd":
-"status-offerte",
-
-"Gewonnen":
-"status-gewonnen",
-
-"Afgewezen":
-"status-afgewezen"
-
-};
-
-
-return map[status]||
-"status-nieuw";
-
+        default:
+            return "status-new";
+    }
 }
 
 
 function priorityClass(priority){
 
-if(priority==="Hoog")
-return "priority-high";
+    switch(priority){
 
+        case "Hoog":
+            return "priority-high";
 
-if(priority==="Laag")
-return "priority-low";
+        case "Laag":
+            return "priority-low";
 
-
-return "priority-normal";
-
+        default:
+            return "priority-normal";
+    }
 }
 
 
-function todayString(){
+function showToast(message){
 
-const d=
-new Date();
+    const toast =
+        document.getElementById("toast");
 
+    toast.textContent = message;
+    toast.classList.add("show");
 
-return(
-d.getFullYear()+
-"-"+
-String(
-d.getMonth()+1
-).padStart(2,"0")+
-"-"+
-String(
-d.getDate()
-).padStart(2,"0")
-);
-
+    setTimeout(()=>{
+        toast.classList.remove("show");
+    },3000);
 }
 
 
-function formatDate(
-dateString
-){
+/* =========================================================
+   LOAD LEADS
+========================================================= */
 
-if(!dateString)
-return "";
+async function loadLeads(){
 
+    const container =
+        document.getElementById("leadsContainer");
 
-const date=
-new Date(
-dateString+
-"T00:00:00"
-);
+    container.innerHTML =
+        `<div class="loading">Leads laden...</div>`;
 
+    const { data, error } =
+        await supabaseClient
+            .from("leads")
+            .select("*")
+            .order("created_at", {
+                ascending:false
+            });
 
-return date.toLocaleDateString(
-"nl-NL",
-{
-day:"numeric",
-month:"long",
-year:"numeric"
-}
-);
+    if(error){
 
-}
+        console.error(error);
 
+        container.innerHTML = `
+            <div class="empty">
+                <strong>Leads konden niet worden geladen.</strong>
+                <br><br>
+                ${escapeHTML(error.message)}
+            </div>
+        `;
 
-function escapeHTML(
-value
-){
+        return;
+    }
 
-return String(
-value||""
-)
-.replace(
-/&/g,
-"&amp;"
-)
-.replace(
-/</g,
-"&lt;"
-)
-.replace(
-/>/g,
-"&gt;"
-)
-.replace(
-/"/g,
-"&quot;"
-)
-.replace(
-/'/g,
-"&#039;"
-);
+    leads = data || [];
 
+    updateStats();
+    renderLeads();
 }
 
 
-/* =====================================================
-START
-===================================================== */
+/* =========================================================
+   STATS
+========================================================= */
 
-checkAuth();
+function updateStats(){
+
+    document.getElementById("totalLeads")
+        .textContent = leads.length;
+
+    const warm =
+        leads.filter(lead =>
+            normalizeStatus(
+                getField(lead,["status"])
+            ) === "Warm"
+        ).length;
+
+    document.getElementById("warmLeads")
+        .textContent = warm;
+
+    const offers =
+        leads.filter(lead => {
+
+            const status =
+                normalizeStatus(
+                    getField(lead,["status"])
+                );
+
+            return status === "Warm";
+
+        }).length;
+
+    document.getElementById("openOffers")
+        .textContent = offers;
+
+    const customers =
+        leads.filter(lead =>
+            normalizeStatus(
+                getField(lead,["status"])
+            ) === "Klant"
+        ).length;
+
+    document.getElementById("activeCustomers")
+        .textContent = customers;
+}
+
+
+/* =========================================================
+   RENDER LEADS
+========================================================= */
+
+function renderLeads(){
+
+    const container =
+        document.getElementById("leadsContainer");
+
+    const search =
+        document.getElementById("searchInput")
+            .value
+            .toLowerCase()
+            .trim();
+
+    const statusFilter =
+        document.getElementById("statusFilter")
+            .value;
+
+    let filtered = leads.filter(lead => {
+
+        const company =
+            String(
+                getField(
+                    lead,
+                    ["company_name","bedrijf","company"]
+                )
+            ).toLowerCase();
+
+        const contact =
+            String(
+                getField(
+                    lead,
+                    ["contact_name","contactpersoon","contact"]
+                )
+            ).toLowerCase();
+
+        const email =
+            String(
+                getField(
+                    lead,
+                    ["email","e_mail"]
+                )
+            ).toLowerCase();
+
+        const status =
+            normalizeStatus(
+                getField(
+                    lead,
+                    ["status"]
+                )
+            );
+
+        const matchesSearch =
+            !search ||
+            company.includes(search) ||
+            contact.includes(search) ||
+            email.includes(search);
+
+        const matchesStatus =
+            !statusFilter ||
+            status === statusFilter;
+
+        return matchesSearch && matchesStatus;
+
+    });
+
+
+    if(!filtered.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                <div style="font-size:42px;margin-bottom:12px">
+                    🔍
+                </div>
+
+                <strong>Geen leads gevonden</strong>
+
+                <div style="margin-top:6px">
+                    Pas je zoekopdracht of filter aan.
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        filtered.map(lead => {
+
+            const id =
+                getField(lead,["id","uuid"]);
+
+            const company =
+                getField(
+                    lead,
+                    ["company_name","bedrijf","company"]
+                ) || "Onbekend bedrijf";
+
+            const contact =
+                getField(
+                    lead,
+                    ["contact_name","contactpersoon","contact"]
+                ) || "Geen contactpersoon";
+
+            const email =
+                getField(
+                    lead,
+                    ["email","e_mail"]
+                );
+
+            const phone =
+                getField(
+                    lead,
+                    ["phone","telephone","telefoon"]
+                );
+
+            const status =
+                normalizeStatus(
+                    getField(lead,["status"])
+                );
+
+            const priority =
+                normalizePriority(
+                    getField(
+                        lead,
+                        ["priority","prioriteit"]
+                    )
+                );
+
+
+            return `
+
+                <div class="lead-row">
+
+                    <div>
+
+                        <div class="company">
+                            ${escapeHTML(company)}
+                        </div>
+
+                        <div class="contact">
+                            ${escapeHTML(contact)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="lead-contact">
+
+                        ${
+                            email
+                            ?
+                            `<span style="font-size:14px">
+                                ${escapeHTML(email)}
+                             </span>`
+                            :
+                            `<span class="contact">
+                                Geen e-mail
+                             </span>`
+                        }
+
+                    </div>
+
+
+                    <div class="lead-status">
+
+                        <span class="badge ${statusClass(status)}">
+                            ${escapeHTML(status)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="lead-priority">
+
+                        <span class="badge ${priorityClass(priority)}">
+                            ${escapeHTML(priority)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            class="icon-btn"
+                            title="${
+                                phone
+                                ? "Bel " + phone
+                                : "Geen telefoonnummer"
+                            }"
+                            ${
+                                phone
+                                ?
+                                `onclick="callLead('${encodeURIComponent(phone)}')"`
+                                :
+                                "disabled"
+                            }>
+                            📞
+                        </button>
+
+
+                        <button
+                            class="icon-btn"
+                            title="${
+                                email
+                                ? "E-mail " + email
+                                : "Geen e-mailadres"
+                            }"
+                            ${
+                                email
+                                ?
+                                `onclick="emailLead('${encodeURIComponent(email)}')"`
+                                :
+                                "disabled"
+                            }>
+                            ✉️
+                        </button>
+
+
+                        <button
+                            class="icon-btn"
+                            title="Lead bekijken"
+                            onclick="openEditLead('${id}')">
+                            ✏️
+                        </button>
+
+
+                        <button
+                            class="icon-btn"
+                            title="Lead verwijderen"
+                            onclick="deleteLead('${id}')">
+                            🗑️
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+}
+
+
+/* =========================================================
+   CALL / EMAIL
+========================================================= */
+
+function callLead(encodedPhone){
+
+    const phone =
+        decodeURIComponent(encodedPhone);
+
+    if(!phone) return;
+
+    window.location.href =
+        "tel:" + phone;
+}
+
+
+function emailLead(encodedEmail){
+
+    const email =
+        decodeURIComponent(encodedEmail);
+
+    if(!email) return;
+
+    window.location.href =
+        "mailto:" + email;
+}
+
+
+/* =========================================================
+   NEW LEAD
+========================================================= */
+
+function openNewLead(){
+
+    editingLeadId = null;
+
+    document.getElementById("modalTitle")
+        .textContent = "Nieuwe lead";
+
+    document.getElementById("companyInput").value = "";
+    document.getElementById("contactInput").value = "";
+    document.getElementById("emailInput").value = "";
+    document.getElementById("phoneInput").value = "";
+    document.getElementById("addressInput").value = "";
+    document.getElementById("notesInput").value = "";
+
+    document.getElementById("statusInput").value =
+        "Nieuw";
+
+    document.getElementById("priorityInput").value =
+        "Normaal";
+
+    document.getElementById("deleteFromModal")
+        .style.display = "none";
+
+    document.getElementById("leadModal")
+        .classList.add("show");
+}
+
+
+/* =========================================================
+   EDIT LEAD
+========================================================= */
+
+function openEditLead(id){
+
+    const lead =
+        leads.find(item =>
+            String(
+                getField(item,["id","uuid"])
+            ) === String(id)
+        );
+
+    if(!lead){
+        showToast("Lead niet gevonden.");
+        return;
+    }
+
+    editingLeadId = id;
+
+    document.getElementById("modalTitle")
+        .textContent = "Lead bewerken";
+
+
+    document.getElementById("companyInput").value =
+        getField(
+            lead,
+            ["company_name","bedrijf","company"]
+        ) || "";
+
+
+    document.getElementById("contactInput").value =
+        getField(
+            lead,
+            ["contact_name","contactpersoon","contact"]
+        ) || "";
+
+
+    document.getElementById("emailInput").value =
+        getField(
+            lead,
+            ["email","e_mail"]
+        ) || "";
+
+
+    document.getElementById("phoneInput").value =
+        getField(
+            lead,
+            ["phone","telephone","telefoon"]
+        ) || "";
+
+
+    document.getElementById("addressInput").value =
+        getField(
+            lead,
+            ["address","adres"]
+        ) || "";
+
+
+    document.getElementById("notesInput").value =
+        getField(
+            lead,
+            ["notes","notities","extra_info","extra_information"]
+        ) || "";
+
+
+    document.getElementById("statusInput").value =
+        normalizeStatus(
+            getField(lead,["status"])
+        );
+
+
+    document.getElementById("priorityInput").value =
+        normalizePriority(
+            getField(
+                lead,
+                ["priority","prioriteit"]
+            )
+        );
+
+
+    document.getElementById("deleteFromModal")
+        .style.display = "block";
+
+
+    document.getElementById("leadModal")
+        .classList.add("show");
+}
+
+
+/* =========================================================
+   SAVE LEAD
+========================================================= */
+
+async function saveLead(){
+
+    const company =
+        document.getElementById("companyInput")
+            .value
+            .trim();
+
+    if(!company){
+
+        showToast(
+            "Vul eerst een bedrijfsnaam in."
+        );
+
+        return;
+    }
+
+
+    const contact =
+        document.getElementById("contactInput")
+            .value
+            .trim();
+
+    const email =
+        document.getElementById("emailInput")
+            .value
+            .trim();
+
+    const phone =
+        document.getElementById("phoneInput")
+            .value
+            .trim();
+
+    const address =
+        document.getElementById("addressInput")
+            .value
+            .trim();
+
+    const notes =
+        document.getElementById("notesInput")
+            .value
+            .trim();
+
+    const status =
+        document.getElementById("statusInput")
+            .value;
+
+    const priority =
+        document.getElementById("priorityInput")
+            .value;
+
+
+    /*
+       We gebruiken de kolommen die jouw
+       huidige leads-tabel duidelijk heeft.
+    */
+
+    const payload = {
+
+        company_name: company,
+
+        contact_name:
+            contact || null,
+
+        email:
+            email || null,
+
+        phone:
+            phone || null,
+
+        address:
+            address || null,
+
+        status:
+            status,
+
+        priority:
+            priority,
+
+        notes:
+            notes || null
+
+    };
+
+
+    let result;
+
+
+    if(editingLeadId){
+
+        result =
+            await supabaseClient
+                .from("leads")
+                .update(payload)
+                .eq("id", editingLeadId);
+
+    }else{
+
+        result =
+            await supabaseClient
+                .from("leads")
+                .insert(payload);
+
+    }
+
+
+    if(result.error){
+
+        console.error(result.error);
+
+        showToast(
+            "Opslaan mislukt: " +
+            result.error.message
+        );
+
+        return;
+    }
+
+
+    showToast(
+        editingLeadId
+        ? "Lead bijgewerkt."
+        : "Nieuwe lead toegevoegd."
+    );
+
+
+    closeModal();
+
+    await loadLeads();
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+async function deleteLead(id){
+
+    const lead =
+        leads.find(item =>
+            String(
+                getField(item,["id","uuid"])
+            ) === String(id)
+        );
+
+    if(!lead) return;
+
+
+    const company =
+        getField(
+            lead,
+            ["company_name","bedrijf","company"]
+        ) || "deze lead";
+
+
+    const confirmed =
+        confirm(
+            `Weet je zeker dat je "${company}" wilt verwijderen?`
+        );
+
+
+    if(!confirmed) return;
+
+
+    const { error } =
+        await supabaseClient
+            .from("leads")
+            .delete()
+            .eq("id", id);
+
+
+    if(error){
+
+        console.error(error);
+
+        showToast(
+            "Verwijderen mislukt: " +
+            error.message
+        );
+
+        return;
+    }
+
+
+    showToast("Lead verwijderd.");
+
+    await loadLeads();
+}
+
+
+async function deleteCurrentLead(){
+
+    if(!editingLeadId) return;
+
+    await deleteLead(editingLeadId);
+
+    closeModal();
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function closeModal(){
+
+    document.getElementById("leadModal")
+        .classList.remove("show");
+
+    editingLeadId = null;
+}
+
+
+document.getElementById("leadModal")
+    .addEventListener("click",function(event){
+
+        if(event.target === this){
+            closeModal();
+        }
+
+    });
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showSection(section){
+
+    const leadsSection =
+        document.getElementById("leadsSection");
+
+    const placeholder =
+        document.getElementById("placeholderSection");
+
+    if(section === "leads"){
+
+        leadsSection.style.display = "block";
+        placeholder.style.display = "none";
+
+        return;
+    }
+
+
+    leadsSection.style.display = "none";
+    placeholder.style.display = "block";
+
+
+    const titles = {
+
+        followups:"Follow-ups",
+
+        offers:"Offertes",
+
+        customers:"Klanten"
+
+    };
+
+
+    document.getElementById("placeholderTitle")
+        .textContent =
+        titles[section] || "Onderdeel";
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadLeads();
 
 </script>
 
