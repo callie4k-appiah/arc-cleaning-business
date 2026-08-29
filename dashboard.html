@@ -9,36 +9,25 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root{
-    --green:#07583f;
-    --green-dark:#064632;
-    --green-light:#e9f3ee;
-    --bg:#f5f8f6;
-    --white:#ffffff;
-    --text:#14201b;
-    --muted:#6b7772;
-    --border:#dce5e0;
-    --blue:#e7f0ff;
-    --blue-text:#245a9b;
-    --yellow:#fff2cf;
-    --yellow-text:#8b6500;
-    --red:#ffe5e5;
-    --red-text:#b42318;
-    --purple:#eee8ff;
-    --purple-text:#6548a8;
-    --shadow:0 4px 20px rgba(0,0,0,.05);
-}
-
 *{
     box-sizing:border-box;
 }
 
-body{
+html,body{
     margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    background:var(--bg);
-    color:var(--text);
+    padding:0;
+    min-height:100%;
 }
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7f5;
+    color:#111815;
+}
+
+/* =========================
+   GENERAL
+========================= */
 
 button,
 input,
@@ -51,334 +40,648 @@ button{
     cursor:pointer;
 }
 
+a{
+    color:inherit;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
 .topbar{
-    height:82px;
-    background:white;
-    border-bottom:1px solid var(--border);
+    height:72px;
+    background:#fff;
+    border-bottom:1px solid #dce5df;
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:0 28px;
     position:sticky;
     top:0;
-    z-index:50;
+    z-index:500;
 }
 
-.logo{
-    height:55px;
-    width:auto;
+.brand{
+    display:flex;
+    align-items:center;
+}
+
+.brand img{
+    width:120px;
+    height:52px;
     object-fit:contain;
 }
 
-.user{
-    width:48px;
-    height:48px;
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logout{
+    border:1px solid #dce5df;
+    background:#fff;
+    color:#315b49;
+    padding:10px 15px;
+    border-radius:9px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.logout:hover{
+    background:#f0f5f2;
+}
+
+.profile{
+    width:42px;
+    height:42px;
     border-radius:50%;
-    background:var(--green);
-    color:white;
+    background:#286247;
+    color:#fff;
     display:flex;
     align-items:center;
     justify-content:center;
     font-weight:700;
 }
 
+/* Mobile menu button */
+
+.menu-button{
+    display:none;
+    border:1px solid #dce5df;
+    background:#fff;
+    color:#0a5b3e;
+    width:42px;
+    height:42px;
+    border-radius:9px;
+    font-size:20px;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
 .layout{
     display:flex;
-    min-height:calc(100vh - 82px);
+    min-height:calc(100vh - 72px);
 }
 
 .sidebar{
-    width:235px;
-    background:var(--green-dark);
-    color:white;
-    padding:24px 14px;
+    width:240px;
     flex-shrink:0;
+    background:#063b2d;
+    color:#fff;
+    padding:25px 16px;
+    min-height:calc(100vh - 72px);
 }
 
-.nav-title{
-    font-size:12px;
+.sidebar-title{
+    margin:10px 12px 12px;
+    font-size:11px;
     letter-spacing:1.5px;
-    opacity:.6;
-    margin:20px 12px 8px;
+    opacity:.55;
 }
 
 .nav-item{
     width:100%;
     border:0;
     background:transparent;
-    color:white;
-    padding:13px 14px;
-    border-radius:10px;
+    color:#dce9e2;
     text-align:left;
-    font-weight:600;
+    padding:13px 14px;
     margin-bottom:4px;
+    border-radius:9px;
+    font-size:14px;
+    font-weight:600;
 }
 
 .nav-item:hover,
 .nav-item.active{
-    background:#08724f;
+    background:#0a5b3e;
+    color:#fff;
 }
 
-.main{
+/* =========================
+   CONTENT
+========================= */
+
+.content{
     flex:1;
-    padding:30px;
+    max-width:1500px;
+    padding:32px;
+    width:100%;
     min-width:0;
 }
 
-.page-header{
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-heading{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:20px;
-    margin-bottom:24px;
+    margin-bottom:28px;
 }
 
-.page-title{
+.page-heading h1{
     margin:0;
-    font-size:32px;
+    font-size:30px;
 }
 
-.page-subtitle{
-    margin:6px 0 0;
-    color:var(--muted);
+.page-heading p{
+    margin:8px 0 0;
+    color:#68736e;
+    font-size:14px;
 }
 
-.primary{
-    background:var(--green);
-    color:white;
+/* =========================
+   BUTTONS
+========================= */
+
+.button{
     border:0;
-    padding:13px 20px;
-    border-radius:10px;
+    background:#0a5b3e;
+    color:#fff;
+    padding:13px 18px;
+    border-radius:9px;
+    font-size:14px;
     font-weight:700;
 }
 
-.primary:hover{
-    background:#08694b;
+.button:hover{
+    background:#084b34;
 }
+
+.button.secondary{
+    background:#edf2ef;
+    color:#0a5b3e;
+}
+
+.button.danger{
+    background:#fbeaea;
+    color:#a52d2d;
+}
+
+/* =========================
+   STATS
+========================= */
 
 .stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:16px;
-    margin-bottom:24px;
+    margin-bottom:28px;
 }
 
-.stat{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:22px;
-    box-shadow:var(--shadow);
+.stat-card{
+    background:#fff;
+    border:1px solid #dce5df;
+    border-radius:13px;
+    padding:21px;
 }
 
 .stat-label{
-    color:var(--muted);
-    font-size:15px;
-    margin-bottom:8px;
+    color:#68736e;
+    font-size:13px;
+    margin-bottom:9px;
 }
 
-.stat-value{
-    color:var(--green);
-    font-size:34px;
+.stat-number{
+    color:#0a5b3e;
+    font-size:30px;
     font-weight:800;
 }
 
-.toolbar{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:14px;
+/* =========================
+   CARDS
+========================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:20px;
+}
+
+.card{
+    background:#fff;
+    border:1px solid #dce5df;
+    border-radius:13px;
+    padding:22px;
+    margin-bottom:20px;
+}
+
+.card-header{
     display:flex;
-    gap:12px;
-    margin-bottom:16px;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:18px;
 }
 
-.search{
-    flex:1;
-    min-width:0;
+.card-header h2{
+    margin:0;
+    font-size:18px;
 }
 
-.search input,
-.toolbar select{
-    width:100%;
-    height:46px;
-    border:1px solid var(--border);
-    border-radius:9px;
-    padding:0 14px;
-    outline:none;
-    background:white;
-}
-
-.search input:focus,
-.toolbar select:focus{
-    border-color:var(--green);
-}
-
-.leads-card{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:16px;
-    overflow:hidden;
-    box-shadow:var(--shadow);
-}
+/* =========================
+   LEADS
+========================= */
 
 .lead-row{
     display:grid;
-    grid-template-columns:2.2fr 1.2fr 1fr 1fr auto;
-    gap:18px;
+    grid-template-columns:1.5fr 1fr 1fr auto;
     align-items:center;
-    padding:18px 20px;
-    border-bottom:1px solid #edf1ef;
+    gap:15px;
+    padding:15px 0;
+    border-bottom:1px solid #edf1ee;
 }
 
 .lead-row:last-child{
     border-bottom:0;
 }
 
-.company{
-    font-weight:800;
-    font-size:16px;
-}
-
-.contact{
-    color:var(--muted);
-    font-size:14px;
-    margin-top:4px;
-}
-
-.badge{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:max-content;
-    padding:7px 12px;
-    border-radius:999px;
-    font-size:12px;
+.lead-name{
     font-weight:700;
+    font-size:14px;
 }
 
-.status-new{
-    background:#edf1ef;
-    color:#59645f;
+.lead-contact{
+    margin-top:5px;
+    color:#68736e;
+    font-size:12px;
 }
 
-.status-email{
-    background:var(--blue);
-    color:var(--blue-text);
-}
-
-.status-call{
-    background:var(--purple);
-    color:var(--purple-text);
-}
-
-.status-warm{
-    background:var(--yellow);
-    color:var(--yellow-text);
-}
-
-.status-closed{
-    background:#e8f7ec;
-    color:#27733e;
-}
-
-.priority-normal{
-    background:var(--yellow);
-    color:var(--yellow-text);
-}
-
-.priority-high{
-    background:var(--red);
-    color:var(--red-text);
-}
-
-.priority-low{
-    background:#edf1ef;
-    color:#59645f;
-}
-
-.actions{
+.lead-actions{
     display:flex;
     gap:7px;
     justify-content:flex-end;
 }
 
-.icon-btn{
-    width:38px;
-    height:38px;
-    border:1px solid var(--border);
-    background:white;
-    border-radius:9px;
+.icon-button{
+    width:36px;
+    height:36px;
+    border:1px solid #dce5df;
+    border-radius:8px;
+    background:#fff;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:17px;
+    text-decoration:none;
 }
 
-.icon-btn:hover{
-    background:var(--green-light);
+.icon-button:hover{
+    background:#f2f6f4;
 }
 
-.icon-btn:disabled{
-    opacity:.3;
-    cursor:not-allowed;
-    background:#f5f6f5;
+/* =========================
+   STATUS
+========================= */
+
+.status{
+    display:inline-flex;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:700;
+    white-space:nowrap;
 }
+
+.status-nieuw{
+    background:#edf1ee;
+    color:#56615b;
+}
+
+.status-gebeld{
+    background:#eee9ff;
+    color:#634ea3;
+}
+
+.status-email{
+    background:#e6f0ff;
+    color:#275b9c;
+}
+
+.status-warm{
+    background:#fff1cf;
+    color:#8a6200;
+}
+
+.status-afspraak{
+    background:#e1f4e9;
+    color:#28704a;
+}
+
+.status-offerte{
+    background:#e5f5f2;
+    color:#147265;
+}
+
+.status-gewonnen{
+    background:#dff5e5;
+    color:#176738;
+}
+
+.status-afgewezen{
+    background:#fbeaea;
+    color:#a52d2d;
+}
+
+/* =========================
+   PRIORITY
+========================= */
+
+.priority{
+    display:inline-flex;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:800;
+}
+
+.priority-high{
+    background:#fde8e8;
+    color:#b42318;
+}
+
+.priority-normal{
+    background:#fff3d6;
+    color:#8a6200;
+}
+
+.priority-low{
+    background:#e8f2ec;
+    color:#26704b;
+}
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.toolbar{
+    display:flex;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.search{
+    flex:1;
+    height:46px;
+    border:1px solid #d4dfd8;
+    border-radius:9px;
+    padding:0 14px;
+    background:#fff;
+    outline:none;
+}
+
+.filter{
+    height:46px;
+    border:1px solid #d4dfd8;
+    border-radius:9px;
+    padding:0 14px;
+    background:#fff;
+}
+
+/* =========================
+   EMPTY
+========================= */
 
 .empty{
-    padding:70px 20px;
     text-align:center;
-    color:var(--muted);
+    padding:45px 20px;
+    color:#68736e;
 }
 
-.loading{
-    padding:50px;
-    text-align:center;
-    color:var(--muted);
+.empty-icon{
+    font-size:40px;
+    margin-bottom:10px;
 }
 
-.modal-bg{
+/* =========================
+   TODAY / FOLLOWUPS
+========================= */
+
+.today-item{
+    padding:17px 0;
+    border-bottom:1px solid #edf1ee;
+}
+
+.today-item:last-child{
+    border-bottom:0;
+}
+
+.today-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.today-company{
+    font-weight:800;
+    font-size:15px;
+}
+
+.today-details{
+    margin-top:7px;
+    color:#68736e;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.today-actions{
+    display:flex;
+    gap:7px;
+    margin-top:12px;
+    flex-wrap:wrap;
+}
+
+.small-button{
+    border:0;
+    padding:8px 11px;
+    border-radius:7px;
+    background:#edf2ef;
+    color:#0a5b3e;
+    font-size:12px;
+    font-weight:700;
+    text-decoration:none;
+}
+
+.small-button:hover{
+    background:#dfe9e4;
+}
+
+/* =========================
+   FOLLOWUP PAGE
+========================= */
+
+.followup-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-bottom:18px;
+}
+
+.followup-box{
+    background:#fff;
+    border:1px solid #dce5df;
+    border-radius:12px;
+    padding:18px;
+}
+
+.followup-box strong{
+    display:block;
+    font-size:24px;
+    color:#0a5b3e;
+    margin-top:5px;
+}
+
+.followup-box span{
+    font-size:12px;
+    color:#68736e;
+}
+
+.followup-toolbar{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+}
+
+.followup-toolbar select,
+.followup-toolbar input{
+    height:44px;
+    border:1px solid #d4dfd8;
+    border-radius:8px;
+    padding:0 12px;
+    background:#fff;
+}
+
+.followup-toolbar input{
+    flex:1;
+    min-width:220px;
+}
+
+.followup-card{
+    padding:17px 0;
+    border-bottom:1px solid #edf1ee;
+}
+
+.followup-card:last-child{
+    border-bottom:0;
+}
+
+.followup-main{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.followup-company{
+    font-size:15px;
+    font-weight:800;
+}
+
+.followup-meta{
+    font-size:12px;
+    color:#68736e;
+    margin-top:6px;
+    line-height:1.6;
+}
+
+.followup-actions{
+    display:flex;
+    gap:7px;
+    margin-top:12px;
+    flex-wrap:wrap;
+}
+
+.followup-actions button,
+.followup-actions a{
+    border:0;
+    padding:8px 11px;
+    border-radius:7px;
+    background:#edf2ef;
+    color:#0a5b3e;
+    font-size:12px;
+    font-weight:700;
+    text-decoration:none;
+}
+
+.followup-overdue{
+    border-left:4px solid #b42318;
+    padding-left:13px;
+}
+
+.followup-today{
+    border-left:4px solid #d18b00;
+    padding-left:13px;
+}
+
+.followup-upcoming{
+    border-left:4px solid #28704a;
+    padding-left:13px;
+}
+
+.followup-done{
+    opacity:.58;
+}
+
+/* =========================
+   MODALS
+========================= */
+
+.modal-overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.45);
+    background:rgba(0,0,0,.48);
     display:none;
     align-items:center;
     justify-content:center;
-    z-index:100;
     padding:20px;
+    z-index:1000;
 }
 
-.modal-bg.show{
+.modal-overlay.show{
     display:flex;
 }
 
 .modal{
-    background:white;
-    width:min(650px,100%);
-    max-height:90vh;
-    overflow:auto;
-    border-radius:18px;
-    padding:28px;
-    box-shadow:0 20px 60px rgba(0,0,0,.2);
+    width:100%;
+    max-width:700px;
+    max-height:92vh;
+    overflow-y:auto;
+    background:#fff;
+    border-radius:16px;
+    padding:25px;
 }
 
 .modal-header{
     display:flex;
+    align-items:center;
     justify-content:space-between;
-    align-items:flex-start;
-    margin-bottom:24px;
+    margin-bottom:22px;
 }
 
-.modal-title{
+.modal-header h2{
     margin:0;
-    font-size:25px;
+    font-size:22px;
 }
 
 .close{
     border:0;
-    background:#f1f4f2;
-    width:38px;
-    height:38px;
+    background:#edf2ef;
+    width:36px;
+    height:36px;
     border-radius:50%;
     font-size:20px;
 }
@@ -407,14 +710,16 @@ button{
 .form-group input,
 .form-group select,
 .form-group textarea{
-    border:1px solid var(--border);
-    border-radius:9px;
-    padding:11px 12px;
+    width:100%;
+    border:1px solid #d4dfd8;
+    border-radius:8px;
+    padding:12px;
     outline:none;
+    background:#fff;
 }
 
 .form-group textarea{
-    min-height:100px;
+    min-height:110px;
     resize:vertical;
 }
 
@@ -422,104 +727,136 @@ button{
     display:flex;
     justify-content:flex-end;
     gap:10px;
-    margin-top:24px;
+    margin-top:22px;
 }
 
-.secondary{
-    border:1px solid var(--border);
-    background:white;
-    padding:12px 18px;
-    border-radius:9px;
-    font-weight:600;
+/* =========================
+   ERROR / LOADING
+========================= */
+
+.loading{
+    text-align:center;
+    padding:35px;
+    color:#68736e;
 }
 
-.danger{
-    background:#fff0f0;
-    color:#b42318;
-    border:1px solid #ffd1d1;
-    padding:12px 18px;
-    border-radius:9px;
-    font-weight:700;
-}
-
-.toast{
-    position:fixed;
-    right:22px;
-    bottom:22px;
-    background:#14201b;
-    color:white;
-    padding:14px 18px;
+.error-box{
+    background:#fff1f1;
+    border:1px solid #efc4c4;
+    color:#a52d2d;
     border-radius:10px;
-    display:none;
-    z-index:200;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    padding:15px;
+    margin-bottom:20px;
+    font-size:14px;
 }
 
-.toast.show{
+/* =========================
+   MOBILE DRAWER
+========================= */
+
+.mobile-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:550;
+}
+
+.mobile-overlay.show{
     display:block;
 }
 
-@media(max-width:1000px){
-    .sidebar{
-        width:190px;
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+    .grid{
+        grid-template-columns:1fr;
     }
 
     .stats{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:1fr 1fr;
     }
 
     .lead-row{
-        grid-template-columns:2fr 1fr 1fr auto;
+        grid-template-columns:1.5fr 1fr auto;
     }
 
-    .lead-contact{
+    .lead-row > div:nth-child(3){
         display:none;
     }
 }
 
-@media(max-width:720px){
-    .topbar{
-        height:70px;
-        padding:0 16px;
-    }
+@media(max-width:900px){
 
-    .logo{
-        height:48px;
-    }
-
-    .layout{
+    .menu-button{
         display:block;
     }
 
     .sidebar{
-        width:100%;
-        padding:8px;
-        display:flex;
-        overflow-x:auto;
-        gap:5px;
+        position:fixed;
+        top:72px;
+        left:-260px;
+        width:240px;
+        height:calc(100vh - 72px);
+        min-height:0;
+        z-index:600;
+        transition:left .25s ease;
+        overflow-y:auto;
     }
 
-    .nav-title{
-        display:none;
+    .sidebar.mobile-open{
+        left:0;
     }
 
-    .nav-item{
-        width:auto;
-        white-space:nowrap;
-        margin:0;
+    .content{
+        padding:24px 18px;
+    }
+}
+
+@media(max-width:700px){
+
+    .topbar{
+        height:68px;
+        padding:0 14px;
     }
 
-    .main{
-        padding:18px 12px;
+    .brand img{
+        width:105px;
     }
 
-    .page-header{
-        align-items:flex-start;
+    .logout{
+        padding:9px 10px;
+        font-size:12px;
+    }
+
+    .profile{
+        width:40px;
+        height:40px;
+    }
+
+    .menu-button{
+        width:40px;
+        height:40px;
+    }
+
+    .content{
+        padding:20px 14px;
+    }
+
+    .page-heading{
         flex-direction:column;
+        align-items:flex-start;
     }
 
-    .page-title{
-        font-size:27px;
+    .page-heading h1{
+        font-size:26px;
+    }
+
+    .page-heading .button{
+        width:100%;
     }
 
     .stats{
@@ -527,32 +864,16 @@ button{
         gap:10px;
     }
 
-    .stat{
-        padding:16px;
+    .stat-card{
+        padding:15px;
     }
 
-    .stat-value{
-        font-size:28px;
+    .stat-number{
+        font-size:25px;
     }
 
     .toolbar{
         flex-direction:column;
-    }
-
-    .lead-row{
-        grid-template-columns:1fr auto;
-        gap:10px;
-        padding:16px;
-    }
-
-    .lead-status,
-    .lead-priority{
-        display:none;
-    }
-
-    .actions{
-        grid-row:1/3;
-        grid-column:2;
     }
 
     .form-grid{
@@ -562,131 +883,314 @@ button{
     .form-group.full{
         grid-column:auto;
     }
+
+    .modal-footer{
+        flex-direction:column-reverse;
+    }
+
+    .modal-footer button{
+        width:100%;
+    }
+
+    .lead-row{
+        display:flex;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+    }
+
+    .lead-actions{
+        width:100%;
+        justify-content:flex-start;
+    }
+
+    .followup-summary{
+        grid-template-columns:1fr;
+    }
+
+    .followup-main{
+        flex-direction:column;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- =====================================================
+     TOPBAR
+===================================================== -->
+
 <header class="topbar">
 
-    <img
-        src="arc-logo-reference.jpg"
-        class="logo"
-        alt="ARC Cleaning Business"
-        onerror="this.style.display='none'"
-    >
+    <div class="brand">
+        <img
+            src="arc-logo-reference.jpg"
+            alt="ARC Cleaning Business"
+        >
+    </div>
 
-    <div class="user">CA</div>
+    <div class="top-actions">
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            onclick="toggleMobileMenu()"
+            aria-label="Menu">
+            ☰
+        </button>
+
+        <button
+            class="logout"
+            onclick="logout()">
+            Uitloggen
+        </button>
+
+        <div
+            class="profile"
+            id="profile">
+            CA
+        </div>
+
+    </div>
 
 </header>
 
+
+<div
+    class="mobile-overlay"
+    id="mobileOverlay"
+    onclick="closeMobileMenu()">
+</div>
+
+
 <div class="layout">
 
-    <aside class="sidebar">
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
-    <!-- DASHBOARD -->
-    <button class="nav-item active" onclick="showSection('dashboard')">
-        🏠 Dashboard
+<aside
+    class="sidebar"
+    id="sidebar">
+
+    <div class="sidebar-title">
+        ARC OS
+    </div>
+
+    <button
+        class="nav-item active"
+        onclick="showPage('dashboard',this)">
+        📊 Dashboard
     </button>
 
-    <!-- LEADS -->
-    <button class="nav-item" onclick="showSection('leads')">
+    <button
+        class="nav-item"
+        onclick="showPage('leads',this)">
         👥 Leads
     </button>
 
-    <!-- FOLLOW-UPS -->
-    <button class="nav-item" onclick="showSection('followups')">
+    <button
+        class="nav-item"
+        onclick="showPage('followups',this)">
         📅 Follow-ups
     </button>
 
-    <!-- OFFERTES -->
-    <button class="nav-item" onclick="showSection('offers')">
+    <button
+        class="nav-item"
+        onclick="showPage('offertes',this)">
         📄 Offertes
     </button>
 
-    <!-- KLANTEN -->
-    <button class="nav-item" onclick="showSection('customers')">
+    <button
+        class="nav-item"
+        onclick="showPage('klanten',this)">
         🤝 Klanten
     </button>
 
-    <div class="nav-title">BEHEER</div>
+    <div class="sidebar-title">
+        BEHEER
+    </div>
 
-    <button class="nav-item">
+    <button
+        class="nav-item"
+        onclick="showPage('personeel',this)">
         👷 Personeel
     </button>
 
-    <button class="nav-item">
+    <button
+        class="nav-item"
+        onclick="showPage('locaties',this)">
         🏢 Locaties
     </button>
 
-    <button class="nav-item">
+    <button
+        class="nav-item"
+        onclick="showPage('facturen',this)">
         💰 Facturen
     </button>
 
-    <button class="nav-item">
+    <button
+        class="nav-item"
+        onclick="showPage('instellingen',this)">
         ⚙️ Instellingen
     </button>
 
 </aside>
 
-    <main class="main">
-<section id="dashboardSection" style="display:block">
 
-    <div class="page-header">
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<main class="content">
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section
+    id="dashboard"
+    class="page active">
+
+    <div class="page-heading">
 
         <div>
-            <h1 class="page-title">Dashboard</h1>
-            <p class="page-subtitle">
-                Welkom terug bij ARC Cleaning Business.
+            <h1>
+                Goedemorgen 👋🏽
+            </h1>
+
+            <p id="welcome">
+                Welkom in ARC OS.
             </p>
         </div>
 
-        <button class="primary" onclick="openNewLead()">
+        <button
+            class="button"
+            onclick="openLeadModal()">
             + Nieuwe lead
         </button>
 
     </div>
 
+
     <div class="stats">
 
-        <div class="stat">
-            <div class="stat-label">Totale leads</div>
-            <div class="stat-value" id="dashboardTotalLeads">0</div>
+        <div class="stat-card">
+            <div class="stat-label">
+                Totale leads
+            </div>
+
+            <div
+                class="stat-number"
+                id="totalLeads">
+                0
+            </div>
         </div>
 
-        <div class="stat">
-            <div class="stat-label">Warme leads</div>
-            <div class="stat-value" id="dashboardWarmLeads">0</div>
+
+        <div class="stat-card">
+            <div class="stat-label">
+                Warme leads
+            </div>
+
+            <div
+                class="stat-number"
+                id="warmLeads">
+                0
+            </div>
         </div>
 
-        <div class="stat">
-            <div class="stat-label">Openstaande offertes</div>
-            <div class="stat-value" id="dashboardOpenOffers">0</div>
+
+        <div class="stat-card">
+            <div class="stat-label">
+                Openstaande offertes
+            </div>
+
+            <div
+                class="stat-number"
+                id="openQuotes">
+                0
+            </div>
         </div>
 
-        <div class="stat">
-            <div class="stat-label">Actieve klanten</div>
-            <div class="stat-value" id="dashboardActiveCustomers">0</div>
+
+        <div class="stat-card">
+            <div class="stat-label">
+                Actieve klanten
+            </div>
+
+            <div
+                class="stat-number"
+                id="activeClients">
+                0
+            </div>
         </div>
 
     </div>
 
-    <div class="leads-card">
 
-        <div style="padding:24px">
+    <div class="card">
 
-            <h2 style="margin:0 0 8px">
-                Recente leads
+        <div class="card-header">
+
+            <h2>
+                📅 Vandaag opvolgen
             </h2>
 
-            <p style="color:#6b7772;margin-top:0">
-                De laatste leads uit je CRM.
-            </p>
+            <span
+                class="status status-warm"
+                id="todayCount">
+                0 acties
+            </span>
 
-            <div id="dashboardRecentLeads">
+        </div>
+
+        <div id="todayFollowups">
+            <div class="loading">
+                Laden...
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="grid">
+
+        <div class="card">
+
+            <div class="card-header">
+                <h2>
+                    👥 Recente leads
+                </h2>
+
+                <button
+                    class="button secondary"
+                    onclick="showPageById('leads')">
+                    Bekijk alle
+                </button>
+            </div>
+
+            <div id="recentLeads">
                 <div class="loading">
-                    Leads laden...
+                    Laden...
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-header">
+                <h2>
+                    📅 Komende follow-ups
+                </h2>
+            </div>
+
+            <div id="upcomingFollowups">
+                <div class="loading">
+                    Laden...
                 </div>
             </div>
 
@@ -695,545 +1199,1974 @@ button{
     </div>
 
 </section>
-        <section id="leadsSection">
-
-            <div class="page-header">
-
-                <div>
-                    <h1 class="page-title">Leads</h1>
-                    <p class="page-subtitle">
-                        Beheer je potentiële klanten vanuit één overzicht.
-                    </p>
-                </div>
-
-                <button class="primary" onclick="openNewLead()">
-                    + Nieuwe lead
-                </button>
-
-            </div>
-
-            <div class="stats">
-
-                <div class="stat">
-                    <div class="stat-label">Totale leads</div>
-                    <div class="stat-value" id="totalLeads">0</div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-label">Warme leads</div>
-                    <div class="stat-value" id="warmLeads">0</div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-label">Openstaande offertes</div>
-                    <div class="stat-value" id="openOffers">0</div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-label">Actieve klanten</div>
-                    <div class="stat-value" id="activeCustomers">0</div>
-                </div>
-
-            </div>
-
-            <div class="toolbar">
-
-                <div class="search">
-                    <input
-                        id="searchInput"
-                        type="search"
-                        placeholder="Zoek bedrijf, contactpersoon of e-mail..."
-                        oninput="renderLeads()"
-                    >
-                </div>
-
-                <div style="width:190px">
-                    <select id="statusFilter" onchange="renderLeads()">
-                        <option value="">Alle statussen</option>
-                        <option value="Nieuw">Nieuw</option>
-                        <option value="E-mail gestuurd">E-mail gestuurd</option>
-                        <option value="Gebeld">Gebeld</option>
-                        <option value="Warm">Warm</option>
-                        <option value="Klant">Klant</option>
-                        <option value="Geen interesse">Geen interesse</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <div class="leads-card">
-
-                <div id="leadsContainer">
-                    <div class="loading">
-                        Leads laden...
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-        <section id="placeholderSection" style="display:none">
-
-            <div class="page-header">
-                <div>
-                    <h1 class="page-title" id="placeholderTitle">
-                        Onderdeel
-                    </h1>
-
-                    <p class="page-subtitle">
-                        Dit onderdeel bouwen we als volgende stap.
-                    </p>
-                </div>
-            </div>
-
-            <div class="leads-card">
-                <div class="empty">
-                    🚧 Dit onderdeel komt eraan.
-                </div>
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
 
 
-<!-- LEAD MODAL -->
+<!-- =====================================================
+     LEADS
+===================================================== -->
 
-<div class="modal-bg" id="leadModal">
+<section
+    id="leads"
+    class="page">
 
-    <div class="modal">
+    <div class="page-heading">
 
-        <div class="modal-header">
+        <div>
+            <h1>
+                Leads
+            </h1>
 
-            <div>
-                <h2 class="modal-title" id="modalTitle">
-                    Nieuwe lead
-                </h2>
-            </div>
-
-            <button class="close" onclick="closeModal()">
-                ×
-            </button>
-
+            <p>
+                Alle leads uit je online ARC database.
+            </p>
         </div>
 
-        <div class="form-grid">
+        <button
+            class="button"
+            onclick="openLeadModal()">
+            + Nieuwe lead
+        </button>
 
-            <div class="form-group">
-                <label>Bedrijfsnaam *</label>
-                <input id="companyInput" placeholder="Bijv. CURO Vastgoed">
+    </div>
+
+
+    <div class="toolbar">
+
+        <input
+            class="search"
+            id="search"
+            placeholder="Zoek bedrijf, contactpersoon of e-mail..."
+            oninput="renderLeads()">
+
+        <select
+            class="filter"
+            id="statusFilter"
+            onchange="renderLeads()">
+
+            <option value="Alle">
+                Alle statussen
+            </option>
+
+            <option>Nieuw</option>
+            <option>Gebeld</option>
+            <option>E-mail gestuurd</option>
+            <option>Warm</option>
+            <option>Afspraak</option>
+            <option>Offerte verstuurd</option>
+            <option>Gewonnen</option>
+            <option>Afgewezen</option>
+
+        </select>
+
+    </div>
+
+
+    <div class="card">
+
+        <div id="databaseLeads">
+            <div class="loading">
+                Leads laden...
             </div>
-
-            <div class="form-group">
-                <label>Contactpersoon</label>
-                <input id="contactInput" placeholder="Naam contactpersoon">
-            </div>
-
-            <div class="form-group">
-                <label>E-mailadres</label>
-                <input id="emailInput" type="email" placeholder="naam@bedrijf.nl">
-            </div>
-
-            <div class="form-group">
-                <label>Telefoonnummer</label>
-                <input id="phoneInput" type="tel" placeholder="06 12345678">
-            </div>
-
-            <div class="form-group">
-                <label>Status</label>
-                <select id="statusInput">
-                    <option>Nieuw</option>
-                    <option>E-mail gestuurd</option>
-                    <option>Gebeld</option>
-                    <option>Warm</option>
-                    <option>Klant</option>
-                    <option>Geen interesse</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Prioriteit</label>
-                <select id="priorityInput">
-                    <option>Normaal</option>
-                    <option>Hoog</option>
-                    <option>Laag</option>
-                </select>
-            </div>
-
-            <div class="form-group full">
-                <label>Adres</label>
-                <input id="addressInput" placeholder="Straat + huisnummer, plaats">
-            </div>
-
-            <div class="form-group full">
-                <label>Notities</label>
-                <textarea id="notesInput" placeholder="Notities over deze lead..."></textarea>
-            </div>
-
         </div>
 
-        <div class="modal-footer">
+    </div>
 
-            <button
-                class="danger"
-                id="deleteFromModal"
-                style="display:none"
-                onclick="deleteCurrentLead()">
-                Verwijderen
-            </button>
+</section>
 
-            <button class="secondary" onclick="closeModal()">
-                Annuleren
-            </button>
 
-            <button class="primary" onclick="saveLead()">
-                Opslaan
-            </button>
+<!-- =====================================================
+     FOLLOWUPS
+===================================================== -->
+
+<section
+    id="followups"
+    class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>
+                Follow-ups
+            </h1>
+
+            <p>
+                Je geplande opvolgingen.
+            </p>
+        </div>
+
+        <button
+            class="button"
+            onclick="openFollowupModal()">
+            + Nieuwe follow-up
+        </button>
+
+    </div>
+
+
+    <div class="followup-summary">
+
+        <div class="followup-box">
+            <span>
+                Achterstallig
+            </span>
+
+            <strong id="overdueCount">
+                0
+            </strong>
+        </div>
+
+
+        <div class="followup-box">
+            <span>
+                Vandaag
+            </span>
+
+            <strong id="followupTodayCount">
+                0
+            </strong>
+        </div>
+
+
+        <div class="followup-box">
+            <span>
+                Komend
+            </span>
+
+            <strong id="upcomingCount">
+                0
+            </strong>
+        </div>
+
+    </div>
+
+
+    <div class="followup-toolbar">
+
+        <input
+            id="followupSearch"
+            placeholder="Zoek bedrijf of actie..."
+            oninput="renderFollowups()">
+
+        <select
+            id="followupFilter"
+            onchange="renderFollowups()">
+
+            <option value="open">
+                Openstaand
+            </option>
+
+            <option value="all">
+                Alles
+            </option>
+
+            <option value="overdue">
+                Achterstallig
+            </option>
+
+            <option value="today">
+                Vandaag
+            </option>
+
+            <option value="upcoming">
+                Komend
+            </option>
+
+            <option value="completed">
+                Afgerond
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="card">
+
+        <div id="allFollowups">
+            <div class="loading">
+                Follow-ups laden...
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     OFFERTES
+===================================================== -->
+
+<section
+    id="offertes"
+    class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>
+                Offertes
+            </h1>
+
+            <p>
+                Overzicht van je offerteaanvragen.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                📄
+            </div>
+
+            <strong>
+                Offertebeheer
+            </strong>
+
+            <p>
+                Leads met de status
+                "Offerte verstuurd"
+                verschijnen hier.
+            </p>
 
         </div>
 
     </div>
 
+</section>
+
+
+<!-- =====================================================
+     KLANTEN
+===================================================== -->
+
+<section
+    id="klanten"
+    class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>
+                Klanten
+            </h1>
+
+            <p>
+                Actieve ARC klanten.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div id="clients">
+            <div class="loading">
+                Klanten laden...
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PERSONEEL
+===================================================== -->
+
+<section
+    id="personeel"
+    class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>
+                Personeel
+            </h1>
+
+            <p>
+                Beheer van ARC medewerkers.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                👷
+            </div>
+
+            <strong>
+                Personeelsbeheer
+            </strong>
+
+            <p>
+                Dit onderdeel kan later worden gekoppeld
+                aan een personeelsdatabase.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LOCATIES
+===================================================== -->
+
+<section
+    id="locaties"
+    class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>
+                Locaties
+            </h1>
+
+            <p>
+                Overzicht van schoonmaaklocaties.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                🏢
+            </div>
+
+            <strong>
+                Locatiebeheer
+            </strong>
+
+            <p>
+                Hier kunnen later alle panden
+                en schoonmaaklocaties worden beheerd.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FACTUREN
+===================================================== -->
+
+<section
+    id="facturen"
+    class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>
+                Facturen
+            </h1>
+
+            <p>
+                Overzicht van facturen en betalingen.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                💰
+            </div>
+
+            <strong>
+                Factuurbeheer
+            </strong>
+
+            <p>
+                Dit onderdeel wordt later gekoppeld
+                aan de financiële administratie.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     INSTELLINGEN
+===================================================== -->
+
+<section
+    id="instellingen"
+    class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>
+                Instellingen
+            </h1>
+
+            <p>
+                ARC OS instellingen.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+            Account
+        </h2>
+
+        <p id="settingsEmail">
+            Ingelogd account laden...
+        </p>
+
+        <button
+            class="button"
+            onclick="logout()">
+            Uitloggen
+        </button>
+
+    </div>
+
+</section>
+
+
+</main>
 </div>
 
-<div class="toast" id="toast"></div>
+
+<!-- =====================================================
+     LEAD MODAL
+===================================================== -->
+
+<div
+    class="modal-overlay"
+    id="modal"
+    onclick="closeOutside(event)">
+
+    <div
+        class="modal"
+        onclick="event.stopPropagation()">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Nieuwe lead
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeLeadModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            id="leadForm"
+            onsubmit="saveLead(event)">
+
+            <input
+                type="hidden"
+                id="leadId">
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Bedrijfsnaam *
+                    </label>
+
+                    <input
+                        id="company"
+                        required
+                        placeholder="Bijv. B. Amsterdam">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Contactpersoon
+                    </label>
+
+                    <input
+                        id="contact"
+                        placeholder="Naam contactpersoon">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        E-mailadres
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="naam@bedrijf.nl">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Telefoonnummer
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="020 123 4567">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select id="status">
+
+                        <option>Nieuw</option>
+                        <option>Gebeld</option>
+                        <option>E-mail gestuurd</option>
+                        <option>Warm</option>
+                        <option>Afspraak</option>
+                        <option>Offerte verstuurd</option>
+                        <option>Gewonnen</option>
+                        <option>Afgewezen</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Prioriteit
+                    </label>
+
+                    <select id="priority">
+
+                        <option>Normaal</option>
+                        <option>Hoog</option>
+                        <option>Laag</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Follow-up datum
+                    </label>
+
+                    <input
+                        type="date"
+                        id="followupDate">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Follow-up tijd
+                    </label>
+
+                    <input
+                        type="time"
+                        id="followupTime">
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Adres
+                    </label>
+
+                    <input
+                        id="address"
+                        placeholder="Straat + huisnummer">
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Plaats
+                    </label>
+
+                    <input
+                        id="city"
+                        value="Amsterdam">
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Dienst
+                    </label>
+
+                    <select id="service">
+
+                        <option value="">
+                            Selecteer dienst
+                        </option>
+
+                        <option>
+                            Kantoorschoonmaak
+                        </option>
+
+                        <option>
+                            Dagelijkse schoonmaak
+                        </option>
+
+                        <option>
+                            Periodieke schoonmaak
+                        </option>
+
+                        <option>
+                            Glasbewassing
+                        </option>
+
+                        <option>
+                            Dieptereiniging
+                        </option>
+
+                        <option>
+                            Vloeronderhoud
+                        </option>
+
+                        <option>
+                            Overige
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Notities
+                    </label>
+
+                    <textarea
+                        id="notes"
+                        placeholder="Notities over deze lead..."></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="button secondary"
+                    onclick="closeLeadModal()">
+                    Annuleren
+                </button>
+
+                <button
+                    type="submit"
+                    class="button"
+                    id="saveButton">
+                    Lead opslaan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     FOLLOW-UP MODAL
+===================================================== -->
+
+<div
+    class="modal-overlay"
+    id="followupModal"
+    onclick="closeFollowupOutside(event)">
+
+    <div
+        class="modal"
+        onclick="event.stopPropagation()">
+
+        <div class="modal-header">
+
+            <h2>
+                Nieuwe follow-up
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeFollowupModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            onsubmit="saveFollowup(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group full">
+
+                    <label>
+                        Lead *
+                    </label>
+
+                    <select
+                        id="followupLead"
+                        required>
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Actie *
+                    </label>
+
+                    <select
+                        id="followupAction"
+                        required>
+
+                        <option value="">
+                            Kies actie
+                        </option>
+
+                        <option>
+                            Bellen
+                        </option>
+
+                        <option>
+                            E-mail opvolgen
+                        </option>
+
+                        <option>
+                            Offerte opvolgen
+                        </option>
+
+                        <option>
+                            Afspraak bevestigen
+                        </option>
+
+                        <option>
+                            Terugbellen
+                        </option>
+
+                        <option>
+                            Anders
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Datum *
+                    </label>
+
+                    <input
+                        type="date"
+                        id="newFollowupDate"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Tijd
+                    </label>
+
+                    <input
+                        type="time"
+                        id="newFollowupTime">
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Notitie
+                    </label>
+
+                    <textarea
+                        id="followupNotes"
+                        placeholder="Wat moet je doen of onthouden?"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="button secondary"
+                    onclick="closeFollowupModal()">
+                    Annuleren
+                </button>
+
+                <button
+                    type="submit"
+                    class="button"
+                    id="followupSaveButton">
+                    Follow-up opslaan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 
 <script>
 
-/* =========================================================
-   SUPABASE
-========================================================= */
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
 
 const SUPABASE_URL =
     "https://dsmiokncislpdwhauleu.supabase.co";
 
-const SUPABASE_KEY =
+const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_FGXia9BmU2mW2yYv9iwfxw_hvhMFnbB";
 
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_KEY
+        SUPABASE_PUBLISHABLE_KEY
     );
 
 
-/* =========================================================
-   GLOBAL STATE
-========================================================= */
+/* =====================================================
+   DATA
+===================================================== */
 
 let leads = [];
-let editingLeadId = null;
+let followups = [];
 
 
-/* =========================================================
-   HELPERS
-========================================================= */
+/* =====================================================
+   AUTH
+===================================================== */
 
-function escapeHTML(value){
+async function checkAuth(){
 
-    if(value === null || value === undefined){
-        return "";
-    }
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth.getSession();
 
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-}
-
-
-function getField(lead, names){
-
-    for(const name of names){
-
-        if(
-            lead[name] !== undefined &&
-            lead[name] !== null
-        ){
-            return lead[name];
-        }
-
-    }
-
-    return "";
-}
-
-
-function normalizeStatus(value){
-
-    if(!value) return "Nieuw";
-
-    const v = String(value).toLowerCase();
-
-    if(v.includes("email") || v.includes("e-mail")){
-        return "E-mail gestuurd";
-    }
-
-    if(v.includes("gebeld") || v.includes("call")){
-        return "Gebeld";
-    }
-
-    if(v.includes("warm")){
-        return "Warm";
-    }
-
-    if(v.includes("klant")){
-        return "Klant";
-    }
-
-    if(v.includes("geen interesse")){
-        return "Geen interesse";
-    }
-
-    return "Nieuw";
-}
-
-
-function normalizePriority(value){
-
-    if(!value) return "Normaal";
-
-    const v = String(value).toLowerCase();
-
-    if(v.includes("hoog") || v.includes("high")){
-        return "Hoog";
-    }
-
-    if(v.includes("laag") || v.includes("low")){
-        return "Laag";
-    }
-
-    return "Normaal";
-}
-
-
-function statusClass(status){
-
-    switch(status){
-
-        case "E-mail gestuurd":
-            return "status-email";
-
-        case "Gebeld":
-            return "status-call";
-
-        case "Warm":
-            return "status-warm";
-
-        case "Klant":
-            return "status-closed";
-
-        default:
-            return "status-new";
-    }
-}
-
-
-function priorityClass(priority){
-
-    switch(priority){
-
-        case "Hoog":
-            return "priority-high";
-
-        case "Laag":
-            return "priority-low";
-
-        default:
-            return "priority-normal";
-    }
-}
-
-
-function showToast(message){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent = message;
-    toast.classList.add("show");
-
-    setTimeout(()=>{
-        toast.classList.remove("show");
-    },3000);
-}
-
-
-/* =========================================================
-   LOAD LEADS
-========================================================= */
-
-async function loadLeads(){
-
-    const container =
-        document.getElementById("leadsContainer");
-
-    container.innerHTML =
-        `<div class="loading">Leads laden...</div>`;
-
-    const { data, error } =
-        await supabaseClient
-            .from("leads")
-            .select("*")
-            .order("created_at", {
-                ascending:false
-            });
 
     if(error){
 
         console.error(error);
 
+        window.location.href =
+            "login.html";
+
+        return;
+    }
+
+
+    if(!data.session){
+
+        window.location.href =
+            "login.html";
+
+        return;
+    }
+
+
+    const email =
+        data.session.user.email || "";
+
+
+    document.getElementById(
+        "welcome"
+    ).textContent =
+        `Ingelogd als ${email}`;
+
+
+    document.getElementById(
+        "settingsEmail"
+    ).textContent =
+        email;
+
+
+    await loadLeads();
+
+    await loadFollowups();
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout(){
+
+    try{
+
+        await supabaseClient.auth.signOut();
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+    window.location.href =
+        "login.html";
+}
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+function toggleMobileMenu(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("mobile-open");
+
+    document
+        .getElementById("mobileOverlay")
+        .classList.toggle("show");
+}
+
+
+function closeMobileMenu(){
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("mobile-open");
+
+    document
+        .getElementById("mobileOverlay")
+        .classList.remove("show");
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showPage(pageId, button){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.remove("active");
+
+        });
+
+
+    const page =
+        document.getElementById(pageId);
+
+
+    if(page){
+
+        page.classList.add("active");
+
+    }
+
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(item => {
+
+            item.classList.remove("active");
+
+        });
+
+
+    if(button){
+
+        button.classList.add("active");
+
+    }
+
+
+    closeMobileMenu();
+
+    renderAll();
+
+}
+
+
+function showPageById(pageId){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.remove("active");
+
+        });
+
+
+    const page =
+        document.getElementById(pageId);
+
+
+    if(page){
+
+        page.classList.add("active");
+
+    }
+
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(item => {
+
+            item.classList.remove("active");
+
+        });
+
+
+    const matchingButton =
+        Array.from(
+            document.querySelectorAll(".nav-item")
+        ).find(button =>
+            button.getAttribute("onclick")?.includes(
+                `'${pageId}'`
+            )
+        );
+
+
+    if(matchingButton){
+
+        matchingButton.classList.add("active");
+
+    }
+
+
+    closeMobileMenu();
+
+    renderAll();
+
+}
+
+
+/* =====================================================
+   LOAD LEADS
+===================================================== */
+
+async function loadLeads(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("leads")
+        .select("*")
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
+
+
+    if(error){
+
+        console.error(error);
+
+        const container =
+            document.getElementById(
+                "databaseLeads"
+            );
+
+
+        if(container){
+
+            container.innerHTML = `
+                <div class="error-box">
+                    <strong>Database fout</strong>
+                    <p>${escapeHTML(error.message)}</p>
+                </div>
+            `;
+
+        }
+
+        return;
+    }
+
+
+    leads =
+        data || [];
+
+
+    renderAll();
+
+}
+
+
+/* =====================================================
+   LOAD FOLLOWUPS
+===================================================== */
+
+async function loadFollowups(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("follow_ups")
+        .select("*")
+        .order(
+            "due_date",
+            {
+                ascending:true
+            }
+        );
+
+
+    if(error){
+
+        console.error(error);
+
+
+        const container =
+            document.getElementById(
+                "allFollowups"
+            );
+
+
+        if(container){
+
+            container.innerHTML = `
+                <div class="error-box">
+                    <strong>Follow-up database fout</strong>
+                    <p>${escapeHTML(error.message)}</p>
+                </div>
+            `;
+
+        }
+
+        return;
+    }
+
+
+    followups =
+        data || [];
+
+
+    renderAll();
+
+}
+
+
+/* =====================================================
+   RENDER ALL
+===================================================== */
+
+function renderAll(){
+
+    renderStats();
+
+    renderToday();
+
+    renderRecent();
+
+    renderUpcoming();
+
+    renderLeads();
+
+    renderFollowups();
+
+    renderClients();
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+function renderStats(){
+
+    const total =
+        leads.length;
+
+
+    const warm =
+        leads.filter(
+            lead =>
+                lead.status === "Warm" ||
+                lead.status === "Afspraak"
+        ).length;
+
+
+    const quotes =
+        leads.filter(
+            lead =>
+                lead.status === "Offerte verstuurd"
+        ).length;
+
+
+    const clients =
+        leads.filter(
+            lead =>
+                lead.status === "Gewonnen"
+        ).length;
+
+
+    setText(
+        "totalLeads",
+        total
+    );
+
+    setText(
+        "warmLeads",
+        warm
+    );
+
+    setText(
+        "openQuotes",
+        quotes
+    );
+
+    setText(
+        "activeClients",
+        clients
+    );
+
+}
+
+
+/* =====================================================
+   TODAY
+===================================================== */
+
+function todayString(){
+
+    const d =
+        new Date();
+
+
+    return (
+        d.getFullYear() +
+        "-" +
+        String(
+            d.getMonth()+1
+        ).padStart(2,"0") +
+        "-" +
+        String(
+            d.getDate()
+        ).padStart(2,"0")
+    );
+
+}
+
+
+function renderToday(){
+
+    const container =
+        document.getElementById(
+            "todayFollowups"
+        );
+
+
+    if(!container)
+        return;
+
+
+    const today =
+        todayString();
+
+
+    const dbItems =
+        followups.filter(
+            item =>
+                !item.completed &&
+                item.due_date === today
+        );
+
+
+    if(dbItems.length){
+
+        setText(
+            "todayCount",
+            `${dbItems.length} actie${dbItems.length === 1 ? "" : "s"}`
+        );
+
+
+        container.innerHTML =
+            dbItems
+                .map(
+                    followupHTML
+                )
+                .join("");
+
+
+        return;
+
+    }
+
+
+    const leadItems =
+        leads.filter(
+            lead =>
+                lead.follow_up_date === today
+        );
+
+
+    setText(
+        "todayCount",
+        `${leadItems.length} actie${leadItems.length === 1 ? "" : "s"}`
+    );
+
+
+    if(!leadItems.length){
+
         container.innerHTML = `
             <div class="empty">
-                <strong>Leads konden niet worden geladen.</strong>
-                <br><br>
-                ${escapeHTML(error.message)}
+                <div class="empty-icon">
+                    🎯
+                </div>
+
+                <strong>
+                    Geen follow-ups voor vandaag
+                </strong>
+
+                <p>
+                    Plan een follow-up bij een lead.
+                </p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        leadItems
+            .map(lead => {
+
+                return `
+                    <div class="today-item">
+
+                        <div class="today-top">
+
+                            <div class="today-company">
+                                ${escapeHTML(
+                                    lead.company_name
+                                )}
+                            </div>
+
+                            <span class="priority ${priorityClass(
+                                lead.priority
+                            )}">
+                                ${escapeHTML(
+                                    lead.priority || "Normaal"
+                                )}
+                            </span>
+
+                        </div>
+
+                        <div class="today-details">
+
+                            ${
+                                lead.follow_up_time
+                                ? "⏰ " +
+                                  escapeHTML(
+                                      lead.follow_up_time
+                                  )
+                                : "Vandaag"
+                            }
+
+                            ·
+
+                            ${escapeHTML(
+                                lead.contact_name ||
+                                "Geen contactpersoon"
+                            )}
+
+                        </div>
+
+
+                        ${
+                            lead.notes
+                            ? `
+                                <div class="today-details">
+                                    📝 ${escapeHTML(
+                                        lead.notes
+                                    )}
+                                </div>
+                            `
+                            : ""
+                        }
+
+
+                        <div class="today-actions">
+
+                            ${
+                                lead.phone
+                                ? `
+                                    <a
+                                        class="small-button"
+                                        href="tel:${escapeHTML(
+                                            lead.phone
+                                        )}">
+                                        📞 Bellen
+                                    </a>
+                                `
+                                : ""
+                            }
+
+
+                            ${
+                                lead.email
+                                ? `
+                                    <a
+                                        class="small-button"
+                                        href="mailto:${escapeHTML(
+                                            lead.email
+                                        )}">
+                                        ✉️ E-mail
+                                    </a>
+                                `
+                                : ""
+                            }
+
+
+                            <button
+                                class="small-button"
+                                onclick="editLead('${lead.id}')">
+                                ✏️ Bewerken
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+            })
+            .join("");
+
+}
+
+
+/* =====================================================
+   RECENT LEADS
+===================================================== */
+
+function renderRecent(){
+
+    const container =
+        document.getElementById(
+            "recentLeads"
+        );
+
+
+    if(!container)
+        return;
+
+
+    const recent =
+        leads.slice(0,5);
+
+
+    if(!recent.length){
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <div class="empty-icon">
+                    👥
+                </div>
+
+                <strong>
+                    Nog geen leads
+                </strong>
+
+                <p>
+                    Klik op "Nieuwe lead"
+                    om je eerste lead toe te voegen.
+                </p>
+
             </div>
         `;
 
         return;
     }
 
-    leads = data || [];
 
-    updateStats();
-    renderLeads();
+    container.innerHTML =
+        recent.map(
+            lead => `
+
+                <div class="lead-row">
+
+                    <div>
+
+                        <div class="lead-name">
+                            ${escapeHTML(
+                                lead.company_name
+                            )}
+                        </div>
+
+                        <div class="lead-contact">
+                            ${escapeHTML(
+                                lead.contact_name ||
+                                "Geen contactpersoon"
+                            )}
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="status ${
+                            statusClass(
+                                lead.status
+                            )
+                        }">
+
+                            ${escapeHTML(
+                                lead.status ||
+                                "Nieuw"
+                            )}
+
+                        </span>
+
+                    </div>
+
+
+                    <div>
+                        <span class="priority ${
+                            priorityClass(
+                                lead.priority
+                            )
+                        }">
+                            ${escapeHTML(
+                                lead.priority ||
+                                "Normaal"
+                            )}
+                        </span>
+                    </div>
+
+
+                    <div class="lead-actions">
+
+                        ${
+                            lead.phone
+                            ? `
+                                <a
+                                    class="icon-button"
+                                    href="tel:${escapeHTML(
+                                        lead.phone
+                                    )}">
+                                    📞
+                                </a>
+                            `
+                            : ""
+                        }
+
+                    </div>
+
+                </div>
+            `
+        )
+        .join("");
+
 }
 
 
-/* =========================================================
-   STATS
-========================================================= */
+/* =====================================================
+   UPCOMING
+===================================================== */
 
-function updateStats(){
+function renderUpcoming(){
 
-    document.getElementById("totalLeads")
-        .textContent = leads.length;
+    const container =
+        document.getElementById(
+            "upcomingFollowups"
+        );
 
-    const warm =
-        leads.filter(lead =>
-            normalizeStatus(
-                getField(lead,["status"])
-            ) === "Warm"
-        ).length;
 
-    document.getElementById("warmLeads")
-        .textContent = warm;
+    if(!container)
+        return;
 
-    const offers =
-        leads.filter(lead => {
 
-            const status =
-                normalizeStatus(
-                    getField(lead,["status"])
-                );
+    const today =
+        todayString();
 
-            return status === "Warm";
 
-        }).length;
+    const upcoming =
+        followups
+            .filter(
+                item =>
+                    !item.completed &&
+                    item.due_date &&
+                    item.due_date >= today
+            )
+            .sort(
+                (a,b) =>
+                    (
+                        a.due_date +
+                        (a.due_time || "")
+                    )
+                    .localeCompare(
+                        b.due_date +
+                        (b.due_time || "")
+                    )
+            )
+            .slice(0,5);
 
-    document.getElementById("openOffers")
-        .textContent = offers;
 
-    const customers =
-        leads.filter(lead =>
-            normalizeStatus(
-                getField(lead,["status"])
-            ) === "Klant"
-        ).length;
+    if(upcoming.length){
 
-    document.getElementById("activeCustomers")
-        .textContent = customers;
+        container.innerHTML =
+            upcoming
+                .map(
+                    followup => {
+
+                        const lead =
+                            getLeadForFollowup(
+                                followup
+                            );
+
+
+                        return `
+                            <div class="lead-row">
+
+                                <div>
+
+                                    <div class="lead-name">
+                                        ${escapeHTML(
+                                            lead.company_name ||
+                                            "Onbekende lead"
+                                        )}
+                                    </div>
+
+                                    <div class="lead-contact">
+
+                                        📅 ${formatDate(
+                                            followup.due_date
+                                        )}
+
+                                        ${
+                                            followup.due_time
+                                            ? " · " +
+                                              escapeHTML(
+                                                  followup.due_time
+                                              )
+                                            : ""
+                                        }
+
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="status status-warm">
+                                        ${escapeHTML(
+                                            followup.action ||
+                                            "Follow-up"
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div>
+                                    <span class="priority priority-normal">
+                                        Gepland
+                                    </span>
+                                </div>
+
+
+                                <div></div>
+
+                            </div>
+                        `;
+
+                    }
+                )
+                .join("");
+
+
+        return;
+
+    }
+
+
+    const leadUpcoming =
+        leads
+            .filter(
+                lead =>
+                    lead.follow_up_date &&
+                    lead.follow_up_date >= today
+            )
+            .sort(
+                (a,b) =>
+                    (
+                        a.follow_up_date +
+                        (a.follow_up_time || "")
+                    )
+                    .localeCompare(
+                        b.follow_up_date +
+                        (b.follow_up_time || "")
+                    )
+            )
+            .slice(0,5);
+
+
+    if(!leadUpcoming.length){
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📅
+                </div>
+
+                Geen geplande follow-ups.
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        leadUpcoming
+            .map(
+                lead => `
+
+                    <div class="lead-row">
+
+                        <div>
+
+                            <div class="lead-name">
+                                ${escapeHTML(
+                                    lead.company_name
+                                )}
+                            </div>
+
+                            <div class="lead-contact">
+
+                                📅 ${formatDate(
+                                    lead.follow_up_date
+                                )}
+
+                                ${
+                                    lead.follow_up_time
+                                    ? " · " +
+                                      escapeHTML(
+                                          lead.follow_up_time
+                                      )
+                                    : ""
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="status ${
+                                statusClass(
+                                    lead.status
+                                )
+                            }">
+                                ${escapeHTML(
+                                    lead.status ||
+                                    "Nieuw"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+                            <span class="priority ${
+                                priorityClass(
+                                    lead.priority
+                                )
+                            }">
+                                ${escapeHTML(
+                                    lead.priority ||
+                                    "Normaal"
+                                )}
+                            </span>
+                        </div>
+
+
+                        <div></div>
+
+                    </div>
+
+                `
+            )
+            .join("");
+
 }
 
 
-/* =========================================================
-   RENDER LEADS
-========================================================= */
+/* =====================================================
+   LEADS TABLE
+===================================================== */
 
 function renderLeads(){
 
     const container =
-        document.getElementById("leadsContainer");
+        document.getElementById(
+            "databaseLeads"
+        );
+
+
+    if(!container)
+        return;
+
 
     const search =
-        document.getElementById("searchInput")
-            .value
-            .toLowerCase()
-            .trim();
+        (
+            document.getElementById(
+                "search"
+            )?.value || ""
+        )
+        .toLowerCase();
 
-    const statusFilter =
-        document.getElementById("statusFilter")
-            .value;
 
-    let filtered = leads.filter(lead => {
+    const filter =
+        document.getElementById(
+            "statusFilter"
+        )?.value || "Alle";
 
-        const company =
-            String(
-                getField(
-                    lead,
-                    ["company_name","bedrijf","company"]
-                )
-            ).toLowerCase();
 
-        const contact =
-            String(
-                getField(
-                    lead,
-                    ["contact_name","contactpersoon","contact"]
-                )
-            ).toLowerCase();
+    const filtered =
+        leads.filter(
+            lead => {
 
-        const email =
-            String(
-                getField(
-                    lead,
-                    ["email","e_mail"]
-                )
-            ).toLowerCase();
+                const text =
+                    `
+                        ${lead.company_name || ""}
+                        ${lead.contact_name || ""}
+                        ${lead.email || ""}
+                        ${lead.phone || ""}
+                    `
+                    .toLowerCase();
 
-        const status =
-            normalizeStatus(
-                getField(
-                    lead,
-                    ["status"]
-                )
-            );
 
-        const matchesSearch =
-            !search ||
-            company.includes(search) ||
-            contact.includes(search) ||
-            email.includes(search);
+                const matchesSearch =
+                    text.includes(search);
 
-        const matchesStatus =
-            !statusFilter ||
-            status === statusFilter;
 
-        return matchesSearch && matchesStatus;
+                const matchesStatus =
+                    filter === "Alle" ||
+                    lead.status === filter;
 
-    });
+
+                return (
+                    matchesSearch &&
+                    matchesStatus
+                );
+
+            }
+        );
 
 
     if(!filtered.length){
 
         container.innerHTML = `
             <div class="empty">
-                <div style="font-size:42px;margin-bottom:12px">
-                    🔍
+
+                <div class="empty-icon">
+                    🔎
                 </div>
 
-                <strong>Geen leads gevonden</strong>
+                <strong>
+                    Geen leads gevonden
+                </strong>
 
-                <div style="margin-top:6px">
-                    Pas je zoekopdracht of filter aan.
-                </div>
             </div>
         `;
 
@@ -1242,494 +3175,733 @@ function renderLeads(){
 
 
     container.innerHTML =
-        filtered.map(lead => {
+        filtered
+            .map(
+                lead => `
 
-            const id =
-                getField(lead,["id","uuid"]);
+                    <div class="lead-row">
 
-            const company =
-                getField(
-                    lead,
-                    ["company_name","bedrijf","company"]
-                ) || "Onbekend bedrijf";
+                        <div>
 
-            const contact =
-                getField(
-                    lead,
-                    ["contact_name","contactpersoon","contact"]
-                ) || "Geen contactpersoon";
+                            <div class="lead-name">
+                                ${escapeHTML(
+                                    lead.company_name
+                                )}
+                            </div>
 
-            const email =
-                getField(
-                    lead,
-                    ["email","e_mail"]
-                );
+                            <div class="lead-contact">
+                                ${escapeHTML(
+                                    lead.contact_name ||
+                                    "Geen contactpersoon"
+                                )}
+                            </div>
 
-            const phone =
-                getField(
-                    lead,
-                    ["phone","telephone","telefoon"]
-                );
-
-            const status =
-                normalizeStatus(
-                    getField(lead,["status"])
-                );
-
-            const priority =
-                normalizePriority(
-                    getField(
-                        lead,
-                        ["priority","prioriteit"]
-                    )
-                );
-
-
-            return `
-
-                <div class="lead-row">
-
-                    <div>
-
-                        <div class="company">
-                            ${escapeHTML(company)}
                         </div>
 
-                        <div class="contact">
-                            ${escapeHTML(contact)}
+
+                        <div>
+
+                            <span class="status ${
+                                statusClass(
+                                    lead.status
+                                )
+                            }">
+
+                                ${escapeHTML(
+                                    lead.status ||
+                                    "Nieuw"
+                                )}
+
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="priority ${
+                                priorityClass(
+                                    lead.priority
+                                )
+                            }">
+
+                                ${escapeHTML(
+                                    lead.priority ||
+                                    "Normaal"
+                                )}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="lead-actions">
+
+                            ${
+                                lead.phone
+                                ? `
+                                    <a
+                                        class="icon-button"
+                                        href="tel:${escapeHTML(
+                                            lead.phone
+                                        )}"
+                                        title="Bellen">
+                                        📞
+                                    </a>
+                                `
+                                : ""
+                            }
+
+
+                            ${
+                                lead.email
+                                ? `
+                                    <a
+                                        class="icon-button"
+                                        href="mailto:${escapeHTML(
+                                            lead.email
+                                        )}"
+                                        title="E-mail">
+                                        ✉️
+                                    </a>
+                                `
+                                : ""
+                            }
+
+
+                            <button
+                                class="icon-button"
+                                onclick="editLead('${lead.id}')"
+                                title="Bewerken">
+                                ✏️
+                            </button>
+
+
+                            <button
+                                class="icon-button"
+                                onclick="deleteLead('${lead.id}')"
+                                title="Verwijderen">
+                                🗑️
+                            </button>
+
                         </div>
 
                     </div>
 
+                `
+            )
+            .join("");
 
-                    <div class="lead-contact">
+}
+
+
+/* =====================================================
+   FOLLOWUPS
+===================================================== */
+
+function getLeadForFollowup(followup){
+
+    return (
+        leads.find(
+            lead =>
+                String(lead.id) ===
+                String(followup.lead_id)
+        ) || {}
+    );
+
+}
+
+
+function followupHTML(followup){
+
+    const lead =
+        getLeadForFollowup(
+            followup
+        );
+
+
+    const today =
+        todayString();
+
+
+    const overdue =
+        !followup.completed &&
+        followup.due_date < today;
+
+
+    const todayDue =
+        !followup.completed &&
+        followup.due_date === today;
+
+
+    const cls =
+        followup.completed
+        ? "followup-done"
+        : overdue
+        ? "followup-overdue"
+        : todayDue
+        ? "followup-today"
+        : "followup-upcoming";
+
+
+    return `
+
+        <div class="followup-card ${cls}">
+
+            <div class="followup-main">
+
+                <div>
+
+                    <div class="followup-company">
+
+                        ${escapeHTML(
+                            lead.company_name ||
+                            "Onbekende lead"
+                        )}
+
+                    </div>
+
+
+                    <div class="followup-meta">
+
+                        <strong>
+                            ${escapeHTML(
+                                followup.action ||
+                                "Follow-up"
+                            )}
+                        </strong>
+
+                        <br>
+
+                        📅 ${formatDate(
+                            followup.due_date
+                        )}
 
                         ${
-                            email
-                            ?
-                            `<span style="font-size:14px">
-                                ${escapeHTML(email)}
-                             </span>`
-                            :
-                            `<span class="contact">
-                                Geen e-mail
-                             </span>`
+                            followup.due_time
+                            ? " · ⏰ " +
+                              escapeHTML(
+                                  followup.due_time
+                              )
+                            : ""
                         }
 
-                    </div>
+                        ${
+                            lead.contact_name
+                            ? " · " +
+                              escapeHTML(
+                                  lead.contact_name
+                              )
+                            : ""
+                        }
 
-
-                    <div class="lead-status">
-
-                        <span class="badge ${statusClass(status)}">
-                            ${escapeHTML(status)}
-                        </span>
-
-                    </div>
-
-
-                    <div class="lead-priority">
-
-                        <span class="badge ${priorityClass(priority)}">
-                            ${escapeHTML(priority)}
-                        </span>
-
-                    </div>
-
-
-                    <div class="actions">
-
-                        <button
-                            class="icon-btn"
-                            title="${
-                                phone
-                                ? "Bel " + phone
-                                : "Geen telefoonnummer"
-                            }"
-                            ${
-                                phone
-                                ?
-                                `onclick="callLead('${encodeURIComponent(phone)}')"`
-                                :
-                                "disabled"
-                            }>
-                            📞
-                        </button>
-
-
-                        <button
-                            class="icon-btn"
-                            title="${
-                                email
-                                ? "E-mail " + email
-                                : "Geen e-mailadres"
-                            }"
-                            ${
-                                email
-                                ?
-                                `onclick="emailLead('${encodeURIComponent(email)}')"`
-                                :
-                                "disabled"
-                            }>
-                            ✉️
-                        </button>
-
-
-                        <button
-                            class="icon-btn"
-                            title="Lead bekijken"
-                            onclick="openEditLead('${id}')">
-                            ✏️
-                        </button>
-
-
-                        <button
-                            class="icon-btn"
-                            title="Lead verwijderen"
-                            onclick="deleteLead('${id}')">
-                            🗑️
-                        </button>
+                        ${
+                            followup.notes
+                            ? `
+                                <br>
+                                📝 ${escapeHTML(
+                                    followup.notes
+                                )}
+                            `
+                            : ""
+                        }
 
                     </div>
 
                 </div>
 
-            `;
 
-        }).join("");
+                <span class="priority ${
+                    followup.completed
+                    ? "priority-low"
+                    : overdue
+                    ? "priority-high"
+                    : todayDue
+                    ? "priority-normal"
+                    : "priority-low"
+                }">
+
+                    ${
+                        followup.completed
+                        ? "Afgerond"
+                        : overdue
+                        ? "Te laat"
+                        : todayDue
+                        ? "Vandaag"
+                        : "Gepland"
+                    }
+
+                </span>
+
+            </div>
+
+
+            <div class="followup-actions">
+
+                ${
+                    lead.phone
+                    ? `
+                        <a
+                            href="tel:${escapeHTML(
+                                lead.phone
+                            )}">
+                            📞 Bellen
+                        </a>
+                    `
+                    : ""
+                }
+
+
+                ${
+                    lead.email
+                    ? `
+                        <a
+                            href="mailto:${escapeHTML(
+                                lead.email
+                            )}">
+                            ✉️ E-mail
+                        </a>
+                    `
+                    : ""
+                }
+
+
+                <button
+                    onclick="toggleFollowup(
+                        '${followup.id}',
+                        ${!followup.completed}
+                    )">
+
+                    ${
+                        followup.completed
+                        ? "↩️ Openen"
+                        : "✅ Afgerond"
+                    }
+
+                </button>
+
+
+                <button
+                    onclick="deleteFollowup(
+                        '${followup.id}'
+                    )">
+
+                    🗑️ Verwijderen
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
 }
 
 
-/* =========================================================
-   CALL / EMAIL
-========================================================= */
+function renderFollowups(){
 
-function callLead(encodedPhone){
-
-    const phone =
-        decodeURIComponent(encodedPhone);
-
-    if(!phone) return;
-
-    window.location.href =
-        "tel:" + phone;
-}
-
-
-function emailLead(encodedEmail){
-
-    const email =
-        decodeURIComponent(encodedEmail);
-
-    if(!email) return;
-
-    window.location.href =
-        "mailto:" + email;
-}
-
-
-/* =========================================================
-   NEW LEAD
-========================================================= */
-
-function openNewLead(){
-
-    editingLeadId = null;
-
-    document.getElementById("modalTitle")
-        .textContent = "Nieuwe lead";
-
-    document.getElementById("companyInput").value = "";
-    document.getElementById("contactInput").value = "";
-    document.getElementById("emailInput").value = "";
-    document.getElementById("phoneInput").value = "";
-    document.getElementById("addressInput").value = "";
-    document.getElementById("notesInput").value = "";
-
-    document.getElementById("statusInput").value =
-        "Nieuw";
-
-    document.getElementById("priorityInput").value =
-        "Normaal";
-
-    document.getElementById("deleteFromModal")
-        .style.display = "none";
-
-    document.getElementById("leadModal")
-        .classList.add("show");
-}
-
-
-/* =========================================================
-   EDIT LEAD
-========================================================= */
-
-function openEditLead(id){
-
-    const lead =
-        leads.find(item =>
-            String(
-                getField(item,["id","uuid"])
-            ) === String(id)
+    const container =
+        document.getElementById(
+            "allFollowups"
         );
 
-    if(!lead){
-        showToast("Lead niet gevonden.");
+
+    if(!container)
         return;
-    }
-
-    editingLeadId = id;
-
-    document.getElementById("modalTitle")
-        .textContent = "Lead bewerken";
 
 
-    document.getElementById("companyInput").value =
-        getField(
-            lead,
-            ["company_name","bedrijf","company"]
-        ) || "";
+    const search =
+        (
+            document.getElementById(
+                "followupSearch"
+            )?.value || ""
+        )
+        .toLowerCase();
 
 
-    document.getElementById("contactInput").value =
-        getField(
-            lead,
-            ["contact_name","contactpersoon","contact"]
-        ) || "";
+    const filter =
+        document.getElementById(
+            "followupFilter"
+        )?.value || "open";
 
 
-    document.getElementById("emailInput").value =
-        getField(
-            lead,
-            ["email","e_mail"]
-        ) || "";
+    const today =
+        todayString();
 
 
-    document.getElementById("phoneInput").value =
-        getField(
-            lead,
-            ["phone","telephone","telefoon"]
-        ) || "";
+    let items =
+        followups.filter(
+            followup => {
+
+                const lead =
+                    getLeadForFollowup(
+                        followup
+                    );
 
 
-    document.getElementById("addressInput").value =
-        getField(
-            lead,
-            ["address","adres"]
-        ) || "";
+                const haystack =
+                    `
+                        ${lead.company_name || ""}
+                        ${lead.contact_name || ""}
+                        ${followup.action || ""}
+                        ${followup.notes || ""}
+                    `
+                    .toLowerCase();
 
 
-    document.getElementById("notesInput").value =
-        getField(
-            lead,
-            ["notes","notities","extra_info","extra_information"]
-        ) || "";
+                if(
+                    search &&
+                    !haystack.includes(search)
+                ){
+
+                    return false;
+
+                }
 
 
-    document.getElementById("statusInput").value =
-        normalizeStatus(
-            getField(lead,["status"])
+                if(filter === "open")
+                    return !followup.completed;
+
+
+                if(filter === "completed")
+                    return followup.completed;
+
+
+                if(filter === "overdue")
+                    return (
+                        !followup.completed &&
+                        followup.due_date < today
+                    );
+
+
+                if(filter === "today")
+                    return (
+                        !followup.completed &&
+                        followup.due_date === today
+                    );
+
+
+                if(filter === "upcoming")
+                    return (
+                        !followup.completed &&
+                        followup.due_date > today
+                    );
+
+
+                return true;
+
+            }
         );
 
 
-    document.getElementById("priorityInput").value =
-        normalizePriority(
-            getField(
-                lead,
-                ["priority","prioriteit"]
+    items.sort(
+        (a,b) =>
+            (
+                `${a.due_date || ""}${a.due_time || ""}`
             )
-        );
-
-
-    document.getElementById("deleteFromModal")
-        .style.display = "block";
-
-
-    document.getElementById("leadModal")
-        .classList.add("show");
-}
-
-
-/* =========================================================
-   SAVE LEAD
-========================================================= */
-
-async function saveLead(){
-
-    const company =
-        document.getElementById("companyInput")
-            .value
-            .trim();
-
-    if(!company){
-
-        showToast(
-            "Vul eerst een bedrijfsnaam in."
-        );
-
-        return;
-    }
-
-
-    const contact =
-        document.getElementById("contactInput")
-            .value
-            .trim();
-
-    const email =
-        document.getElementById("emailInput")
-            .value
-            .trim();
-
-    const phone =
-        document.getElementById("phoneInput")
-            .value
-            .trim();
-
-    const address =
-        document.getElementById("addressInput")
-            .value
-            .trim();
-
-    const notes =
-        document.getElementById("notesInput")
-            .value
-            .trim();
-
-    const status =
-        document.getElementById("statusInput")
-            .value;
-
-    const priority =
-        document.getElementById("priorityInput")
-            .value;
-
-
-    /*
-       We gebruiken de kolommen die jouw
-       huidige leads-tabel duidelijk heeft.
-    */
-
-    const payload = {
-
-        company_name: company,
-
-        contact_name:
-            contact || null,
-
-        email:
-            email || null,
-
-        phone:
-            phone || null,
-
-        address:
-            address || null,
-
-        status:
-            status,
-
-        priority:
-            priority,
-
-        notes:
-            notes || null
-
-    };
-
-
-    let result;
-
-
-    if(editingLeadId){
-
-        result =
-            await supabaseClient
-                .from("leads")
-                .update(payload)
-                .eq("id", editingLeadId);
-
-    }else{
-
-        result =
-            await supabaseClient
-                .from("leads")
-                .insert(payload);
-
-    }
-
-
-    if(result.error){
-
-        console.error(result.error);
-
-        showToast(
-            "Opslaan mislukt: " +
-            result.error.message
-        );
-
-        return;
-    }
-
-
-    showToast(
-        editingLeadId
-        ? "Lead bijgewerkt."
-        : "Nieuwe lead toegevoegd."
+            .localeCompare(
+                `${b.due_date || ""}${b.due_time || ""}`
+            )
     );
 
 
-    closeModal();
+    setText(
+        "overdueCount",
+        followups.filter(
+            item =>
+                !item.completed &&
+                item.due_date < today
+        ).length
+    );
 
-    await loadLeads();
+
+    setText(
+        "followupTodayCount",
+        followups.filter(
+            item =>
+                !item.completed &&
+                item.due_date === today
+        ).length
+    );
+
+
+    setText(
+        "upcomingCount",
+        followups.filter(
+            item =>
+                !item.completed &&
+                item.due_date > today
+        ).length
+    );
+
+
+    if(!items.length){
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📅
+                </div>
+
+                <strong>
+                    Geen follow-ups gevonden
+                </strong>
+
+                <p>
+                    Maak een nieuwe follow-up
+                    aan via de knop hierboven.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        items
+            .map(
+                followupHTML
+            )
+            .join("");
+
 }
 
 
-/* =========================================================
-   DELETE
-========================================================= */
+/* =====================================================
+   FOLLOWUP MODAL
+===================================================== */
 
-async function deleteLead(id){
+function openFollowupModal(){
 
-    const lead =
-        leads.find(item =>
-            String(
-                getField(item,["id","uuid"])
-            ) === String(id)
-        );
-
-    if(!lead) return;
-
-
-    const company =
-        getField(
-            lead,
-            ["company_name","bedrijf","company"]
-        ) || "deze lead";
-
-
-    const confirmed =
-        confirm(
-            `Weet je zeker dat je "${company}" wilt verwijderen?`
+    const select =
+        document.getElementById(
+            "followupLead"
         );
 
 
-    if(!confirmed) return;
+    select.innerHTML =
+        `
+            <option value="">
+                Kies een lead
+            </option>
+        ` +
+        leads
+            .map(
+                lead =>
+                    `
+                        <option value="${escapeHTML(
+                            lead.id
+                        )}">
+                            ${escapeHTML(
+                                lead.company_name
+                            )}
+                        </option>
+                    `
+            )
+            .join("");
 
 
-    const { error } =
-        await supabaseClient
-            .from("leads")
-            .delete()
-            .eq("id", id);
+    document.getElementById(
+        "newFollowupDate"
+    ).value =
+        todayString();
+
+
+    document.getElementById(
+        "followupAction"
+    ).value = "";
+
+
+    document.getElementById(
+        "followupNotes"
+    ).value = "";
+
+
+    document.getElementById(
+        "newFollowupTime"
+    ).value = "";
+
+
+    document
+        .getElementById(
+            "followupModal"
+        )
+        .classList.add("show");
+
+}
+
+
+function closeFollowupModal(){
+
+    document
+        .getElementById(
+            "followupModal"
+        )
+        .classList.remove("show");
+
+}
+
+
+function closeFollowupOutside(event){
+
+    if(
+        event.target.id ===
+        "followupModal"
+    ){
+
+        closeFollowupModal();
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE FOLLOWUP
+===================================================== */
+
+async function saveFollowup(event){
+
+    event.preventDefault();
+
+
+    const button =
+        document.getElementById(
+            "followupSaveButton"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Opslaan...";
+
+
+    const leadId =
+        document.getElementById(
+            "followupLead"
+        ).value;
+
+
+    const action =
+        document.getElementById(
+            "followupAction"
+        ).value;
+
+
+    const dueDate =
+        document.getElementById(
+            "newFollowupDate"
+        ).value;
+
+
+    const dueTime =
+        document.getElementById(
+            "newFollowupTime"
+        ).value ||
+        null;
+
+
+    const notes =
+        document.getElementById(
+            "followupNotes"
+        ).value.trim();
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("follow_ups")
+        .insert([
+            {
+                lead_id:leadId,
+                action:action,
+                notes:notes,
+                due_date:dueDate,
+                due_time:dueTime,
+                completed:false
+            }
+        ]);
 
 
     if(error){
 
         console.error(error);
 
-        showToast(
-            "Verwijderen mislukt: " +
+        alert(
+            "Follow-up opslaan mislukt:\n\n" +
+            error.message
+        );
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "Follow-up opslaan";
+
+        return;
+    }
+
+
+    closeFollowupModal();
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Follow-up opslaan";
+
+
+    await loadFollowups();
+
+}
+
+
+/* =====================================================
+   TOGGLE FOLLOWUP
+===================================================== */
+
+async function toggleFollowup(
+    id,
+    completed
+){
+
+    const updateData =
+        completed
+        ? {
+            completed:true,
+            completed_at:
+                new Date().toISOString()
+        }
+        : {
+            completed:false,
+            completed_at:null
+        };
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("follow_ups")
+        .update(
+            updateData
+        )
+        .eq(
+            "id",
+            id
+        );
+
+
+    if(error){
+
+        alert(
+            "Bijwerken mislukt:\n\n" +
             error.message
         );
 
@@ -1737,92 +3909,760 @@ async function deleteLead(id){
     }
 
 
-    showToast("Lead verwijderd.");
+    await loadFollowups();
 
-    await loadLeads();
 }
 
 
-async function deleteCurrentLead(){
+/* =====================================================
+   DELETE FOLLOWUP
+===================================================== */
 
-    if(!editingLeadId) return;
+async function deleteFollowup(id){
 
-    await deleteLead(editingLeadId);
+    if(
+        !confirm(
+            "Deze follow-up verwijderen?"
+        )
+    ){
 
-    closeModal();
-}
+        return;
 
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function closeModal(){
-
-    document.getElementById("leadModal")
-        .classList.remove("show");
-
-    editingLeadId = null;
-}
+    }
 
 
-document.getElementById("leadModal")
-    .addEventListener("click",function(event){
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("follow_ups")
+        .delete()
+        .eq(
+            "id",
+            id
+        );
 
-        if(event.target === this){
-            closeModal();
-        }
 
-    });
+    if(error){
 
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function showSection(section){
-
-    const leadsSection =
-        document.getElementById("leadsSection");
-
-    const placeholder =
-        document.getElementById("placeholderSection");
-
-    if(section === "leads"){
-
-        leadsSection.style.display = "block";
-        placeholder.style.display = "none";
+        alert(
+            "Verwijderen mislukt:\n\n" +
+            error.message
+        );
 
         return;
     }
 
 
-    leadsSection.style.display = "none";
-    placeholder.style.display = "block";
+    await loadFollowups();
+
+}
 
 
-    const titles = {
+/* =====================================================
+   CLIENTS
+===================================================== */
 
-        followups:"Follow-ups",
+function renderClients(){
 
-        offers:"Offertes",
+    const container =
+        document.getElementById(
+            "clients"
+        );
 
-        customers:"Klanten"
+
+    if(!container)
+        return;
+
+
+    const clients =
+        leads.filter(
+            lead =>
+                lead.status ===
+                "Gewonnen"
+        );
+
+
+    if(!clients.length){
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🤝
+                </div>
+
+                <strong>
+                    Nog geen actieve klanten
+                </strong>
+
+                <p>
+                    Leads met status
+                    "Gewonnen"
+                    verschijnen hier.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        clients
+            .map(
+                lead => `
+
+                    <div class="lead-row">
+
+                        <div>
+
+                            <div class="lead-name">
+                                ${escapeHTML(
+                                    lead.company_name
+                                )}
+                            </div>
+
+                            <div class="lead-contact">
+                                ${escapeHTML(
+                                    lead.contact_name ||
+                                    "Geen contactpersoon"
+                                )}
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            ${
+                                lead.phone
+                                ? `
+                                    <a
+                                        class="small-button"
+                                        href="tel:${escapeHTML(
+                                            lead.phone
+                                        )}">
+                                        📞 Bellen
+                                    </a>
+                                `
+                                : ""
+                            }
+
+                        </div>
+
+
+                        <div>
+
+                            ${
+                                lead.email
+                                ? `
+                                    <a
+                                        class="small-button"
+                                        href="mailto:${escapeHTML(
+                                            lead.email
+                                        )}">
+                                        ✉️ E-mail
+                                    </a>
+                                `
+                                : ""
+                            }
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="status status-gewonnen">
+                                Actieve klant
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+}
+
+
+/* =====================================================
+   LEAD MODAL
+===================================================== */
+
+function openLeadModal(lead = null){
+
+    const modal =
+        document.getElementById(
+            "modal"
+        );
+
+
+    modal.classList.add("show");
+
+
+    if(lead){
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent =
+            "Lead bewerken";
+
+
+        document.getElementById(
+            "leadId"
+        ).value =
+            lead.id;
+
+
+        document.getElementById(
+            "company"
+        ).value =
+            lead.company_name || "";
+
+
+        document.getElementById(
+            "contact"
+        ).value =
+            lead.contact_name || "";
+
+
+        document.getElementById(
+            "email"
+        ).value =
+            lead.email || "";
+
+
+        document.getElementById(
+            "phone"
+        ).value =
+            lead.phone || "";
+
+
+        document.getElementById(
+            "status"
+        ).value =
+            lead.status || "Nieuw";
+
+
+        document.getElementById(
+            "priority"
+        ).value =
+            lead.priority || "Normaal";
+
+
+        document.getElementById(
+            "followupDate"
+        ).value =
+            lead.follow_up_date || "";
+
+
+        document.getElementById(
+            "followupTime"
+        ).value =
+            lead.follow_up_time || "";
+
+
+        document.getElementById(
+            "address"
+        ).value =
+            lead.address || "";
+
+
+        document.getElementById(
+            "city"
+        ).value =
+            lead.city || "Amsterdam";
+
+
+        document.getElementById(
+            "service"
+        ).value =
+            lead.service || "";
+
+
+        document.getElementById(
+            "notes"
+        ).value =
+            lead.notes || "";
+
+    }
+    else{
+
+        document
+            .getElementById(
+                "leadForm"
+            )
+            .reset();
+
+
+        document.getElementById(
+            "leadId"
+        ).value =
+            "";
+
+
+        document.getElementById(
+            "city"
+        ).value =
+            "Amsterdam";
+
+
+        document.getElementById(
+            "priority"
+        ).value =
+            "Normaal";
+
+
+        document.getElementById(
+            "status"
+        ).value =
+            "Nieuw";
+
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent =
+            "Nieuwe lead";
+
+    }
+
+}
+
+
+function closeLeadModal(){
+
+    document
+        .getElementById(
+            "modal"
+        )
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+function closeOutside(event){
+
+    if(
+        event.target.id ===
+        "modal"
+    ){
+
+        closeLeadModal();
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE LEAD
+===================================================== */
+
+async function saveLead(event){
+
+    event.preventDefault();
+
+
+    const button =
+        document.getElementById(
+            "saveButton"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Opslaan...";
+
+
+    const id =
+        document.getElementById(
+            "leadId"
+        ).value;
+
+
+    const leadData = {
+
+        company_name:
+            document.getElementById(
+                "company"
+            ).value.trim(),
+
+        contact_name:
+            document.getElementById(
+                "contact"
+            ).value.trim(),
+
+        email:
+            document.getElementById(
+                "email"
+            ).value.trim(),
+
+        phone:
+            document.getElementById(
+                "phone"
+            ).value.trim(),
+
+        address:
+            document.getElementById(
+                "address"
+            ).value.trim(),
+
+        city:
+            document.getElementById(
+                "city"
+            ).value.trim(),
+
+        service:
+            document.getElementById(
+                "service"
+            ).value,
+
+        status:
+            document.getElementById(
+                "status"
+            ).value,
+
+        priority:
+            document.getElementById(
+                "priority"
+            ).value,
+
+        follow_up_date:
+            document.getElementById(
+                "followupDate"
+            ).value ||
+            null,
+
+        follow_up_time:
+            document.getElementById(
+                "followupTime"
+            ).value ||
+            null,
+
+        notes:
+            document.getElementById(
+                "notes"
+            ).value.trim(),
+
+        updated_at:
+            new Date().toISOString()
 
     };
 
 
-    document.getElementById("placeholderTitle")
-        .textContent =
-        titles[section] || "Onderdeel";
+    let result;
+
+
+    if(id){
+
+        result =
+            await supabaseClient
+                .from("leads")
+                .update(
+                    leadData
+                )
+                .eq(
+                    "id",
+                    id
+                )
+                .select()
+                .single();
+
+    }
+    else{
+
+        result =
+            await supabaseClient
+                .from("leads")
+                .insert([
+                    leadData
+                ])
+                .select()
+                .single();
+
+    }
+
+
+    if(result.error){
+
+        console.error(
+            result.error
+        );
+
+
+        alert(
+            "Opslaan mislukt:\n\n" +
+            result.error.message
+        );
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "Lead opslaan";
+
+        return;
+    }
+
+
+    closeLeadModal();
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "Lead opslaan";
+
+
+    await loadLeads();
+
 }
 
 
-/* =========================================================
-   START
-========================================================= */
+/* =====================================================
+   EDIT LEAD
+===================================================== */
 
-loadLeads();
+function editLead(id){
+
+    const lead =
+        leads.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+
+    if(!lead)
+        return;
+
+
+    openLeadModal(
+        lead
+    );
+
+}
+
+
+/* =====================================================
+   DELETE LEAD
+===================================================== */
+
+async function deleteLead(id){
+
+    const lead =
+        leads.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+
+    if(!lead)
+        return;
+
+
+    const confirmed =
+        confirm(
+            `Weet je zeker dat je "${lead.company_name}" wilt verwijderen?`
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("leads")
+        .delete()
+        .eq(
+            "id",
+            id
+        );
+
+
+    if(error){
+
+        alert(
+            "Verwijderen mislukt:\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+
+    await loadLeads();
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function setText(
+    id,
+    value
+){
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if(element){
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+function statusClass(status){
+
+    const map = {
+
+        "Nieuw":
+            "status-nieuw",
+
+        "Gebeld":
+            "status-gebeld",
+
+        "E-mail gestuurd":
+            "status-email",
+
+        "Warm":
+            "status-warm",
+
+        "Afspraak":
+            "status-afspraak",
+
+        "Offerte verstuurd":
+            "status-offerte",
+
+        "Gewonnen":
+            "status-gewonnen",
+
+        "Afgewezen":
+            "status-afgewezen"
+
+    };
+
+
+    return (
+        map[status] ||
+        "status-nieuw"
+    );
+
+}
+
+
+function priorityClass(
+    priority
+){
+
+    if(
+        priority ===
+        "Hoog"
+    ){
+
+        return "priority-high";
+
+    }
+
+
+    if(
+        priority ===
+        "Laag"
+    ){
+
+        return "priority-low";
+
+    }
+
+
+    return "priority-normal";
+
+}
+
+
+function formatDate(
+    dateString
+){
+
+    if(!dateString)
+        return "";
+
+
+    const date =
+        new Date(
+            dateString +
+            "T00:00:00"
+        );
+
+
+    return date.toLocaleDateString(
+        "nl-NL",
+        {
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+function escapeHTML(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   START APP
+===================================================== */
+
+checkAuth();
 
 </script>
 
