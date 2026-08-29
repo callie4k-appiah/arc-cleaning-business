@@ -1,601 +1,647 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>ARC OS — Dashboard</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f7f5;
-      color: #111815;
-    }
-
-    button,
-    input,
-    select,
-    textarea {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    /* =========================
-       TOPBAR
-    ========================= */
-
-    .topbar {
-      height: 72px;
-      background: #ffffff;
-      border-bottom: 1px solid #dce5df;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 0 28px;
-
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-    }
-
-    .brand img {
-      width: 120px;
-      height: 52px;
-      object-fit: contain;
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logout-button {
-      border: 1px solid #dce5df;
-      background: white;
-      color: #315b49;
-      padding: 9px 13px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .profile {
-      width: 42px;
-      height: 42px;
-
-      border-radius: 50%;
-
-      background: #286247;
-      color: white;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-weight: 700;
-    }
-
-    /* =========================
-       LAYOUT
-    ========================= */
-
-    .layout {
-      display: flex;
-      min-height: calc(100vh - 72px);
-    }
-
-    /* =========================
-       SIDEBAR
-    ========================= */
-
-    .sidebar {
-      width: 240px;
-      flex-shrink: 0;
-
-      background: #063b2d;
-      color: white;
-
-      padding: 25px 16px;
-    }
-
-    .sidebar-title {
-      margin: 10px 12px 12px;
-
-      font-size: 11px;
-      letter-spacing: 1.5px;
-
-      opacity: .55;
-    }
-
-    .nav-item {
-      width: 100%;
-
-      border: 0;
-      background: transparent;
-
-      color: #dce9e2;
-
-      text-align: left;
-
-      padding: 13px 14px;
-
-      margin-bottom: 4px;
-
-      border-radius: 9px;
-
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .nav-item:hover,
-    .nav-item.active {
-      background: #0a5b3e;
-      color: white;
-    }
-
-    /* =========================
-       CONTENT
-    ========================= */
-
-    .content {
-      flex: 1;
-      width: 100%;
-      max-width: 1450px;
-
-      padding: 32px;
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    .page-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 20px;
-
-      margin-bottom: 28px;
-    }
-
-    .page-heading h1 {
-      margin: 0;
-
-      font-size: 30px;
-    }
-
-    .page-heading p {
-      margin: 8px 0 0;
-
-      color: #68736e;
-
-      font-size: 14px;
-    }
-
-    /* =========================
-       BUTTON
-    ========================= */
-
-    .button {
-      border: 0;
-
-      background: #0a5b3e;
-      color: white;
-
-      padding: 13px 18px;
-
-      border-radius: 9px;
-
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .button.secondary {
-      background: #edf2ef;
-      color: #0a5b3e;
-    }
-
-    /* =========================
-       STATS
-    ========================= */
-
-    .stats {
-      display: grid;
-
-      grid-template-columns: repeat(4, 1fr);
-
-      gap: 16px;
-
-      margin-bottom: 28px;
-    }
-
-    .stat-card {
-      background: white;
-
-      border: 1px solid #dce5df;
-
-      border-radius: 13px;
-
-      padding: 21px;
-    }
-
-    .stat-label {
-      color: #68736e;
-
-      font-size: 13px;
-
-      margin-bottom: 9px;
-    }
-
-    .stat-number {
-      color: #0a5b3e;
-
-      font-size: 30px;
-
-      font-weight: 800;
-    }
-
-    /* =========================
-       CARDS
-    ========================= */
-
-    .card {
-      background: white;
-
-      border: 1px solid #dce5df;
-
-      border-radius: 13px;
-
-      padding: 22px;
-
-      margin-bottom: 20px;
-    }
-
-    .card-header {
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      gap: 15px;
-
-      margin-bottom: 18px;
-    }
-
-    .card-header h2 {
-      margin: 0;
-
-      font-size: 18px;
-    }
-
-    /* =========================
-       TODAY
-    ========================= */
-
-    .today-item {
-      padding: 17px 0;
-
-      border-bottom: 1px solid #edf1ee;
-    }
-
-    .today-item:last-child {
-      border-bottom: 0;
-    }
-
-    .today-top {
-      display: flex;
-
-      justify-content: space-between;
-
-      gap: 10px;
-    }
-
-    .today-company {
-      font-size: 15px;
-
-      font-weight: 800;
-    }
-
-    .today-details {
-      margin-top: 7px;
-
-      color: #68736e;
-
-      font-size: 12px;
-    }
-
-    .today-actions {
-      display: flex;
-
-      gap: 7px;
-
-      margin-top: 12px;
-    }
-
-    .small-button {
-      border: 0;
-
-      padding: 8px 11px;
-
-      border-radius: 7px;
-
-      background: #edf2ef;
-
-      color: #0a5b3e;
-
-      font-size: 12px;
-
-      font-weight: 700;
-
-      text-decoration: none;
-    }
-
-    /* =========================
-       STATUS
-    ========================= */
-
-    .status {
-      display: inline-flex;
-
-      padding: 6px 10px;
-
-      border-radius: 20px;
-
-      font-size: 11px;
-
-      font-weight: 700;
-    }
-
-    .status-nieuw {
-      background: #edf1ee;
-      color: #56615b;
-    }
-
-    .status-gebeld {
-      background: #eee9ff;
-      color: #634ea3;
-    }
-
-    .status-email {
-      background: #e6f0ff;
-      color: #275b9c;
-    }
-
-    .status-warm {
-      background: #fff1cf;
-      color: #8a6200;
-    }
-
-    .status-afspraak {
-      background: #e1f4e9;
-      color: #28704a;
-    }
-
-    .status-offerte {
-      background: #e5f5f2;
-      color: #147265;
-    }
-
-    .status-gewonnen {
-      background: #dff5e5;
-      color: #176738;
-    }
-
-    .status-afgewezen {
-      background: #fbeaea;
-      color: #a52d2d;
-    }
-
-    .priority {
-      display: inline-flex;
-
-      padding: 5px 9px;
-
-      border-radius: 20px;
-
-      font-size: 10px;
-
-      font-weight: 800;
-    }
-
-    .priority-high {
-      background: #fde8e8;
-      color: #b42318;
-    }
-
-    .priority-normal {
-      background: #fff3d6;
-      color: #8a6200;
-    }
-
-    .priority-low {
-      background: #e8f2ec;
-      color: #26704b;
-    }
-
-    /* =========================
-       LEADS
-    ========================= */
-
-    .lead-row {
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      gap: 15px;
-
-      padding: 15px 0;
-
-      border-bottom: 1px solid #edf1ee;
-    }
-
-    .lead-row:last-child {
-      border-bottom: 0;
-    }
-
-    .lead-name {
-      font-weight: 700;
-
-      font-size: 14px;
-    }
-
-    .lead-contact {
-      margin-top: 5px;
-
-      color: #68736e;
-
-      font-size: 12px;
-    }
-
-    /* =========================
-       EMPTY
-    ========================= */
-
-    .empty {
-      text-align: center;
-
-      padding: 45px 20px;
-
-      color: #68736e;
-    }
-
-    .empty-icon {
-      font-size: 40px;
-
-      margin-bottom: 10px;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 1000px) {
-
-      .sidebar {
-        display: none;
-      }
-
-      .content {
-        padding: 24px 18px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr 1fr;
-      }
-
-    }
-
-    @media (max-width: 600px) {
-
-      .topbar {
-        height: 68px;
-
-        padding: 0 14px;
-      }
-
-      .brand img {
-        width: 110px;
-      }
-
-      .content {
-        padding: 20px 14px;
-      }
-
-      .page-heading {
-        flex-direction: column;
-
-        align-items: flex-start;
-      }
-
-      .page-heading h1 {
-        font-size: 26px;
-      }
-
-      .page-heading .button {
-        width: 100%;
-      }
-
-      .stats {
-        gap: 10px;
-      }
-
-      .stat-card {
-        padding: 15px;
-      }
-
-      .stat-number {
-        font-size: 25px;
-      }
-
-      .logout-button {
-        display: none;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ARC OS — Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#f4f7f5;
+color:#111815;
+}
+
+button,input,select,textarea{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+.topbar{
+height:72px;
+background:#fff;
+border-bottom:1px solid #dce5df;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 28px;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.brand img{
+width:120px;
+height:52px;
+object-fit:contain;
+}
+
+.top-actions{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logout{
+border:1px solid #dce5df;
+background:#fff;
+color:#315b49;
+padding:9px 13px;
+border-radius:8px;
+font-size:13px;
+font-weight:700;
+}
+
+.profile{
+width:42px;
+height:42px;
+border-radius:50%;
+background:#286247;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:700;
+}
+
+.layout{
+display:flex;
+min-height:calc(100vh - 72px);
+}
+
+.sidebar{
+width:240px;
+flex-shrink:0;
+background:#063b2d;
+color:#fff;
+padding:25px 16px;
+}
+
+.sidebar-title{
+margin:10px 12px 12px;
+font-size:11px;
+letter-spacing:1.5px;
+opacity:.55;
+}
+
+.nav-item{
+width:100%;
+border:0;
+background:transparent;
+color:#dce9e2;
+text-align:left;
+padding:13px 14px;
+margin-bottom:4px;
+border-radius:9px;
+font-size:14px;
+font-weight:600;
+}
+
+.nav-item:hover,
+.nav-item.active{
+background:#0a5b3e;
+color:#fff;
+}
+
+.content{
+flex:1;
+max-width:1450px;
+padding:32px;
+width:100%;
+}
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
+}
+
+.page-heading{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+margin-bottom:28px;
+}
+
+.page-heading h1{
+margin:0;
+font-size:30px;
+}
+
+.page-heading p{
+margin:8px 0 0;
+color:#68736e;
+font-size:14px;
+}
+
+.button{
+border:0;
+background:#0a5b3e;
+color:#fff;
+padding:13px 18px;
+border-radius:9px;
+font-size:14px;
+font-weight:700;
+}
+
+.button.secondary{
+background:#edf2ef;
+color:#0a5b3e;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+margin-bottom:28px;
+}
+
+.stat-card{
+background:#fff;
+border:1px solid #dce5df;
+border-radius:13px;
+padding:21px;
+}
+
+.stat-label{
+color:#68736e;
+font-size:13px;
+margin-bottom:9px;
+}
+
+.stat-number{
+color:#0a5b3e;
+font-size:30px;
+font-weight:800;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1.4fr 1fr;
+gap:20px;
+}
+
+.card{
+background:#fff;
+border:1px solid #dce5df;
+border-radius:13px;
+padding:22px;
+margin-bottom:20px;
+}
+
+.card-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+margin-bottom:18px;
+}
+
+.card-header h2{
+margin:0;
+font-size:18px;
+}
+
+.lead-row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:15px 0;
+border-bottom:1px solid #edf1ee;
+}
+
+.lead-row:last-child{
+border-bottom:0;
+}
+
+.lead-name{
+font-weight:700;
+font-size:14px;
+}
+
+.lead-contact{
+margin-top:5px;
+color:#68736e;
+font-size:12px;
+}
+
+.status{
+display:inline-flex;
+padding:6px 10px;
+border-radius:20px;
+font-size:11px;
+font-weight:700;
+white-space:nowrap;
+}
+
+.status-nieuw{
+background:#edf1ee;
+color:#56615b;
+}
+
+.status-gebeld{
+background:#eee9ff;
+color:#634ea3;
+}
+
+.status-email{
+background:#e6f0ff;
+color:#275b9c;
+}
+
+.status-warm{
+background:#fff1cf;
+color:#8a6200;
+}
+
+.status-afspraak{
+background:#e1f4e9;
+color:#28704a;
+}
+
+.status-offerte{
+background:#e5f5f2;
+color:#147265;
+}
+
+.status-gewonnen{
+background:#dff5e5;
+color:#176738;
+}
+
+.status-afgewezen{
+background:#fbeaea;
+color:#a52d2d;
+}
+
+.priority{
+display:inline-flex;
+padding:5px 9px;
+border-radius:20px;
+font-size:10px;
+font-weight:800;
+}
+
+.priority-high{
+background:#fde8e8;
+color:#b42318;
+}
+
+.priority-normal{
+background:#fff3d6;
+color:#8a6200;
+}
+
+.priority-low{
+background:#e8f2ec;
+color:#26704b;
+}
+
+.today-item{
+padding:17px 0;
+border-bottom:1px solid #edf1ee;
+}
+
+.today-item:last-child{
+border-bottom:0;
+}
+
+.today-top{
+display:flex;
+justify-content:space-between;
+gap:10px;
+}
+
+.today-company{
+font-weight:800;
+font-size:15px;
+}
+
+.today-details{
+margin-top:7px;
+color:#68736e;
+font-size:12px;
+}
+
+.today-actions{
+display:flex;
+gap:7px;
+margin-top:12px;
+}
+
+.small-button{
+border:0;
+padding:8px 11px;
+border-radius:7px;
+background:#edf2ef;
+color:#0a5b3e;
+font-size:12px;
+font-weight:700;
+text-decoration:none;
+}
+
+.empty{
+text-align:center;
+padding:45px 20px;
+color:#68736e;
+}
+
+.empty-icon{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.toolbar{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+}
+
+.search{
+flex:1;
+height:46px;
+border:1px solid #d4dfd8;
+border-radius:9px;
+padding:0 14px;
+background:#fff;
+outline:none;
+}
+
+.filter{
+height:46px;
+border:1px solid #d4dfd8;
+border-radius:9px;
+padding:0 14px;
+background:#fff;
+}
+
+.lead-actions{
+display:flex;
+gap:7px;
+}
+
+.icon-button{
+width:36px;
+height:36px;
+border:1px solid #dce5df;
+border-radius:8px;
+background:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+}
+
+.modal-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.48);
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:1000;
+}
+
+.modal-overlay.show{
+display:flex;
+}
+
+.modal{
+width:100%;
+max-width:700px;
+max-height:92vh;
+overflow-y:auto;
+background:#fff;
+border-radius:16px;
+padding:25px;
+}
+
+.modal-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:22px;
+}
+
+.modal-header h2{
+margin:0;
+font-size:22px;
+}
+
+.close{
+border:0;
+background:#edf2ef;
+width:36px;
+height:36px;
+border-radius:50%;
+font-size:20px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+.form-group{
+display:flex;
+flex-direction:column;
+gap:7px;
+}
+
+.form-group.full{
+grid-column:1/-1;
+}
+
+.form-group label{
+font-size:13px;
+font-weight:700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+width:100%;
+border:1px solid #d4dfd8;
+border-radius:8px;
+padding:12px;
+outline:none;
+background:#fff;
+}
+
+.form-group textarea{
+min-height:110px;
+resize:vertical;
+}
+
+.modal-footer{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-top:22px;
+}
+
+.loading{
+text-align:center;
+padding:35px;
+color:#68736e;
+}
+
+.error-box{
+background:#fff1f1;
+border:1px solid #efc4c4;
+color:#a52d2d;
+border-radius:10px;
+padding:15px;
+margin-bottom:20px;
+font-size:14px;
+}
+
+@media(max-width:1100px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:1000px){
+
+.sidebar{
+display:none;
+}
+
+.content{
+padding:24px 18px;
+}
+
+.stats{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(max-width:600px){
+
+.topbar{
+height:68px;
+padding:0 14px;
+}
+
+.brand img{
+width:110px;
+}
+
+.content{
+padding:20px 14px;
+}
+
+.page-heading{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.page-heading h1{
+font-size:26px;
+}
+
+.page-heading .button{
+width:100%;
+}
+
+.stats{
+gap:10px;
+}
+
+.stat-card{
+padding:15px;
+}
+
+.stat-number{
+font-size:25px;
+}
+
+.toolbar{
+flex-direction:column;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+.form-group.full{
+grid-column:auto;
+}
+
+.modal-footer{
+flex-direction:column-reverse;
+}
+
+.modal-footer button{
+width:100%;
+}
+
+.logout{
+display:none;
+}
+
+}
+
+</style>
 </head>
 
 
 <body>
 
 
-<!-- TOPBAR -->
-
 <header class="topbar">
 
-  <div class="brand">
+<div class="brand">
 
-    <img
-      src="arc-logo-reference.jpg"
-      alt="ARC Cleaning Business"
-    >
+<img
+src="arc-logo-reference.jpg"
+alt="ARC Cleaning Business">
 
-  </div>
+</div>
 
 
-  <div class="top-actions">
+<div class="top-actions">
 
-    <button
-      class="logout-button"
-      onclick="logout()">
-      Uitloggen
-    </button>
+<button
+class="logout"
+onclick="logout()">
 
-    <div
-      class="profile"
-      id="profileInitials">
-      CA
-    </div>
+Uitloggen
 
-  </div>
+</button>
+
+
+<div
+class="profile"
+id="profile">
+
+CA
+
+</div>
+
+</div>
 
 </header>
 
@@ -603,78 +649,84 @@
 <div class="layout">
 
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
-  <div class="sidebar-title">
-    ARC OS
-  </div>
+<div class="sidebar-title">
+ARC OS
+</div>
 
 
-  <button
-    class="nav-item active"
-    onclick="showPage('dashboard',this)">
-    📊 Dashboard
-  </button>
+<button
+class="nav-item active"
+onclick="showPage('dashboard',this)">
+
+📊 Dashboard
+
+</button>
 
 
-  <button
-    class="nav-item"
-    onclick="showPage('leads',this)">
-    👥 Leads
-  </button>
+<button
+class="nav-item"
+onclick="showPage('leads',this)">
+
+👥 Leads
+
+</button>
 
 
-  <button
-    class="nav-item"
-    onclick="showPage('followups',this)">
-    📅 Follow-ups
-  </button>
+<button
+class="nav-item"
+onclick="showPage('followups',this)">
+
+📅 Follow-ups
+
+</button>
 
 
-  <button
-    class="nav-item"
-    onclick="showPage('offertes',this)">
-    📄 Offertes
-  </button>
+<button
+class="nav-item"
+onclick="showPage('offertes',this)">
+
+📄 Offertes
+
+</button>
 
 
-  <button
-    class="nav-item"
-    onclick="showPage('klanten',this)">
-    🤝 Klanten
-  </button>
+<button
+class="nav-item"
+onclick="showPage('klanten',this)">
+
+🤝 Klanten
+
+</button>
 
 
-  <div class="sidebar-title">
-    BEHEER
-  </div>
+<div class="sidebar-title">
+BEHEER
+</div>
 
 
-  <button class="nav-item">
-    👷 Personeel
-  </button>
+<button class="nav-item">
+👷 Personeel
+</button>
 
 
-  <button class="nav-item">
-    🏢 Locaties
-  </button>
+<button class="nav-item">
+🏢 Locaties
+</button>
 
 
-  <button class="nav-item">
-    💰 Facturen
-  </button>
+<button class="nav-item">
+💰 Facturen
+</button>
 
 
-  <button class="nav-item">
-    ⚙ Instellingen
-  </button>
+<button class="nav-item">
+⚙ Instellingen
+</button>
 
 </aside>
 
-
-<!-- CONTENT -->
 
 <main class="content">
 
@@ -682,158 +734,176 @@
 <!-- DASHBOARD -->
 
 <section
-  id="dashboard"
-  class="page active">
+id="dashboard"
+class="page active">
 
 
-  <div class="page-heading">
+<div class="page-heading">
 
-    <div>
+<div>
 
-      <h1>
-        Goedemorgen 👋🏽
-      </h1>
+<h1>
+Goedemorgen 👋🏽
+</h1>
 
-      <p id="welcomeText">
-        Welkom in ARC OS.
-      </p>
+<p id="welcome">
+Welkom in ARC OS.
+</p>
 
-    </div>
+</div>
 
 
-    <button
-      class="button"
-      onclick="showPageById('leads')">
+<button
+class="button"
+onclick="openLeadModal()">
 
-      Bekijk leads
++ Nieuwe lead
 
-    </button>
+</button>
 
-  </div>
+</div>
 
 
-  <!-- STATS -->
+<div class="stats">
 
-  <div class="stats">
 
+<div class="stat-card">
 
-    <div class="stat-card">
+<div class="stat-label">
+Totale leads
+</div>
 
-      <div class="stat-label">
-        Totale leads
-      </div>
+<div
+class="stat-number"
+id="totalLeads">
 
-      <div
-        class="stat-number"
-        id="totalLeads">
+0
 
-        0
+</div>
 
-      </div>
+</div>
 
-    </div>
 
+<div class="stat-card">
 
-    <div class="stat-card">
+<div class="stat-label">
+Warme leads
+</div>
 
-      <div class="stat-label">
-        Warme leads
-      </div>
+<div
+class="stat-number"
+id="warmLeads">
 
-      <div
-        class="stat-number"
-        id="warmLeads">
+0
 
-        0
+</div>
 
-      </div>
+</div>
 
-    </div>
 
+<div class="stat-card">
 
-    <div class="stat-card">
+<div class="stat-label">
+Openstaande offertes
+</div>
 
-      <div class="stat-label">
-        Openstaande offertes
-      </div>
+<div
+class="stat-number"
+id="openQuotes">
 
-      <div
-        class="stat-number"
-        id="openQuotes">
+0
 
-        0
+</div>
 
-      </div>
+</div>
 
-    </div>
 
+<div class="stat-card">
 
-    <div class="stat-card">
+<div class="stat-label">
+Actieve klanten
+</div>
 
-      <div class="stat-label">
-        Actieve klanten
-      </div>
+<div
+class="stat-number"
+id="activeClients">
 
-      <div
-        class="stat-number"
-        id="activeClients">
+0
 
-        0
+</div>
 
-      </div>
+</div>
 
-    </div>
 
+</div>
 
-  </div>
 
+<div class="card">
 
-  <!-- TODAY -->
+<div class="card-header">
 
-  <div class="card">
+<h2>
+📅 Vandaag opvolgen
+</h2>
 
-    <div class="card-header">
+<span
+class="status status-warm"
+id="todayCount">
 
-      <h2>
-        📅 Vandaag opvolgen
-      </h2>
+0 acties
 
-      <span
-        id="todayCount"
-        class="status status-warm">
+</span>
 
-        0 acties
+</div>
 
-      </span>
 
-    </div>
+<div id="todayFollowups">
 
+</div>
 
-    <div id="todayFollowups">
+</div>
 
-    </div>
 
-  </div>
+<div class="grid">
 
 
-  <!-- RECENT -->
+<div class="card">
 
-  <div class="card">
+<div class="card-header">
 
-    <div class="card-header">
+<h2>
+👥 Recente leads
+</h2>
 
-      <h2>
-        👥 Recente leads
-      </h2>
+</div>
 
-    </div>
 
+<div id="recentLeads">
 
-    <div id="recentLeads">
+</div>
 
-    </div>
+</div>
 
-  </div>
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>
+📅 Komende follow-ups
+</h2>
+
+</div>
+
+
+<div id="upcomingFollowups">
+
+</div>
+
+</div>
+
+
+</div>
 
 
 </section>
@@ -842,33 +912,76 @@
 <!-- LEADS -->
 
 <section
-  id="leads"
-  class="page">
-
-  <div class="page-heading">
-
-    <div>
-
-      <h1>
-        Leads
-      </h1>
-
-      <p>
-        Leads uit je ARC OS database.
-      </p>
-
-    </div>
-
-  </div>
+id="leads"
+class="page">
 
 
-  <div class="card">
+<div class="page-heading">
 
-    <div id="databaseLeads">
+<div>
 
-    </div>
+<h1>
+Leads
+</h1>
 
-  </div>
+<p>
+Alle leads uit je online ARC database.
+</p>
+
+</div>
+
+
+<button
+class="button"
+onclick="openLeadModal()">
+
++ Nieuwe lead
+
+</button>
+
+</div>
+
+
+<div class="toolbar">
+
+<input
+class="search"
+id="search"
+placeholder="Zoek bedrijf, contactpersoon of e-mail..."
+oninput="renderLeads()">
+
+
+<select
+class="filter"
+id="statusFilter"
+onchange="renderLeads()">
+
+<option value="Alle">
+Alle statussen
+</option>
+
+<option>Nieuw</option>
+<option>Gebeld</option>
+<option>E-mail gestuurd</option>
+<option>Warm</option>
+<option>Afspraak</option>
+<option>Offerte verstuurd</option>
+<option>Gewonnen</option>
+<option>Afgewezen</option>
+
+</select>
+
+</div>
+
+
+<div class="card">
+
+<div id="databaseLeads">
+
+</div>
+
+</div>
+
 
 </section>
 
@@ -876,33 +989,35 @@
 <!-- FOLLOWUPS -->
 
 <section
-  id="followups"
-  class="page">
-
-  <div class="page-heading">
-
-    <div>
-
-      <h1>
-        Follow-ups
-      </h1>
-
-      <p>
-        Geplande opvolgingen.
-      </p>
-
-    </div>
-
-  </div>
+id="followups"
+class="page">
 
 
-  <div class="card">
+<div class="page-heading">
 
-    <div id="followupList">
+<div>
 
-    </div>
+<h1>
+Follow-ups
+</h1>
 
-  </div>
+<p>
+Je geplande opvolgingen.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div id="allFollowups">
+
+</div>
+
+</div>
+
 
 </section>
 
@@ -910,45 +1025,47 @@
 <!-- OFFERTES -->
 
 <section
-  id="offertes"
-  class="page">
-
-  <div class="page-heading">
-
-    <div>
-
-      <h1>
-        Offertes
-      </h1>
-
-      <p>
-        Je offerte-overzicht.
-      </p>
-
-    </div>
-
-  </div>
+id="offertes"
+class="page">
 
 
-  <div class="card">
+<div class="page-heading">
 
-    <div class="empty">
+<div>
 
-      <div class="empty-icon">
-        📄
-      </div>
+<h1>
+Offertes
+</h1>
 
-      <strong>
-        Offertebeheer
-      </strong>
+<p>
+Overzicht van offerteaanvragen.
+</p>
 
-      <p>
-        Dit koppelen we aan de database in de volgende fase.
-      </p>
+</div>
 
-    </div>
+</div>
 
-  </div>
+
+<div class="card">
+
+<div class="empty">
+
+<div class="empty-icon">
+📄
+</div>
+
+<strong>
+Offertebeheer
+</strong>
+
+<p>
+Dit koppelen we in de volgende fase.
+</p>
+
+</div>
+
+</div>
+
 
 </section>
 
@@ -956,33 +1073,35 @@
 <!-- KLANTEN -->
 
 <section
-  id="klanten"
-  class="page">
-
-  <div class="page-heading">
-
-    <div>
-
-      <h1>
-        Klanten
-      </h1>
-
-      <p>
-        Je actieve ARC-klanten.
-      </p>
-
-    </div>
-
-  </div>
+id="klanten"
+class="page">
 
 
-  <div class="card">
+<div class="page-heading">
 
-    <div id="clientsList">
+<div>
 
-    </div>
+<h1>
+Klanten
+</h1>
 
-  </div>
+<p>
+Actieve ARC klanten.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div id="clients">
+
+</div>
+
+</div>
+
 
 </section>
 
@@ -992,964 +1111,1905 @@
 </div>
 
 
+<!-- MODAL -->
+
+<div
+class="modal-overlay"
+id="modal"
+onclick="closeOutside(event)">
+
+
+<div
+class="modal"
+onclick="event.stopPropagation()">
+
+
+<div class="modal-header">
+
+<h2 id="modalTitle">
+Nieuwe lead
+</h2>
+
+
+<button
+class="close"
+onclick="closeLeadModal()">
+
+×
+
+</button>
+
+</div>
+
+
+<form
+id="leadForm"
+onsubmit="saveLead(event)">
+
+
+<input
+type="hidden"
+id="leadId">
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>
+Bedrijfsnaam *
+</label>
+
+<input
+id="company"
+required
+placeholder="Bijv. B. Amsterdam">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Contactpersoon
+</label>
+
+<input
+id="contact"
+placeholder="Naam contactpersoon">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+E-mailadres
+</label>
+
+<input
+type="email"
+id="email"
+placeholder="naam@bedrijf.nl">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Telefoonnummer
+</label>
+
+<input
+type="tel"
+id="phone"
+placeholder="020 123 4567">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Status
+</label>
+
+<select id="status">
+
+<option>Nieuw</option>
+<option>Gebeld</option>
+<option>E-mail gestuurd</option>
+<option>Warm</option>
+<option>Afspraak</option>
+<option>Offerte verstuurd</option>
+<option>Gewonnen</option>
+<option>Afgewezen</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Prioriteit
+</label>
+
+<select id="priority">
+
+<option>Normaal</option>
+<option>Hoog</option>
+<option>Laag</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Follow-up datum
+</label>
+
+<input
+type="date"
+id="followupDate">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Follow-up tijd
+</label>
+
+<input
+type="time"
+id="followupTime">
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+Adres
+</label>
+
+<input
+id="address"
+placeholder="Straat + huisnummer">
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+Plaats
+</label>
+
+<input
+id="city"
+value="Amsterdam">
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+Dienst
+</label>
+
+<select id="service">
+
+<option value="">
+Selecteer dienst
+</option>
+
+<option>
+Kantoorschoonmaak
+</option>
+
+<option>
+Dagelijkse schoonmaak
+</option>
+
+<option>
+Periodieke schoonmaak
+</option>
+
+<option>
+Glasbewassing
+</option>
+
+<option>
+Dieptereiniging
+</option>
+
+<option>
+Vloeronderhoud
+</option>
+
+<option>
+Overige
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+Notities
+</label>
+
+<textarea
+id="notes"
+placeholder="Notities over deze lead..."></textarea>
+
+</div>
+
+
+</div>
+
+
+<div class="modal-footer">
+
+<button
+type="button"
+class="button secondary"
+onclick="closeLeadModal()">
+
+Annuleren
+
+</button>
+
+
+<button
+type="submit"
+class="button"
+id="saveButton">
+
+Lead opslaan
+
+</button>
+
+</div>
+
+
+</form>
+
+</div>
+
+</div>
+
+
 <script>
 
 /* =====================================================
-   SUPABASE
+SUPABASE CONFIG
 ===================================================== */
 
 const SUPABASE_URL =
-  "https://dsmiokncislpdwhauleu.supabase.co";
+"https://dsmiokncislpdwhauleu.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_FGXia9BmU2mW2yYv9iwfxw_hvhMFnbB";
+"sb_publishable_FGXia9BmU2mW2yYv9iwfxw_hvhMFnbB";
 
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
 
 
 /* =====================================================
-   AUTHENTICATION
+DATA
+===================================================== */
+
+let leads = [];
+
+
+/* =====================================================
+AUTH
 ===================================================== */
 
 async function checkAuth(){
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.auth.getSession();
+const {
+data,
+error
+} =
+await supabaseClient.auth.getSession();
 
 
-  if(error){
+if(error){
 
-    console.error(error);
+console.error(error);
 
-    window.location.href =
-      "login.html";
+window.location.href =
+"login.html";
 
-    return;
-
-  }
-
-
-  if(!data.session){
-
-    window.location.href =
-      "login.html";
-
-    return;
-
-  }
-
-
-  const email =
-    data.session.user.email || "";
-
-
-  document.getElementById(
-    "welcomeText"
-  ).textContent =
-    `Ingelogd als ${email}`;
-
-
-  loadDashboard();
+return;
 
 }
 
+
+if(!data.session){
+
+window.location.href =
+"login.html";
+
+return;
+
+}
+
+
+const email =
+data.session.user.email || "";
+
+
+document.getElementById(
+"welcome"
+).textContent =
+`Ingelogd als ${email}`;
+
+
+await loadLeads();
+
+}
+
+
+/* =====================================================
+LOGOUT
+===================================================== */
 
 async function logout(){
 
-  await supabaseClient.auth.signOut();
+await supabaseClient.auth.signOut();
 
-  window.location.href =
-    "login.html";
+window.location.href =
+"login.html";
 
 }
 
 
 /* =====================================================
-   LOAD LEADS FROM SUPABASE
+LOAD LEADS
 ===================================================== */
 
-async function loadDashboard(){
+async function loadLeads(){
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("leads")
-      .select("*")
-      .order(
-        "created_at",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    console.error(
-      "Lead loading error:",
-      error
-    );
-
-    showDatabaseError(error.message);
-
-    return;
-
-  }
+const {
+data,
+error
+} =
+await supabaseClient
+.from("leads")
+.select("*")
+.order(
+"created_at",
+{
+ascending:false
+}
+);
 
 
-  const leads =
-    data || [];
+if(error){
+
+console.error(error);
+
+document.getElementById(
+"recentLeads"
+).innerHTML = `
+
+<div class="error-box">
+
+<strong>
+Database fout
+</strong>
+
+<p>
+${escapeHTML(error.message)}
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
 
 
-  renderStats(leads);
+leads =
+data || [];
 
-  renderToday(leads);
 
-  renderRecent(leads);
-
-  renderDatabaseLeads(leads);
-
-  renderFollowups(leads);
+renderAll();
 
 }
 
 
 /* =====================================================
-   STATS
+RENDER ALL
 ===================================================== */
 
-function renderStats(leads){
+function renderAll(){
 
-  document.getElementById(
-    "totalLeads"
-  ).textContent =
-    leads.length;
+renderStats();
 
+renderToday();
 
-  document.getElementById(
-    "warmLeads"
-  ).textContent =
-    leads.filter(
-      lead =>
-        lead.status === "Warm" ||
-        lead.status === "Afspraak"
-    ).length;
+renderRecent();
 
+renderUpcoming();
 
-  document.getElementById(
-    "openQuotes"
-  ).textContent =
-    leads.filter(
-      lead =>
-        lead.status ===
-        "Offerte verstuurd"
-    ).length;
+renderLeads();
 
+renderFollowups();
 
-  document.getElementById(
-    "activeClients"
-  ).textContent =
-    leads.filter(
-      lead =>
-        lead.status ===
-        "Gewonnen"
-    ).length;
+renderClients();
 
 }
 
 
 /* =====================================================
-   TODAY
+STATS
+===================================================== */
+
+function renderStats(){
+
+document.getElementById(
+"totalLeads"
+).textContent =
+leads.length;
+
+
+document.getElementById(
+"warmLeads"
+).textContent =
+leads.filter(
+lead =>
+lead.status === "Warm" ||
+lead.status === "Afspraak"
+).length;
+
+
+document.getElementById(
+"openQuotes"
+).textContent =
+leads.filter(
+lead =>
+lead.status === "Offerte verstuurd"
+).length;
+
+
+document.getElementById(
+"activeClients"
+).textContent =
+leads.filter(
+lead =>
+lead.status === "Gewonnen"
+).length;
+
+}
+
+
+/* =====================================================
+TODAY
 ===================================================== */
 
 function todayString(){
 
-  const d =
-    new Date();
+const d =
+new Date();
 
-  return (
-    d.getFullYear() +
-    "-" +
-    String(
-      d.getMonth()+1
-    ).padStart(2,"0") +
-    "-" +
-    String(
-      d.getDate()
-    ).padStart(2,"0")
-  );
+return (
+d.getFullYear() +
+"-" +
+String(
+d.getMonth()+1
+).padStart(2,"0") +
+"-" +
+String(
+d.getDate()
+).padStart(2,"0")
+);
 
 }
 
 
-function renderToday(leads){
+function renderToday(){
 
-  const container =
-    document.getElementById(
-      "todayFollowups"
-    );
-
-
-  const today =
-    todayString();
+const container =
+document.getElementById(
+"todayFollowups"
+);
 
 
-  const items =
-    leads.filter(
-      lead =>
-        lead.follow_up_date ===
-        today
-    );
+const today =
+todayString();
 
 
-  document.getElementById(
-    "todayCount"
-  ).textContent =
-    `${items.length} actie${items.length===1?"":"s"}`;
+const items =
+leads.filter(
+lead =>
+lead.follow_up_date === today
+);
 
 
-  if(!items.length){
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">
-          🎯
-        </div>
-
-        <strong>
-          Geen follow-ups voor vandaag
-        </strong>
-
-        <p>
-          Je hebt vandaag geen geplande opvolgingen.
-        </p>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+document.getElementById(
+"todayCount"
+).textContent =
+`${items.length} actie${items.length===1?"":"s"}`;
 
 
-  container.innerHTML =
-    items.map(
-      lead => `
+if(!items.length){
 
-        <div class="today-item">
+container.innerHTML = `
 
-          <div class="today-top">
+<div class="empty">
 
-            <div class="today-company">
-              ${escapeHTML(
-                lead.company_name
-              )}
-            </div>
+<div class="empty-icon">
+🎯
+</div>
 
-            <span class="priority ${
-              priorityClass(
-                lead.priority
-              )
-            }">
+<strong>
+Geen follow-ups voor vandaag
+</strong>
 
-              ${escapeHTML(
-                lead.priority ||
-                "Normaal"
-              )}
+<p>
+Plan een follow-up bij een lead.
+</p>
 
-            </span>
+</div>
 
-          </div>
+`;
+
+return;
+
+}
 
 
-          <div class="today-details">
+container.innerHTML =
+items.map(
+lead => `
 
-            ${
-              lead.follow_up_time
-              ? "⏰ " +
-                escapeHTML(
-                  lead.follow_up_time
-                )
-              : "Vandaag"
-            }
+<div class="today-item">
 
-            ·
+<div class="today-top">
 
-            ${escapeHTML(
-              lead.contact_name ||
-              "Geen contactpersoon"
-            )}
+<div class="today-company">
 
-          </div>
+${escapeHTML(
+lead.company_name
+)}
+
+</div>
 
 
-          ${
-            lead.notes
-            ? `
-              <div class="today-details">
-                📝 ${escapeHTML(
-                  lead.notes
-                )}
-              </div>
-            `
-            : ""
-          }
+<span class="priority ${
+priorityClass(
+lead.priority
+)}">
+
+${escapeHTML(
+lead.priority ||
+"Normaal"
+)}
+
+</span>
+
+</div>
 
 
-          <div class="today-actions">
+<div class="today-details">
 
-            ${
-              lead.phone
-              ? `
-                <a
-                  class="small-button"
-                  href="tel:${escapeHTML(
-                    lead.phone
-                  )}">
-                  📞 Bellen
-                </a>
-              `
-              : ""
-            }
+${
+lead.follow_up_time
+? "⏰ " +
+escapeHTML(
+lead.follow_up_time
+)
+: "Vandaag"
+}
+
+·
+
+${escapeHTML(
+lead.contact_name ||
+"Geen contactpersoon"
+)}
+
+</div>
 
 
-            ${
-              lead.email
-              ? `
-                <a
-                  class="small-button"
-                  href="mailto:${escapeHTML(
-                    lead.email
-                  )}">
-                  ✉️ E-mail
-                </a>
-              `
-              : ""
-            }
+${
+lead.notes
+? `
+<div class="today-details">
+📝 ${escapeHTML(
+lead.notes
+)}
+</div>
+`
+: ""
+}
 
-          </div>
 
-        </div>
+<div class="today-actions">
 
-      `
-    ).join("");
+${
+lead.phone
+? `
+<a
+class="small-button"
+href="tel:${escapeHTML(
+lead.phone
+)}">
+
+📞 Bellen
+
+</a>
+`
+: ""
+}
+
+
+${
+lead.email
+? `
+<a
+class="small-button"
+href="mailto:${escapeHTML(
+lead.email
+)}">
+
+✉️ E-mail
+
+</a>
+`
+: ""
+}
+
+
+<button
+class="small-button"
+onclick="editLead('${lead.id}')">
+
+✏️ Bewerken
+
+</button>
+
+</div>
+
+</div>
+
+`
+).join("");
 
 }
 
 
 /* =====================================================
-   RECENT LEADS
+RECENT
 ===================================================== */
 
-function renderRecent(leads){
+function renderRecent(){
 
-  const container =
-    document.getElementById(
-      "recentLeads"
-    );
-
-
-  const recent =
-    leads.slice(0,5);
+const container =
+document.getElementById(
+"recentLeads"
+);
 
 
-  if(!recent.length){
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">
-          👥
-        </div>
-
-        Nog geen leads in de database.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+const recent =
+leads.slice(0,5);
 
 
-  container.innerHTML =
-    recent.map(
-      lead => `
+if(!recent.length){
 
-        <div class="lead-row">
+container.innerHTML = `
 
-          <div>
+<div class="empty">
 
-            <div class="lead-name">
+<div class="empty-icon">
+👥
+</div>
 
-              ${escapeHTML(
-                lead.company_name
-              )}
+<strong>
+Nog geen leads
+</strong>
 
-            </div>
+<p>
+Klik op "Nieuwe lead" om je eerste lead toe te voegen.
+</p>
 
-            <div class="lead-contact">
+</div>
 
-              ${escapeHTML(
-                lead.contact_name ||
-                "Geen contactpersoon"
-              )}
+`;
 
-            </div>
+return;
 
-          </div>
+}
 
 
-          <span class="status ${
-            statusClass(
-              lead.status
-            )
-          }">
+container.innerHTML =
+recent.map(
+lead => `
 
-            ${escapeHTML(
-              lead.status ||
-              "Nieuw"
-            )}
+<div class="lead-row">
 
-          </span>
+<div>
 
-        </div>
+<div class="lead-name">
 
-      `
-    ).join("");
+${escapeHTML(
+lead.company_name
+)}
+
+</div>
+
+<div class="lead-contact">
+
+${escapeHTML(
+lead.contact_name ||
+"Geen contactpersoon"
+)}
+
+</div>
+
+</div>
+
+
+<span class="status ${
+statusClass(
+lead.status
+)}">
+
+${escapeHTML(
+lead.status ||
+"Nieuw"
+)}
+
+</span>
+
+</div>
+
+`
+).join("");
 
 }
 
 
 /* =====================================================
-   DATABASE LEADS
+UPCOMING
 ===================================================== */
 
-function renderDatabaseLeads(leads){
+function renderUpcoming(){
 
-  const container =
-    document.getElementById(
-      "databaseLeads"
-    );
-
-
-  if(!leads.length){
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">
-          👥
-        </div>
-
-        Nog geen leads.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+const container =
+document.getElementById(
+"upcomingFollowups"
+);
 
 
-  container.innerHTML =
-    leads.map(
-      lead => `
-
-        <div class="lead-row">
-
-          <div>
-
-            <div class="lead-name">
-              ${escapeHTML(
-                lead.company_name
-              )}
-            </div>
-
-            <div class="lead-contact">
-
-              ${escapeHTML(
-                lead.contact_name ||
-                "Geen contactpersoon"
-              )}
-
-              ${
-                lead.email
-                ? " · " +
-                  escapeHTML(
-                    lead.email
-                  )
-                : ""
-              }
-
-            </div>
-
-          </div>
+const today =
+todayString();
 
 
-          <span class="status ${
-            statusClass(
-              lead.status
-            )
-          }">
+const upcoming =
+leads
+.filter(
+lead =>
+lead.follow_up_date &&
+lead.follow_up_date >= today
+)
+.sort(
+(a,b) =>
+(
+a.follow_up_date +
+(a.follow_up_time || "")
+).localeCompare(
+b.follow_up_date +
+(b.follow_up_time || "")
+)
+)
+.slice(0,5);
 
-            ${escapeHTML(
-              lead.status ||
-              "Nieuw"
-            )}
 
-          </span>
+if(!upcoming.length){
 
-        </div>
+container.innerHTML = `
 
-      `
-    ).join("");
+<div class="empty">
+
+<div class="empty-icon">
+📅
+</div>
+
+Geen geplande follow-ups.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+container.innerHTML =
+upcoming.map(
+lead => `
+
+<div class="lead-row">
+
+<div>
+
+<div class="lead-name">
+
+${escapeHTML(
+lead.company_name
+)}
+
+</div>
+
+<div class="lead-contact">
+
+📅 ${formatDate(
+lead.follow_up_date
+)}
+
+${
+lead.follow_up_time
+? " · " +
+escapeHTML(
+lead.follow_up_time
+)
+: ""
+}
+
+</div>
+
+</div>
+
+
+<span class="priority ${
+priorityClass(
+lead.priority
+)}">
+
+${escapeHTML(
+lead.priority ||
+"Normaal"
+)}
+
+</span>
+
+</div>
+
+`
+).join("");
 
 }
 
 
 /* =====================================================
-   FOLLOWUPS
+LEADS
 ===================================================== */
 
-function renderFollowups(leads){
+function renderLeads(){
 
-  const container =
-    document.getElementById(
-      "followupList"
-    );
-
-
-  const items =
-    leads
-      .filter(
-        lead =>
-          lead.follow_up_date
-      )
-      .sort(
-        (a,b) =>
-          (
-            a.follow_up_date +
-            (a.follow_up_time || "")
-          )
-          .localeCompare(
-            b.follow_up_date +
-            (b.follow_up_time || "")
-          )
-      );
+const container =
+document.getElementById(
+"databaseLeads"
+);
 
 
-  if(!items.length){
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">
-          📅
-        </div>
-
-        Geen geplande follow-ups.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+const search =
+(
+document.getElementById(
+"search"
+)?.value || ""
+)
+.toLowerCase();
 
 
-  container.innerHTML =
-    items.map(
-      lead => `
-
-        <div class="today-item">
-
-          <div class="today-top">
-
-            <div class="today-company">
-              ${escapeHTML(
-                lead.company_name
-              )}
-            </div>
-
-            <span class="priority ${
-              priorityClass(
-                lead.priority
-              )
-            }">
-
-              ${escapeHTML(
-                lead.priority ||
-                "Normaal"
-              )}
-
-            </span>
-
-          </div>
+const filter =
+document.getElementById(
+"statusFilter"
+)?.value || "Alle";
 
 
-          <div class="today-details">
+const filtered =
+leads.filter(
+lead => {
 
-            📅 ${formatDate(
-              lead.follow_up_date
-            )}
+const matchesSearch =
+(
+lead.company_name ||
+""
+)
+.toLowerCase()
+.includes(search)
 
-            ${
-              lead.follow_up_time
-              ? " · ⏰ " +
-                escapeHTML(
-                  lead.follow_up_time
-                )
-              : ""
-            }
+||
 
-          </div>
+(
+lead.contact_name ||
+""
+)
+.toLowerCase()
+.includes(search)
 
+||
 
-          <div class="today-details">
-
-            ${escapeHTML(
-              lead.contact_name ||
-              "Geen contactpersoon"
-            )}
-
-          </div>
+(
+lead.email ||
+""
+)
+.toLowerCase()
+.includes(search);
 
 
-        </div>
+const matchesStatus =
+filter === "Alle" ||
+lead.status === filter;
 
-      `
-    ).join("");
+
+return (
+matchesSearch &&
+matchesStatus
+);
+
+}
+);
+
+
+if(!filtered.length){
+
+container.innerHTML = `
+
+<div class="empty">
+
+<div class="empty-icon">
+🔎
+</div>
+
+<strong>
+Geen leads gevonden
+</strong>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+container.innerHTML =
+filtered.map(
+lead => `
+
+<div class="lead-row">
+
+
+<div>
+
+<div class="lead-name">
+
+${escapeHTML(
+lead.company_name
+)}
+
+</div>
+
+<div class="lead-contact">
+
+${escapeHTML(
+lead.contact_name ||
+"Geen contactpersoon"
+)}
+
+</div>
+
+</div>
+
+
+<div>
+
+<span class="status ${
+statusClass(
+lead.status
+)}">
+
+${escapeHTML(
+lead.status ||
+"Nieuw"
+)}
+
+</span>
+
+</div>
+
+
+<div>
+
+<span class="priority ${
+priorityClass(
+lead.priority
+)}">
+
+${escapeHTML(
+lead.priority ||
+"Normaal"
+)}
+
+</span>
+
+</div>
+
+
+<div class="lead-actions">
+
+
+${
+lead.phone
+? `
+<a
+class="icon-button"
+href="tel:${escapeHTML(
+lead.phone
+)}">
+
+📞
+
+</a>
+`
+: ""
+}
+
+
+${
+lead.email
+? `
+<a
+class="icon-button"
+href="mailto:${escapeHTML(
+lead.email
+)}">
+
+✉️
+
+</a>
+`
+: ""
+}
+
+
+<button
+class="icon-button"
+onclick="editLead('${lead.id}')">
+
+✏️
+
+</button>
+
+
+<button
+class="icon-button"
+onclick="deleteLead('${lead.id}')">
+
+🗑️
+
+</button>
+
+
+</div>
+
+
+</div>
+
+`
+).join("");
 
 }
 
 
 /* =====================================================
-   CLIENTS
+FOLLOWUPS
 ===================================================== */
 
-function renderClients(leads){
+function renderFollowups(){
 
-  const container =
-    document.getElementById(
-      "clientsList"
-    );
-
-
-  const clients =
-    leads.filter(
-      lead =>
-        lead.status ===
-        "Gewonnen"
-    );
+const container =
+document.getElementById(
+"allFollowups"
+);
 
 
-  if(!clients.length){
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">
-          🤝
-        </div>
-
-        <strong>
-          Nog geen actieve klanten
-        </strong>
-
-        <p>
-          Leads met status "Gewonnen"
-          verschijnen hier.
-        </p>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+const items =
+leads
+.filter(
+lead =>
+lead.follow_up_date
+)
+.sort(
+(a,b) =>
+(
+a.follow_up_date +
+(a.follow_up_time || "")
+).localeCompare(
+b.follow_up_date +
+(b.follow_up_time || "")
+)
+);
 
 
-  container.innerHTML =
-    clients.map(
-      lead => `
+if(!items.length){
 
-        <div class="lead-row">
+container.innerHTML = `
 
-          <div>
+<div class="empty">
 
-            <div class="lead-name">
-              ${escapeHTML(
-                lead.company_name
-              )}
-            </div>
+<div class="empty-icon">
+📅
+</div>
 
-            <div class="lead-contact">
-              ${escapeHTML(
-                lead.contact_name ||
-                "Geen contactpersoon"
-              )}
-            </div>
+<strong>
+Geen follow-ups gepland
+</strong>
 
-          </div>
+</div>
 
-          <span class="status status-gewonnen">
-            Actieve klant
-          </span>
+`;
 
-        </div>
+return;
 
-      `
-    ).join("");
+}
+
+
+container.innerHTML =
+items.map(
+lead => `
+
+<div class="today-item">
+
+<div class="today-top">
+
+<div class="today-company">
+
+${escapeHTML(
+lead.company_name
+)}
+
+</div>
+
+
+<span class="priority ${
+priorityClass(
+lead.priority
+)}">
+
+${escapeHTML(
+lead.priority ||
+"Normaal"
+)}
+
+</span>
+
+</div>
+
+
+<div class="today-details">
+
+📅 ${formatDate(
+lead.follow_up_date
+)}
+
+${
+lead.follow_up_time
+? " · ⏰ " +
+escapeHTML(
+lead.follow_up_time
+)
+: ""
+}
+
+</div>
+
+
+<div class="today-details">
+
+${escapeHTML(
+lead.contact_name ||
+"Geen contactpersoon"
+)}
+
+</div>
+
+
+</div>
+
+`
+).join("");
 
 }
 
 
 /* =====================================================
-   NAVIGATION
+CLIENTS
+===================================================== */
+
+function renderClients(){
+
+const container =
+document.getElementById(
+"clients"
+);
+
+
+const clients =
+leads.filter(
+lead =>
+lead.status === "Gewonnen"
+);
+
+
+if(!clients.length){
+
+container.innerHTML = `
+
+<div class="empty">
+
+<div class="empty-icon">
+🤝
+</div>
+
+<strong>
+Nog geen actieve klanten
+</strong>
+
+<p>
+Leads met status "Gewonnen" verschijnen hier.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+container.innerHTML =
+clients.map(
+lead => `
+
+<div class="lead-row">
+
+<div>
+
+<div class="lead-name">
+
+${escapeHTML(
+lead.company_name
+)}
+
+</div>
+
+<div class="lead-contact">
+
+${escapeHTML(
+lead.contact_name ||
+"Geen contactpersoon"
+)}
+
+</div>
+
+</div>
+
+
+<span class="status status-gewonnen">
+
+Actieve klant
+
+</span>
+
+</div>
+
+`
+).join("");
+
+}
+
+
+/* =====================================================
+OPEN MODAL
+===================================================== */
+
+function openLeadModal(lead=null){
+
+document
+.getElementById("modal")
+.classList.add("show");
+
+
+if(lead){
+
+document.getElementById(
+"modalTitle"
+).textContent =
+"Lead bewerken";
+
+
+document.getElementById(
+"leadId"
+).value =
+lead.id;
+
+
+document.getElementById(
+"company"
+).value =
+lead.company_name || "";
+
+
+document.getElementById(
+"contact"
+).value =
+lead.contact_name || "";
+
+
+document.getElementById(
+"email"
+).value =
+lead.email || "";
+
+
+document.getElementById(
+"phone"
+).value =
+lead.phone || "";
+
+
+document.getElementById(
+"status"
+).value =
+lead.status || "Nieuw";
+
+
+document.getElementById(
+"priority"
+).value =
+lead.priority || "Normaal";
+
+
+document.getElementById(
+"followupDate"
+).value =
+lead.follow_up_date || "";
+
+
+document.getElementById(
+"followupTime"
+).value =
+lead.follow_up_time || "";
+
+
+document.getElementById(
+"address"
+).value =
+lead.address || "";
+
+
+document.getElementById(
+"city"
+).value =
+lead.city || "Amsterdam";
+
+
+document.getElementById(
+"service"
+).value =
+lead.service || "";
+
+
+document.getElementById(
+"notes"
+).value =
+lead.notes || "";
+
+}
+else{
+
+document
+.getElementById("leadForm")
+.reset();
+
+
+document.getElementById(
+"leadId"
+).value =
+"";
+
+
+document.getElementById(
+"city"
+).value =
+"Amsterdam";
+
+
+document.getElementById(
+"priority"
+).value =
+"Normaal";
+
+
+document.getElementById(
+"modalTitle"
+).textContent =
+"Nieuwe lead";
+
+}
+
+}
+
+
+/* =====================================================
+CLOSE MODAL
+===================================================== */
+
+function closeLeadModal(){
+
+document
+.getElementById("modal")
+.classList.remove("show");
+
+}
+
+
+function closeOutside(event){
+
+if(
+event.target.id === "modal"
+){
+
+closeLeadModal();
+
+}
+
+}
+
+
+/* =====================================================
+SAVE LEAD TO SUPABASE
+===================================================== */
+
+async function saveLead(event){
+
+event.preventDefault();
+
+
+const saveButton =
+document.getElementById(
+"saveButton"
+);
+
+
+saveButton.disabled = true;
+
+saveButton.textContent =
+"Opslaan...";
+
+
+const id =
+document.getElementById(
+"leadId"
+).value;
+
+
+const leadData = {
+
+company_name:
+document.getElementById(
+"company"
+).value.trim(),
+
+contact_name:
+document.getElementById(
+"contact"
+).value.trim(),
+
+email:
+document.getElementById(
+"email"
+).value.trim(),
+
+phone:
+document.getElementById(
+"phone"
+).value.trim(),
+
+address:
+document.getElementById(
+"address"
+).value.trim(),
+
+city:
+document.getElementById(
+"city"
+).value.trim(),
+
+service:
+document.getElementById(
+"service"
+).value,
+
+status:
+document.getElementById(
+"status"
+).value,
+
+priority:
+document.getElementById(
+"priority"
+).value,
+
+follow_up_date:
+document.getElementById(
+"followupDate"
+).value || null,
+
+follow_up_time:
+document.getElementById(
+"followupTime"
+).value || null,
+
+notes:
+document.getElementById(
+"notes"
+).value.trim(),
+
+updated_at:
+new Date().toISOString()
+
+};
+
+
+let result;
+
+
+if(id){
+
+result =
+await supabaseClient
+.from("leads")
+.update(leadData)
+.eq("id",id)
+.select()
+.single();
+
+}
+else{
+
+result =
+await supabaseClient
+.from("leads")
+.insert([leadData])
+.select()
+.single();
+
+}
+
+
+if(result.error){
+
+console.error(
+result.error
+);
+
+
+alert(
+"Opslaan mislukt:\n\n" +
+result.error.message
+);
+
+
+saveButton.disabled = false;
+
+saveButton.textContent =
+"Lead opslaan";
+
+return;
+
+}
+
+
+closeLeadModal();
+
+
+saveButton.disabled = false;
+
+saveButton.textContent =
+"Lead opslaan";
+
+
+await loadLeads();
+
+}
+
+
+/* =====================================================
+EDIT LEAD
+===================================================== */
+
+function editLead(id){
+
+const lead =
+leads.find(
+item =>
+item.id === id
+);
+
+
+if(!lead)
+return;
+
+
+openLeadModal(lead);
+
+}
+
+
+/* =====================================================
+DELETE LEAD
+===================================================== */
+
+async function deleteLead(id){
+
+const lead =
+leads.find(
+item =>
+item.id === id
+);
+
+
+if(!lead)
+return;
+
+
+const confirmed =
+confirm(
+`Weet je zeker dat je "${lead.company_name}" wilt verwijderen?`
+);
+
+
+if(!confirmed)
+return;
+
+
+const {
+error
+} =
+await supabaseClient
+.from("leads")
+.delete()
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"Verwijderen mislukt:\n\n" +
+error.message
+);
+
+return;
+
+}
+
+
+await loadLeads();
+
+}
+
+
+/* =====================================================
+NAVIGATION
 ===================================================== */
 
 function showPage(pageId,button){
 
-  document
-    .querySelectorAll(".page")
-    .forEach(
-      page =>
-        page.classList.remove(
-          "active"
-        )
-    );
+document
+.querySelectorAll(".page")
+.forEach(
+page =>
+page.classList.remove(
+"active"
+)
+);
 
 
-  document
-    .getElementById(pageId)
-    .classList.add("active");
+document
+.getElementById(pageId)
+.classList.add(
+"active"
+);
 
 
-  document
-    .querySelectorAll(".nav-item")
-    .forEach(
-      item =>
-        item.classList.remove(
-          "active"
-        )
-    );
+document
+.querySelectorAll(".nav-item")
+.forEach(
+item =>
+item.classList.remove(
+"active"
+)
+);
 
 
-  if(button)
-    button.classList.add("active");
+if(button){
+
+button.classList.add(
+"active"
+);
+
+}
 
 
-  loadDashboard();
+renderAll();
 
 }
 
 
 function showPageById(pageId){
 
-  document
-    .querySelectorAll(".page")
-    .forEach(
-      page =>
-        page.classList.remove(
-          "active"
-        )
-    );
+document
+.querySelectorAll(".page")
+.forEach(
+page =>
+page.classList.remove(
+"active"
+)
+);
 
 
-  document
-    .getElementById(pageId)
-    .classList.add("active");
-
-
-  document
-    .querySelectorAll(".nav-item")
-    .forEach(
-      item =>
-        item.classList.remove(
-          "active"
-        )
-    );
+document
+.getElementById(pageId)
+.classList.add(
+"active"
+);
 
 }
 
 
 /* =====================================================
-   STATUS CLASS
+HELPERS
 ===================================================== */
 
 function statusClass(status){
 
-  const map = {
+const map = {
 
-    "Nieuw":
-      "status-nieuw",
+"Nieuw":
+"status-nieuw",
 
-    "Gebeld":
-      "status-gebeld",
+"Gebeld":
+"status-gebeld",
 
-    "E-mail gestuurd":
-      "status-email",
+"E-mail gestuurd":
+"status-email",
 
-    "Warm":
-      "status-warm",
+"Warm":
+"status-warm",
 
-    "Afspraak":
-      "status-afspraak",
+"Afspraak":
+"status-afspraak",
 
-    "Offerte verstuurd":
-      "status-offerte",
+"Offerte verstuurd":
+"status-offerte",
 
-    "Gewonnen":
-      "status-gewonnen",
+"Gewonnen":
+"status-gewonnen",
 
-    "Afgewezen":
-      "status-afgewezen"
+"Afgewezen":
+"status-afgewezen"
 
-  };
+};
 
 
-  return (
-    map[status] ||
-    "status-nieuw"
-  );
+return (
+map[status] ||
+"status-nieuw"
+);
 
 }
 
-
-/* =====================================================
-   PRIORITY
-===================================================== */
 
 function priorityClass(priority){
 
-  if(priority === "Hoog")
-    return "priority-high";
+if(priority === "Hoog")
+return "priority-high";
 
 
-  if(priority === "Laag")
-    return "priority-low";
+if(priority === "Laag")
+return "priority-low";
 
 
-  return "priority-normal";
+return "priority-normal";
 
 }
 
-
-/* =====================================================
-   DATE
-===================================================== */
 
 function formatDate(dateString){
 
-  if(!dateString)
-    return "";
+if(!dateString)
+return "";
 
 
-  const date =
-    new Date(
-      dateString +
-      "T00:00:00"
-    );
+const date =
+new Date(
+dateString +
+"T00:00:00"
+);
 
 
-  return date.toLocaleDateString(
-    "nl-NL",
-    {
-      day:"numeric",
-      month:"long",
-      year:"numeric"
-    }
-  );
+return date.toLocaleDateString(
+"nl-NL",
+{
+day:"numeric",
+month:"long",
+year:"numeric"
+}
+);
 
 }
 
-
-/* =====================================================
-   SECURITY
-===================================================== */
 
 function escapeHTML(value){
 
-  return String(value || "")
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+return String(value || "")
+.replace(
+/&/g,
+"&amp;"
+)
+.replace(
+/</g,
+"&lt;"
+)
+.replace(
+/>/g,
+"&gt;"
+)
+.replace(
+/"/g,
+"&quot;"
+)
+.replace(
+/'/g,
+"&#039;"
+);
 
 }
 
 
 /* =====================================================
-   DATABASE ERROR
-===================================================== */
-
-function showDatabaseError(message){
-
-  document.getElementById(
-    "recentLeads"
-  ).innerHTML = `
-
-    <div class="empty">
-
-      <div class="empty-icon">
-        ⚠️
-      </div>
-
-      <strong>
-        Database kon niet worden geladen
-      </strong>
-
-      <p>
-        ${escapeHTML(message)}
-      </p>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =====================================================
-   START
+START
 ===================================================== */
 
 checkAuth();
