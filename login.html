@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ARC OS — Inloggen</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #111;
+    }
+
+    .login-wrapper {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo img {
+      width: 180px;
+      max-width: 70%;
+    }
+
+    .login-card {
+      background: #ffffff;
+      border: 1px solid #dce5df;
+      border-radius: 24px;
+      padding: 35px 28px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.07);
+    }
+
+    .os-label {
+      text-align: center;
+      color: #286247;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6c7771;
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid #ccd8d1;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      background: #fbfcfb;
+    }
+
+    input:focus {
+      border-color: #286247;
+      box-shadow: 0 0 0 3px rgba(40,98,71,0.10);
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 17px;
+      background: #286247;
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #1f513a;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .error {
+      display: none;
+      background: #fff0f0;
+      color: #b42318;
+      border: 1px solid #f1c4c4;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      color: #7b847f;
+      font-size: 13px;
+    }
+
+    .footer strong {
+      color: #286247;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-wrapper">
+
+    <div class="logo">
+      <!-- VERVANG DIT EVENTUEEL MET JOUW EIGEN LOGO-PAD -->
+      <img src="logo.png" alt="ARC Cleaning Business">
+    </div>
+
+    <div class="login-card">
+
+      <div class="os-label">ARC CLEANING BUSINESS</div>
+
+      <h1>ARC OS</h1>
+
+      <p class="subtitle">
+        Welkom terug.<br>
+        Log in om je ARC-dashboard te openen.
+      </p>
+
+      <div id="errorMessage" class="error"></div>
+
+      <form id="loginForm">
+
+        <div class="form-group">
+          <label for="email">E-mailadres</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="jouw@bedrijf.nl"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Wachtwoord</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Je wachtwoord"
+            required
+          >
+        </div>
+
+        <button type="submit" id="loginButton">
+          Inloggen
+        </button>
+
+      </form>
+
+      <div class="footer">
+        <strong>ARC OS</strong><br>
+        ARC Cleaning Business
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+
+  /*
+   * =====================================================
+   * ARC OS — SUPABASE CONFIGURATION
+   * =====================================================
+   */
+
+  const SUPABASE_URL = "PLAK_HIER_JOUW_SUPABASE_URL";
+  const SUPABASE_ANON_KEY = "PLAK_HIER_JOUW_SUPABASE_ANON_KEY";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+
+  /*
+   * =====================================================
+   * LOGIN
+   * =====================================================
+   */
+
+  const loginForm = document.getElementById("loginForm");
+  const loginButton = document.getElementById("loginButton");
+  const errorMessage = document.getElementById("errorMessage");
+
+  loginForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    errorMessage.style.display = "none";
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    loginButton.disabled = true;
+    loginButton.textContent = "Bezig met inloggen...";
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    if (error) {
+
+      errorMessage.textContent =
+        "Inloggen mislukt. Controleer je e-mailadres en wachtwoord.";
+
+      errorMessage.style.display = "block";
+
+      loginButton.disabled = false;
+      loginButton.textContent = "Inloggen";
+
+      return;
+    }
+
+    /*
+     * LOGIN GELUKT
+     *
+     * Hier sturen we de gebruiker naar ARC OS.
+     */
+
+    window.location.href = "dashboard.html";
+
+  });
+
+
+  /*
+   * =====================================================
+   * ALS GEBRUIKER AL INGELOGD IS
+   * =====================================================
+   */
+
+  async function checkExistingSession() {
+
+    const { data } = await supabaseClient.auth.getSession();
+
+    if (data.session) {
+      window.location.href = "dashboard.html";
+    }
+
+  }
+
+  checkExistingSession();
+
+</script>
+
+</body>
+</html>
