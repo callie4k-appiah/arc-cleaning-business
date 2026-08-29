@@ -10,24 +10,17 @@
 
 <style>
 
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
 background:#f4f7f5;
-color:#111815;
+color:#111815
 }
 
-button,input,select,textarea{
-font:inherit;
-}
-
-button{
-cursor:pointer;
-}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
 
 .topbar{
 height:72px;
@@ -39,19 +32,19 @@ justify-content:space-between;
 padding:0 28px;
 position:sticky;
 top:0;
-z-index:100;
+z-index:100
 }
 
 .brand img{
 width:120px;
 height:52px;
-object-fit:contain;
+object-fit:contain
 }
 
 .top-actions{
 display:flex;
 align-items:center;
-gap:12px;
+gap:12px
 }
 
 .logout{
@@ -61,7 +54,7 @@ color:#315b49;
 padding:9px 13px;
 border-radius:8px;
 font-size:13px;
-font-weight:700;
+font-weight:700
 }
 
 .profile{
@@ -73,12 +66,12 @@ color:#fff;
 display:flex;
 align-items:center;
 justify-content:center;
-font-weight:700;
+font-weight:700
 }
 
 .layout{
 display:flex;
-min-height:calc(100vh - 72px);
+min-height:calc(100vh - 72px)
 }
 
 .sidebar{
@@ -86,14 +79,14 @@ width:240px;
 flex-shrink:0;
 background:#063b2d;
 color:#fff;
-padding:25px 16px;
+padding:25px 16px
 }
 
 .sidebar-title{
 margin:10px 12px 12px;
 font-size:11px;
 letter-spacing:1.5px;
-opacity:.55;
+opacity:.55
 }
 
 .nav-item{
@@ -106,47 +99,42 @@ padding:13px 14px;
 margin-bottom:4px;
 border-radius:9px;
 font-size:14px;
-font-weight:600;
+font-weight:600
 }
 
 .nav-item:hover,
 .nav-item.active{
 background:#0a5b3e;
-color:#fff;
+color:#fff
 }
 
 .content{
 flex:1;
 max-width:1450px;
 padding:32px;
-width:100%;
+width:100%
 }
 
-.page{
-display:none;
-}
-
-.page.active{
-display:block;
-}
+.page{display:none}
+.page.active{display:block}
 
 .page-heading{
 display:flex;
 align-items:center;
 justify-content:space-between;
 gap:20px;
-margin-bottom:28px;
+margin-bottom:28px
 }
 
 .page-heading h1{
 margin:0;
-font-size:30px;
+font-size:30px
 }
 
 .page-heading p{
 margin:8px 0 0;
 color:#68736e;
-font-size:14px;
+font-size:14px
 }
 
 .button{
@@ -156,44 +144,44 @@ color:#fff;
 padding:13px 18px;
 border-radius:9px;
 font-size:14px;
-font-weight:700;
+font-weight:700
 }
 
 .button.secondary{
 background:#edf2ef;
-color:#0a5b3e;
+color:#0a5b3e
 }
 
 .stats{
 display:grid;
 grid-template-columns:repeat(4,1fr);
 gap:16px;
-margin-bottom:28px;
+margin-bottom:28px
 }
 
 .stat-card{
 background:#fff;
 border:1px solid #dce5df;
 border-radius:13px;
-padding:21px;
+padding:21px
 }
 
 .stat-label{
 color:#68736e;
 font-size:13px;
-margin-bottom:9px;
+margin-bottom:9px
 }
 
 .stat-number{
 color:#0a5b3e;
 font-size:30px;
-font-weight:800;
+font-weight:800
 }
 
 .grid{
 display:grid;
 grid-template-columns:1.4fr 1fr;
-gap:20px;
+gap:20px
 }
 
 .card{
@@ -201,7 +189,7 @@ background:#fff;
 border:1px solid #dce5df;
 border-radius:13px;
 padding:22px;
-margin-bottom:20px;
+margin-bottom:20px
 }
 
 .card-header{
@@ -209,12 +197,12 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 gap:15px;
-margin-bottom:18px;
+margin-bottom:18px
 }
 
 .card-header h2{
 margin:0;
-font-size:18px;
+font-size:18px
 }
 
 .lead-row{
@@ -223,22 +211,20 @@ align-items:center;
 justify-content:space-between;
 gap:15px;
 padding:15px 0;
-border-bottom:1px solid #edf1ee;
+border-bottom:1px solid #edf1ee
 }
 
-.lead-row:last-child{
-border-bottom:0;
-}
+.lead-row:last-child{border-bottom:0}
 
 .lead-name{
 font-weight:700;
-font-size:14px;
+font-size:14px
 }
 
 .lead-contact{
 margin-top:5px;
 color:#68736e;
-font-size:12px;
+font-size:12px
 }
 
 .status{
@@ -247,130 +233,45 @@ padding:6px 10px;
 border-radius:20px;
 font-size:11px;
 font-weight:700;
-white-space:nowrap;
+white-space:nowrap
 }
 
-.status-nieuw{
-background:#edf1ee;
-color:#56615b;
-}
-
-.status-gebeld{
-background:#eee9ff;
-color:#634ea3;
-}
-
-.status-email{
-background:#e6f0ff;
-color:#275b9c;
-}
-
-.status-warm{
-background:#fff1cf;
-color:#8a6200;
-}
-
-.status-afspraak{
-background:#e1f4e9;
-color:#28704a;
-}
-
-.status-offerte{
-background:#e5f5f2;
-color:#147265;
-}
-
-.status-gewonnen{
-background:#dff5e5;
-color:#176738;
-}
-
-.status-afgewezen{
-background:#fbeaea;
-color:#a52d2d;
-}
+.status-nieuw{background:#edf1ee;color:#56615b}
+.status-gebeld{background:#eee9ff;color:#634ea3}
+.status-email{background:#e6f0ff;color:#275b9c}
+.status-warm{background:#fff1cf;color:#8a6200}
+.status-afspraak{background:#e1f4e9;color:#28704a}
+.status-offerte{background:#e5f5f2;color:#147265}
+.status-gewonnen{background:#dff5e5;color:#176738}
+.status-afgewezen{background:#fbeaea;color:#a52d2d}
 
 .priority{
 display:inline-flex;
 padding:5px 9px;
 border-radius:20px;
 font-size:10px;
-font-weight:800;
+font-weight:800
 }
 
-.priority-high{
-background:#fde8e8;
-color:#b42318;
-}
-
-.priority-normal{
-background:#fff3d6;
-color:#8a6200;
-}
-
-.priority-low{
-background:#e8f2ec;
-color:#26704b;
-}
-
-.today-item{
-padding:17px 0;
-border-bottom:1px solid #edf1ee;
-}
-
-.today-item:last-child{
-border-bottom:0;
-}
-
-.today-top{
-display:flex;
-justify-content:space-between;
-gap:10px;
-}
-
-.today-company{
-font-weight:800;
-font-size:15px;
-}
-
-.today-details{
-margin-top:7px;
-color:#68736e;
-font-size:12px;
-}
-
-.today-actions{
-display:flex;
-gap:7px;
-margin-top:12px;
-}
-
-.small-button{
-border:0;
-padding:8px 11px;
-border-radius:7px;
-background:#edf2ef;
-color:#0a5b3e;
-font-size:12px;
-font-weight:700;
-text-decoration:none;
-}
+.priority-high{background:#fde8e8;color:#b42318}
+.priority-normal{background:#fff3d6;color:#8a6200}
+.priority-low{background:#e8f2ec;color:#26704b}
 
 .empty{
 text-align:center;
 padding:45px 20px;
-color:#68736e;
+color:#68736e
 }
 
 .empty-icon{
 font-size:40px;
-margin-bottom:10px;
+margin-bottom:10px
 }
 
 .toolbar{
 display:flex;
 gap:12px;
-margin-bottom:18px;
+margin-bottom:18px
 }
 
 .search{
@@ -380,7 +281,7 @@ border:1px solid #d4dfd8;
 border-radius:9px;
 padding:0 14px;
 background:#fff;
-outline:none;
+outline:none
 }
 
 .filter{
@@ -388,12 +289,12 @@ height:46px;
 border:1px solid #d4dfd8;
 border-radius:9px;
 padding:0 14px;
-background:#fff;
+background:#fff
 }
 
 .lead-actions{
 display:flex;
-gap:7px;
+gap:7px
 }
 
 .icon-button{
@@ -405,7 +306,7 @@ background:#fff;
 display:flex;
 align-items:center;
 justify-content:center;
-text-decoration:none;
+text-decoration:none
 }
 
 .modal-overlay{
@@ -416,12 +317,10 @@ display:none;
 align-items:center;
 justify-content:center;
 padding:20px;
-z-index:1000;
+z-index:1000
 }
 
-.modal-overlay.show{
-display:flex;
-}
+.modal-overlay.show{display:flex}
 
 .modal{
 width:100%;
@@ -430,19 +329,19 @@ max-height:92vh;
 overflow-y:auto;
 background:#fff;
 border-radius:16px;
-padding:25px;
+padding:25px
 }
 
 .modal-header{
 display:flex;
 align-items:center;
 justify-content:space-between;
-margin-bottom:22px;
+margin-bottom:22px
 }
 
 .modal-header h2{
 margin:0;
-font-size:22px;
+font-size:22px
 }
 
 .close{
@@ -451,28 +350,28 @@ background:#edf2ef;
 width:36px;
 height:36px;
 border-radius:50%;
-font-size:20px;
+font-size:20px
 }
 
 .form-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:16px;
+gap:16px
 }
 
 .form-group{
 display:flex;
 flex-direction:column;
-gap:7px;
+gap:7px
 }
 
 .form-group.full{
-grid-column:1/-1;
+grid-column:1/-1
 }
 
 .form-group label{
 font-size:13px;
-font-weight:700;
+font-weight:700
 }
 
 .form-group input,
@@ -483,25 +382,134 @@ border:1px solid #d4dfd8;
 border-radius:8px;
 padding:12px;
 outline:none;
-background:#fff;
+background:#fff
 }
 
 .form-group textarea{
 min-height:110px;
-resize:vertical;
+resize:vertical
 }
 
 .modal-footer{
 display:flex;
 justify-content:flex-end;
 gap:10px;
-margin-top:22px;
+margin-top:22px
 }
 
-.loading{
-text-align:center;
-padding:35px;
+/* FOLLOW-UPS */
+
+.followup-summary{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+margin-bottom:18px
+}
+
+.followup-box{
+background:#fff;
+border:1px solid #dce5df;
+border-radius:12px;
+padding:18px
+}
+
+.followup-box strong{
+display:block;
+font-size:24px;
+color:#0a5b3e;
+margin-top:5px
+}
+
+.followup-box span{
+font-size:12px;
+color:#68736e
+}
+
+.followup-toolbar{
+display:flex;
+gap:10px;
+margin-bottom:18px;
+flex-wrap:wrap
+}
+
+.followup-toolbar select,
+.followup-toolbar input{
+height:44px;
+border:1px solid #d4dfd8;
+border-radius:8px;
+padding:0 12px;
+background:#fff
+}
+
+.followup-toolbar input{
+flex:1;
+min-width:220px
+}
+
+.followup-card{
+padding:17px 0;
+border-bottom:1px solid #edf1ee
+}
+
+.followup-card:last-child{
+border-bottom:0
+}
+
+.followup-main{
+display:flex;
+align-items:flex-start;
+justify-content:space-between;
+gap:15px
+}
+
+.followup-company{
+font-size:15px;
+font-weight:800
+}
+
+.followup-meta{
+font-size:12px;
 color:#68736e;
+margin-top:6px;
+line-height:1.6
+}
+
+.followup-actions{
+display:flex;
+gap:7px;
+margin-top:12px;
+flex-wrap:wrap
+}
+
+.followup-actions button,
+.followup-actions a{
+border:0;
+padding:8px 11px;
+border-radius:7px;
+background:#edf2ef;
+color:#0a5b3e;
+font-size:12px;
+font-weight:700;
+text-decoration:none
+}
+
+.followup-overdue{
+border-left:4px solid #b42318;
+padding-left:13px
+}
+
+.followup-today{
+border-left:4px solid #d18b00;
+padding-left:13px
+}
+
+.followup-upcoming{
+border-left:4px solid #28704a;
+padding-left:13px
+}
+
+.followup-done{
+opacity:.58
 }
 
 .error-box{
@@ -511,105 +519,70 @@ color:#a52d2d;
 border-radius:10px;
 padding:15px;
 margin-bottom:20px;
-font-size:14px;
+font-size:14px
 }
 
 @media(max-width:1100px){
-
-.grid{
-grid-template-columns:1fr;
-}
-
+.grid{grid-template-columns:1fr}
 }
 
 @media(max-width:1000px){
-
-.sidebar{
-display:none;
+.sidebar{display:none}
+.content{padding:24px 18px}
+.stats{grid-template-columns:1fr 1fr}
 }
 
-.content{
-padding:24px 18px;
-}
-
-.stats{
-grid-template-columns:1fr 1fr;
-}
-
+@media(max-width:700px){
+.followup-summary{grid-template-columns:1fr}
+.followup-main{flex-direction:column}
 }
 
 @media(max-width:600px){
 
 .topbar{
 height:68px;
-padding:0 14px;
+padding:0 14px
 }
 
-.brand img{
-width:110px;
-}
+.brand img{width:110px}
 
-.content{
-padding:20px 14px;
-}
+.content{padding:20px 14px}
 
 .page-heading{
 flex-direction:column;
-align-items:flex-start;
+align-items:flex-start
 }
 
-.page-heading h1{
-font-size:26px;
-}
+.page-heading h1{font-size:26px}
 
-.page-heading .button{
-width:100%;
-}
+.page-heading .button{width:100%}
 
-.stats{
-gap:10px;
-}
+.stats{gap:10px}
 
-.stat-card{
-padding:15px;
-}
+.stat-card{padding:15px}
 
-.stat-number{
-font-size:25px;
-}
+.stat-number{font-size:25px}
 
-.toolbar{
-flex-direction:column;
-}
+.toolbar{flex-direction:column}
 
-.form-grid{
-grid-template-columns:1fr;
-}
+.form-grid{grid-template-columns:1fr}
 
-.form-group.full{
-grid-column:auto;
-}
+.form-group.full{grid-column:auto}
 
 .modal-footer{
-flex-direction:column-reverse;
+flex-direction:column-reverse
 }
 
-.modal-footer button{
-width:100%;
-}
+.modal-footer button{width:100%}
 
-.logout{
-display:none;
-}
+.logout{display:none}
 
 }
 
 </style>
 </head>
 
-
 <body>
-
 
 <header class="topbar">
 
@@ -621,24 +594,18 @@ alt="ARC Cleaning Business">
 
 </div>
 
-
 <div class="top-actions">
 
 <button
 class="logout"
 onclick="logout()">
-
 Uitloggen
-
 </button>
-
 
 <div
 class="profile"
 id="profile">
-
 CA
-
 </div>
 
 </div>
@@ -655,71 +622,51 @@ CA
 ARC OS
 </div>
 
-
 <button
 class="nav-item active"
 onclick="showPage('dashboard',this)">
-
 📊 Dashboard
-
 </button>
-
 
 <button
 class="nav-item"
 onclick="showPage('leads',this)">
-
 👥 Leads
-
 </button>
-
 
 <button
 class="nav-item"
 onclick="showPage('followups',this)">
-
 📅 Follow-ups
-
 </button>
-
 
 <button
 class="nav-item"
 onclick="showPage('offertes',this)">
-
 📄 Offertes
-
 </button>
-
 
 <button
 class="nav-item"
 onclick="showPage('klanten',this)">
-
 🤝 Klanten
-
 </button>
-
 
 <div class="sidebar-title">
 BEHEER
 </div>
 
-
 <button class="nav-item">
 👷 Personeel
 </button>
-
 
 <button class="nav-item">
 🏢 Locaties
 </button>
 
-
 <button class="nav-item">
 💰 Facturen
 </button>
-
 
 <button class="nav-item">
 ⚙ Instellingen
@@ -737,7 +684,6 @@ BEHEER
 id="dashboard"
 class="page active">
 
-
 <div class="page-heading">
 
 <div>
@@ -752,20 +698,16 @@ Welkom in ARC OS.
 
 </div>
 
-
 <button
 class="button"
 onclick="openLeadModal()">
-
 + Nieuwe lead
-
 </button>
 
 </div>
 
 
 <div class="stats">
-
 
 <div class="stat-card">
 
@@ -776,9 +718,7 @@ Totale leads
 <div
 class="stat-number"
 id="totalLeads">
-
 0
-
 </div>
 
 </div>
@@ -793,9 +733,7 @@ Warme leads
 <div
 class="stat-number"
 id="warmLeads">
-
 0
-
 </div>
 
 </div>
@@ -810,9 +748,7 @@ Openstaande offertes
 <div
 class="stat-number"
 id="openQuotes">
-
 0
-
 </div>
 
 </div>
@@ -827,13 +763,10 @@ Actieve klanten
 <div
 class="stat-number"
 id="activeClients">
-
 0
-
 </div>
 
 </div>
-
 
 </div>
 
@@ -849,23 +782,18 @@ id="activeClients">
 <span
 class="status status-warm"
 id="todayCount">
-
 0 acties
-
 </span>
 
 </div>
 
-
 <div id="todayFollowups">
-
 </div>
 
 </div>
 
 
 <div class="grid">
-
 
 <div class="card">
 
@@ -877,9 +805,7 @@ id="todayCount">
 
 </div>
 
-
 <div id="recentLeads">
-
 </div>
 
 </div>
@@ -895,16 +821,12 @@ id="todayCount">
 
 </div>
 
-
 <div id="upcomingFollowups">
-
 </div>
 
 </div>
 
-
 </div>
-
 
 </section>
 
@@ -914,7 +836,6 @@ id="todayCount">
 <section
 id="leads"
 class="page">
-
 
 <div class="page-heading">
 
@@ -930,13 +851,10 @@ Alle leads uit je online ARC database.
 
 </div>
 
-
 <button
 class="button"
 onclick="openLeadModal()">
-
 + Nieuwe lead
-
 </button>
 
 </div>
@@ -950,11 +868,10 @@ id="search"
 placeholder="Zoek bedrijf, contactpersoon of e-mail..."
 oninput="renderLeads()">
 
-
 <select
 class="filter"
 id="statusFilter"
-onchange="renderLeads()">
+onchange="renderLeads">
 
 <option value="Alle">
 Alle statussen
@@ -977,21 +894,18 @@ Alle statussen
 <div class="card">
 
 <div id="databaseLeads">
-
 </div>
 
 </div>
-
 
 </section>
 
 
-<!-- FOLLOWUPS -->
+<!-- FOLLOW-UPS -->
 
 <section
 id="followups"
 class="page">
-
 
 <div class="page-heading">
 
@@ -1007,17 +921,105 @@ Je geplande opvolgingen.
 
 </div>
 
+<button
+class="button"
+onclick="openFollowupModal()">
++ Nieuwe follow-up
+</button>
+
+</div>
+
+
+<div class="followup-summary">
+
+<div class="followup-box">
+
+<span>
+Achterstallig
+</span>
+
+<strong id="overdueCount">
+0
+</strong>
+
+</div>
+
+
+<div class="followup-box">
+
+<span>
+Vandaag
+</span>
+
+<strong id="followupTodayCount">
+0
+</strong>
+
+</div>
+
+
+<div class="followup-box">
+
+<span>
+Komend
+</span>
+
+<strong id="upcomingCount">
+0
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="followup-toolbar">
+
+<input
+id="followupSearch"
+placeholder="Zoek bedrijf of actie..."
+oninput="renderFollowups()">
+
+
+<select
+id="followupFilter"
+onchange="renderFollowups()">
+
+<option value="open">
+Openstaand
+</option>
+
+<option value="all">
+Alles
+</option>
+
+<option value="overdue">
+Achterstallig
+</option>
+
+<option value="today">
+Vandaag
+</option>
+
+<option value="upcoming">
+Komend
+</option>
+
+<option value="completed">
+Afgerond
+</option>
+
+</select>
+
 </div>
 
 
 <div class="card">
 
 <div id="allFollowups">
-
 </div>
 
 </div>
-
 
 </section>
 
@@ -1027,7 +1029,6 @@ Je geplande opvolgingen.
 <section
 id="offertes"
 class="page">
-
 
 <div class="page-heading">
 
@@ -1066,7 +1067,6 @@ Dit koppelen we in de volgende fase.
 
 </div>
 
-
 </section>
 
 
@@ -1075,7 +1075,6 @@ Dit koppelen we in de volgende fase.
 <section
 id="klanten"
 class="page">
-
 
 <div class="page-heading">
 
@@ -1097,11 +1096,9 @@ Actieve ARC klanten.
 <div class="card">
 
 <div id="clients">
-
 </div>
 
 </div>
-
 
 </section>
 
@@ -1111,18 +1108,16 @@ Actieve ARC klanten.
 </div>
 
 
-<!-- MODAL -->
+<!-- LEAD MODAL -->
 
 <div
 class="modal-overlay"
 id="modal"
 onclick="closeOutside(event)">
 
-
 <div
 class="modal"
 onclick="event.stopPropagation()">
-
 
 <div class="modal-header">
 
@@ -1130,13 +1125,10 @@ onclick="event.stopPropagation()">
 Nieuwe lead
 </h2>
 
-
 <button
 class="close"
 onclick="closeLeadModal()">
-
 ×
-
 </button>
 
 </div>
@@ -1146,14 +1138,12 @@ onclick="closeLeadModal()">
 id="leadForm"
 onsubmit="saveLead(event)">
 
-
 <input
 type="hidden"
 id="leadId">
 
 
 <div class="form-grid">
-
 
 <div class="form-group">
 
@@ -1358,7 +1348,6 @@ placeholder="Notities over deze lead..."></textarea>
 
 </div>
 
-
 </div>
 
 
@@ -1368,23 +1357,173 @@ placeholder="Notities over deze lead..."></textarea>
 type="button"
 class="button secondary"
 onclick="closeLeadModal()">
-
 Annuleren
-
 </button>
-
 
 <button
 type="submit"
 class="button"
 id="saveButton">
-
 Lead opslaan
-
 </button>
 
 </div>
 
+</form>
+
+</div>
+
+</div>
+
+
+<!-- FOLLOW-UP MODAL -->
+
+<div
+class="modal-overlay"
+id="followupModal"
+onclick="closeFollowupOutside(event)">
+
+<div
+class="modal"
+onclick="event.stopPropagation()">
+
+<div class="modal-header">
+
+<h2>
+Nieuwe follow-up
+</h2>
+
+<button
+class="close"
+onclick="closeFollowupModal()">
+×
+</button>
+
+</div>
+
+
+<form
+onsubmit="saveFollowup(event)">
+
+<div class="form-grid">
+
+
+<div class="form-group full">
+
+<label>
+Lead *
+</label>
+
+<select
+id="followupLead"
+required>
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Actie *
+</label>
+
+<select
+id="followupAction"
+required>
+
+<option value="">
+Kies actie
+</option>
+
+<option>
+Bellen
+</option>
+
+<option>
+E-mail opvolgen
+</option>
+
+<option>
+Offerte opvolgen
+</option>
+
+<option>
+Afspraak bevestigen
+</option>
+
+<option>
+Terugbellen
+</option>
+
+<option>
+Anders
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Datum *
+</label>
+
+<input
+type="date"
+id="newFollowupDate"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Tijd
+</label>
+
+<input
+type="time"
+id="newFollowupTime">
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+Notitie
+</label>
+
+<textarea
+id="followupNotes"
+placeholder="Wat moet je doen of onthouden?"></textarea>
+
+</div>
+
+</div>
+
+
+<div class="modal-footer">
+
+<button
+type="button"
+class="button secondary"
+onclick="closeFollowupModal()">
+Annuleren
+</button>
+
+<button
+type="submit"
+class="button"
+id="followupSaveButton">
+Follow-up opslaan
+</button>
+
+</div>
 
 </form>
 
@@ -1396,7 +1535,7 @@ Lead opslaan
 <script>
 
 /* =====================================================
-SUPABASE CONFIG
+SUPABASE
 ===================================================== */
 
 const SUPABASE_URL =
@@ -1413,11 +1552,8 @@ SUPABASE_PUBLISHABLE_KEY
 );
 
 
-/* =====================================================
-DATA
-===================================================== */
-
-let leads = [];
+let leads=[];
+let followups=[];
 
 
 /* =====================================================
@@ -1433,22 +1569,9 @@ error
 await supabaseClient.auth.getSession();
 
 
-if(error){
+if(error || !data.session){
 
-console.error(error);
-
-window.location.href =
-"login.html";
-
-return;
-
-}
-
-
-if(!data.session){
-
-window.location.href =
-"login.html";
+window.location.href="login.html";
 
 return;
 
@@ -1467,25 +1590,22 @@ document.getElementById(
 
 await loadLeads();
 
+await loadFollowups();
+
 }
 
-
-/* =====================================================
-LOGOUT
-===================================================== */
 
 async function logout(){
 
 await supabaseClient.auth.signOut();
 
-window.location.href =
-"login.html";
+window.location.href="login.html";
 
 }
 
 
 /* =====================================================
-LOAD LEADS
+LEADS
 ===================================================== */
 
 async function loadLeads(){
@@ -1511,20 +1631,12 @@ console.error(error);
 
 document.getElementById(
 "recentLeads"
-).innerHTML = `
-
+).innerHTML =
+`
 <div class="error-box">
-
-<strong>
-Database fout
-</strong>
-
-<p>
-${escapeHTML(error.message)}
-</p>
-
+<strong>Database fout</strong>
+<p>${escapeHTML(error.message)}</p>
 </div>
-
 `;
 
 return;
@@ -1532,32 +1644,20 @@ return;
 }
 
 
-leads =
-data || [];
-
+leads=data||[];
 
 renderAll();
 
 }
 
 
-/* =====================================================
-RENDER ALL
-===================================================== */
-
 function renderAll(){
 
 renderStats();
 
-renderToday();
-
 renderRecent();
 
-renderUpcoming();
-
 renderLeads();
-
-renderFollowups();
 
 renderClients();
 
@@ -1572,238 +1672,42 @@ function renderStats(){
 
 document.getElementById(
 "totalLeads"
-).textContent =
+).textContent=
 leads.length;
 
 
 document.getElementById(
 "warmLeads"
-).textContent =
+).textContent=
 leads.filter(
-lead =>
-lead.status === "Warm" ||
-lead.status === "Afspraak"
+l =>
+l.status==="Warm" ||
+l.status==="Afspraak"
 ).length;
 
 
 document.getElementById(
 "openQuotes"
-).textContent =
+).textContent=
 leads.filter(
-lead =>
-lead.status === "Offerte verstuurd"
+l =>
+l.status==="Offerte verstuurd"
 ).length;
 
 
 document.getElementById(
 "activeClients"
-).textContent =
+).textContent=
 leads.filter(
-lead =>
-lead.status === "Gewonnen"
+l =>
+l.status==="Gewonnen"
 ).length;
 
 }
 
 
 /* =====================================================
-TODAY
-===================================================== */
-
-function todayString(){
-
-const d =
-new Date();
-
-return (
-d.getFullYear() +
-"-" +
-String(
-d.getMonth()+1
-).padStart(2,"0") +
-"-" +
-String(
-d.getDate()
-).padStart(2,"0")
-);
-
-}
-
-
-function renderToday(){
-
-const container =
-document.getElementById(
-"todayFollowups"
-);
-
-
-const today =
-todayString();
-
-
-const items =
-leads.filter(
-lead =>
-lead.follow_up_date === today
-);
-
-
-document.getElementById(
-"todayCount"
-).textContent =
-`${items.length} actie${items.length===1?"":"s"}`;
-
-
-if(!items.length){
-
-container.innerHTML = `
-
-<div class="empty">
-
-<div class="empty-icon">
-🎯
-</div>
-
-<strong>
-Geen follow-ups voor vandaag
-</strong>
-
-<p>
-Plan een follow-up bij een lead.
-</p>
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-container.innerHTML =
-items.map(
-lead => `
-
-<div class="today-item">
-
-<div class="today-top">
-
-<div class="today-company">
-
-${escapeHTML(
-lead.company_name
-)}
-
-</div>
-
-
-<span class="priority ${
-priorityClass(
-lead.priority
-)}">
-
-${escapeHTML(
-lead.priority ||
-"Normaal"
-)}
-
-</span>
-
-</div>
-
-
-<div class="today-details">
-
-${
-lead.follow_up_time
-? "⏰ " +
-escapeHTML(
-lead.follow_up_time
-)
-: "Vandaag"
-}
-
-·
-
-${escapeHTML(
-lead.contact_name ||
-"Geen contactpersoon"
-)}
-
-</div>
-
-
-${
-lead.notes
-? `
-<div class="today-details">
-📝 ${escapeHTML(
-lead.notes
-)}
-</div>
-`
-: ""
-}
-
-
-<div class="today-actions">
-
-${
-lead.phone
-? `
-<a
-class="small-button"
-href="tel:${escapeHTML(
-lead.phone
-)}">
-
-📞 Bellen
-
-</a>
-`
-: ""
-}
-
-
-${
-lead.email
-? `
-<a
-class="small-button"
-href="mailto:${escapeHTML(
-lead.email
-)}">
-
-✉️ E-mail
-
-</a>
-`
-: ""
-}
-
-
-<button
-class="small-button"
-onclick="editLead('${lead.id}')">
-
-✏️ Bewerken
-
-</button>
-
-</div>
-
-</div>
-
-`
-).join("");
-
-}
-
-
-/* =====================================================
-RECENT
+RECENT LEADS
 ===================================================== */
 
 function renderRecent(){
@@ -1820,24 +1724,13 @@ leads.slice(0,5);
 
 if(!recent.length){
 
-container.innerHTML = `
-
+container.innerHTML=
+`
 <div class="empty">
-
-<div class="empty-icon">
-👥
+<div class="empty-icon">👥</div>
+<strong>Nog geen leads</strong>
+<p>Klik op "Nieuwe lead" om je eerste lead toe te voegen.</p>
 </div>
-
-<strong>
-Nog geen leads
-</strong>
-
-<p>
-Klik op "Nieuwe lead" om je eerste lead toe te voegen.
-</p>
-
-</div>
-
 `;
 
 return;
@@ -1845,161 +1738,29 @@ return;
 }
 
 
-container.innerHTML =
+container.innerHTML=
 recent.map(
-lead => `
-
-<div class="lead-row">
-
-<div>
-
-<div class="lead-name">
-
-${escapeHTML(
-lead.company_name
-)}
-
-</div>
-
-<div class="lead-contact">
-
-${escapeHTML(
-lead.contact_name ||
-"Geen contactpersoon"
-)}
-
-</div>
-
-</div>
-
-
-<span class="status ${
-statusClass(
-lead.status
-)}">
-
-${escapeHTML(
-lead.status ||
-"Nieuw"
-)}
-
-</span>
-
-</div>
-
-`
-).join("");
-
-}
-
-
-/* =====================================================
-UPCOMING
-===================================================== */
-
-function renderUpcoming(){
-
-const container =
-document.getElementById(
-"upcomingFollowups"
-);
-
-
-const today =
-todayString();
-
-
-const upcoming =
-leads
-.filter(
 lead =>
-lead.follow_up_date &&
-lead.follow_up_date >= today
-)
-.sort(
-(a,b) =>
-(
-a.follow_up_date +
-(a.follow_up_time || "")
-).localeCompare(
-b.follow_up_date +
-(b.follow_up_time || "")
-)
-)
-.slice(0,5);
-
-
-if(!upcoming.length){
-
-container.innerHTML = `
-
-<div class="empty">
-
-<div class="empty-icon">
-📅
-</div>
-
-Geen geplande follow-ups.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-container.innerHTML =
-upcoming.map(
-lead => `
-
+`
 <div class="lead-row">
 
 <div>
 
 <div class="lead-name">
-
-${escapeHTML(
-lead.company_name
-)}
-
+${escapeHTML(lead.company_name)}
 </div>
 
 <div class="lead-contact">
-
-📅 ${formatDate(
-lead.follow_up_date
-)}
-
-${
-lead.follow_up_time
-? " · " +
-escapeHTML(
-lead.follow_up_time
-)
-: ""
-}
-
+${escapeHTML(lead.contact_name||"Geen contactpersoon")}
 </div>
 
 </div>
 
-
-<span class="priority ${
-priorityClass(
-lead.priority
-)}">
-
-${escapeHTML(
-lead.priority ||
-"Normaal"
-)}
-
+<span class="status ${statusClass(lead.status)}">
+${escapeHTML(lead.status||"Nieuw")}
 </span>
 
 </div>
-
 `
 ).join("");
 
@@ -2007,7 +1768,7 @@ lead.priority ||
 
 
 /* =====================================================
-LEADS
+LEADS LIST
 ===================================================== */
 
 function renderLeads(){
@@ -2017,61 +1778,40 @@ document.getElementById(
 "databaseLeads"
 );
 
+if(!container)return;
+
 
 const search =
 (
-document.getElementById(
-"search"
-)?.value || ""
-)
-.toLowerCase();
+document.getElementById("search")?.value||""
+).toLowerCase();
 
 
 const filter =
 document.getElementById(
 "statusFilter"
-)?.value || "Alle";
+)?.value||"Alle";
 
 
 const filtered =
 leads.filter(
 lead => {
 
-const matchesSearch =
-(
-lead.company_name ||
-""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-(
-lead.contact_name ||
-""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-(
-lead.email ||
-""
-)
-.toLowerCase()
-.includes(search);
-
-
-const matchesStatus =
-filter === "Alle" ||
-lead.status === filter;
+const text =
+`
+${lead.company_name||""}
+${lead.contact_name||""}
+${lead.email||""}
+`
+.toLowerCase();
 
 
 return (
-matchesSearch &&
-matchesStatus
+text.includes(search) &&
+(
+filter==="Alle" ||
+lead.status===filter
+)
 );
 
 }
@@ -2080,20 +1820,12 @@ matchesStatus
 
 if(!filtered.length){
 
-container.innerHTML = `
-
+container.innerHTML=
+`
 <div class="empty">
-
-<div class="empty-icon">
-🔎
+<div class="empty-icon">🔎</div>
+<strong>Geen leads gevonden</strong>
 </div>
-
-<strong>
-Geen leads gevonden
-</strong>
-
-</div>
-
 `;
 
 return;
@@ -2101,129 +1833,81 @@ return;
 }
 
 
-container.innerHTML =
+container.innerHTML=
 filtered.map(
-lead => `
-
+lead =>
+`
 <div class="lead-row">
-
 
 <div>
 
 <div class="lead-name">
-
-${escapeHTML(
-lead.company_name
-)}
-
+${escapeHTML(lead.company_name)}
 </div>
 
 <div class="lead-contact">
-
-${escapeHTML(
-lead.contact_name ||
-"Geen contactpersoon"
-)}
-
+${escapeHTML(lead.contact_name||"Geen contactpersoon")}
 </div>
 
 </div>
 
 
-<div>
-
-<span class="status ${
-statusClass(
-lead.status
-)}">
-
-${escapeHTML(
-lead.status ||
-"Nieuw"
-)}
-
+<span class="status ${statusClass(lead.status)}">
+${escapeHTML(lead.status||"Nieuw")}
 </span>
 
-</div>
 
-
-<div>
-
-<span class="priority ${
-priorityClass(
-lead.priority
-)}">
-
-${escapeHTML(
-lead.priority ||
-"Normaal"
-)}
-
+<span class="priority ${priorityClass(lead.priority)}">
+${escapeHTML(lead.priority||"Normaal")}
 </span>
-
-</div>
 
 
 <div class="lead-actions">
 
-
 ${
 lead.phone
-? `
+?
+`
 <a
 class="icon-button"
-href="tel:${escapeHTML(
-lead.phone
-)}">
-
+href="tel:${escapeHTML(lead.phone)}">
 📞
-
 </a>
 `
-: ""
+:""
 }
 
 
 ${
 lead.email
-? `
+?
+`
 <a
 class="icon-button"
-href="mailto:${escapeHTML(
-lead.email
-)}">
-
+href="mailto:${escapeHTML(lead.email)}">
 ✉️
-
 </a>
 `
-: ""
+:""
 }
 
 
 <button
 class="icon-button"
 onclick="editLead('${lead.id}')">
-
 ✏️
-
 </button>
 
 
 <button
 class="icon-button"
 onclick="deleteLead('${lead.id}')">
-
 🗑️
-
 </button>
 
-
 </div>
 
-
 </div>
-
 `
 ).join("");
 
@@ -2231,216 +1915,7 @@ onclick="deleteLead('${lead.id}')">
 
 
 /* =====================================================
-FOLLOWUPS
-===================================================== */
-
-function renderFollowups(){
-
-const container =
-document.getElementById(
-"allFollowups"
-);
-
-
-const items =
-leads
-.filter(
-lead =>
-lead.follow_up_date
-)
-.sort(
-(a,b) =>
-(
-a.follow_up_date +
-(a.follow_up_time || "")
-).localeCompare(
-b.follow_up_date +
-(b.follow_up_time || "")
-)
-);
-
-
-if(!items.length){
-
-container.innerHTML = `
-
-<div class="empty">
-
-<div class="empty-icon">
-📅
-</div>
-
-<strong>
-Geen follow-ups gepland
-</strong>
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-container.innerHTML =
-items.map(
-lead => `
-
-<div class="today-item">
-
-<div class="today-top">
-
-<div class="today-company">
-
-${escapeHTML(
-lead.company_name
-)}
-
-</div>
-
-
-<span class="priority ${
-priorityClass(
-lead.priority
-)}">
-
-${escapeHTML(
-lead.priority ||
-"Normaal"
-)}
-
-</span>
-
-</div>
-
-
-<div class="today-details">
-
-📅 ${formatDate(
-lead.follow_up_date
-)}
-
-${
-lead.follow_up_time
-? " · ⏰ " +
-escapeHTML(
-lead.follow_up_time
-)
-: ""
-}
-
-</div>
-
-
-<div class="today-details">
-
-${escapeHTML(
-lead.contact_name ||
-"Geen contactpersoon"
-)}
-
-</div>
-
-
-</div>
-
-`
-).join("");
-
-}
-
-
-/* =====================================================
-CLIENTS
-===================================================== */
-
-function renderClients(){
-
-const container =
-document.getElementById(
-"clients"
-);
-
-
-const clients =
-leads.filter(
-lead =>
-lead.status === "Gewonnen"
-);
-
-
-if(!clients.length){
-
-container.innerHTML = `
-
-<div class="empty">
-
-<div class="empty-icon">
-🤝
-</div>
-
-<strong>
-Nog geen actieve klanten
-</strong>
-
-<p>
-Leads met status "Gewonnen" verschijnen hier.
-</p>
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-container.innerHTML =
-clients.map(
-lead => `
-
-<div class="lead-row">
-
-<div>
-
-<div class="lead-name">
-
-${escapeHTML(
-lead.company_name
-)}
-
-</div>
-
-<div class="lead-contact">
-
-${escapeHTML(
-lead.contact_name ||
-"Geen contactpersoon"
-)}
-
-</div>
-
-</div>
-
-
-<span class="status status-gewonnen">
-
-Actieve klant
-
-</span>
-
-</div>
-
-`
-).join("");
-
-}
-
-
-/* =====================================================
-OPEN MODAL
+ADD / EDIT LEAD
 ===================================================== */
 
 function openLeadModal(lead=null){
@@ -2454,86 +1929,86 @@ if(lead){
 
 document.getElementById(
 "modalTitle"
-).textContent =
+).textContent=
 "Lead bewerken";
 
 
 document.getElementById(
 "leadId"
-).value =
+).value=
 lead.id;
 
 
 document.getElementById(
 "company"
-).value =
-lead.company_name || "";
+).value=
+lead.company_name||"";
 
 
 document.getElementById(
 "contact"
-).value =
-lead.contact_name || "";
+).value=
+lead.contact_name||"";
 
 
 document.getElementById(
 "email"
-).value =
-lead.email || "";
+).value=
+lead.email||"";
 
 
 document.getElementById(
 "phone"
-).value =
-lead.phone || "";
+).value=
+lead.phone||"";
 
 
 document.getElementById(
 "status"
-).value =
-lead.status || "Nieuw";
+).value=
+lead.status||"Nieuw";
 
 
 document.getElementById(
 "priority"
-).value =
-lead.priority || "Normaal";
+).value=
+lead.priority||"Normaal";
 
 
 document.getElementById(
 "followupDate"
-).value =
-lead.follow_up_date || "";
+).value=
+lead.follow_up_date||"";
 
 
 document.getElementById(
 "followupTime"
-).value =
-lead.follow_up_time || "";
+).value=
+lead.follow_up_time||"";
 
 
 document.getElementById(
 "address"
-).value =
-lead.address || "";
+).value=
+lead.address||"";
 
 
 document.getElementById(
 "city"
-).value =
-lead.city || "Amsterdam";
+).value=
+lead.city||"Amsterdam";
 
 
 document.getElementById(
 "service"
-).value =
-lead.service || "";
+).value=
+lead.service||"";
 
 
 document.getElementById(
 "notes"
-).value =
-lead.notes || "";
+).value=
+lead.notes||"";
 
 }
 else{
@@ -2545,35 +2020,30 @@ document
 
 document.getElementById(
 "leadId"
-).value =
-"";
+).value="";
 
 
 document.getElementById(
 "city"
-).value =
+).value=
 "Amsterdam";
 
 
 document.getElementById(
 "priority"
-).value =
+).value=
 "Normaal";
 
 
 document.getElementById(
 "modalTitle"
-).textContent =
+).textContent=
 "Nieuwe lead";
 
 }
 
 }
 
-
-/* =====================================================
-CLOSE MODAL
-===================================================== */
 
 function closeLeadModal(){
 
@@ -2586,35 +2056,27 @@ document
 
 function closeOutside(event){
 
-if(
-event.target.id === "modal"
-){
-
+if(event.target.id==="modal"){
 closeLeadModal();
-
 }
 
 }
 
-
-/* =====================================================
-SAVE LEAD TO SUPABASE
-===================================================== */
 
 async function saveLead(event){
 
 event.preventDefault();
 
 
-const saveButton =
+const button =
 document.getElementById(
 "saveButton"
 );
 
 
-saveButton.disabled = true;
+button.disabled=true;
 
-saveButton.textContent =
+button.textContent=
 "Opslaan...";
 
 
@@ -2624,67 +2086,43 @@ document.getElementById(
 ).value;
 
 
-const leadData = {
+const leadData={
 
 company_name:
-document.getElementById(
-"company"
-).value.trim(),
+document.getElementById("company").value.trim(),
 
 contact_name:
-document.getElementById(
-"contact"
-).value.trim(),
+document.getElementById("contact").value.trim(),
 
 email:
-document.getElementById(
-"email"
-).value.trim(),
+document.getElementById("email").value.trim(),
 
 phone:
-document.getElementById(
-"phone"
-).value.trim(),
+document.getElementById("phone").value.trim(),
 
 address:
-document.getElementById(
-"address"
-).value.trim(),
+document.getElementById("address").value.trim(),
 
 city:
-document.getElementById(
-"city"
-).value.trim(),
+document.getElementById("city").value.trim(),
 
 service:
-document.getElementById(
-"service"
-).value,
+document.getElementById("service").value,
 
 status:
-document.getElementById(
-"status"
-).value,
+document.getElementById("status").value,
 
 priority:
-document.getElementById(
-"priority"
-).value,
+document.getElementById("priority").value,
 
 follow_up_date:
-document.getElementById(
-"followupDate"
-).value || null,
+document.getElementById("followupDate").value||null,
 
 follow_up_time:
-document.getElementById(
-"followupTime"
-).value || null,
+document.getElementById("followupTime").value||null,
 
 notes:
-document.getElementById(
-"notes"
-).value.trim(),
+document.getElementById("notes").value.trim(),
 
 updated_at:
 new Date().toISOString()
@@ -2697,7 +2135,7 @@ let result;
 
 if(id){
 
-result =
+result=
 await supabaseClient
 .from("leads")
 .update(leadData)
@@ -2708,7 +2146,7 @@ await supabaseClient
 }
 else{
 
-result =
+result=
 await supabaseClient
 .from("leads")
 .insert([leadData])
@@ -2720,20 +2158,14 @@ await supabaseClient
 
 if(result.error){
 
-console.error(
-result.error
-);
-
-
 alert(
-"Opslaan mislukt:\n\n" +
+"Opslaan mislukt:\n\n"+
 result.error.message
 );
 
+button.disabled=false;
 
-saveButton.disabled = false;
-
-saveButton.textContent =
+button.textContent=
 "Lead opslaan";
 
 return;
@@ -2743,70 +2175,49 @@ return;
 
 closeLeadModal();
 
+button.disabled=false;
 
-saveButton.disabled = false;
-
-saveButton.textContent =
+button.textContent=
 "Lead opslaan";
-
 
 await loadLeads();
 
 }
 
 
-/* =====================================================
-EDIT LEAD
-===================================================== */
-
 function editLead(id){
 
 const lead =
 leads.find(
-item =>
-item.id === id
+l=>l.id===id
 );
 
-
-if(!lead)
-return;
-
-
+if(lead)
 openLeadModal(lead);
 
 }
 
 
-/* =====================================================
-DELETE LEAD
-===================================================== */
-
 async function deleteLead(id){
 
 const lead =
 leads.find(
-item =>
-item.id === id
+l=>l.id===id
 );
 
-
-if(!lead)
-return;
+if(!lead)return;
 
 
-const confirmed =
-confirm(
+if(
+!confirm(
 `Weet je zeker dat je "${lead.company_name}" wilt verwijderen?`
-);
-
-
-if(!confirmed)
-return;
+)
+)return;
 
 
 const {
 error
-} =
+}=
 await supabaseClient
 .from("leads")
 .delete()
@@ -2816,7 +2227,7 @@ await supabaseClient
 if(error){
 
 alert(
-"Verwijderen mislukt:\n\n" +
+"Verwijderen mislukt:\n\n"+
 error.message
 );
 
@@ -2831,10 +2242,811 @@ await loadLeads();
 
 
 /* =====================================================
+FOLLOW-UPS
+===================================================== */
+
+async function loadFollowups(){
+
+const {
+data,
+error
+}=
+await supabaseClient
+.from("follow_ups")
+.select("*")
+.order(
+"due_date",
+{
+ascending:true
+}
+);
+
+
+if(error){
+
+console.error(error);
+
+document.getElementById(
+"allFollowups"
+).innerHTML=
+`
+<div class="error-box">
+<strong>Follow-up database fout</strong>
+<p>${escapeHTML(error.message)}</p>
+</div>
+`;
+
+return;
+
+}
+
+
+followups=data||[];
+
+renderFollowups();
+
+renderTodayFollowups();
+
+renderUpcomingFollowups();
+
+}
+
+
+function renderTodayFollowups(){
+
+const today=
+todayString();
+
+
+const items=
+followups.filter(
+f =>
+!f.completed &&
+f.due_date===today
+);
+
+
+document.getElementById(
+"todayCount"
+).textContent=
+`${items.length} actie${items.length===1?"":"s"}`;
+
+
+const container=
+document.getElementById(
+"todayFollowups"
+);
+
+
+if(!items.length){
+
+container.innerHTML=
+`
+<div class="empty">
+<div class="empty-icon">🎯</div>
+<strong>Geen follow-ups voor vandaag</strong>
+<p>Plan een follow-up om hier een actie te zien.</p>
+</div>
+`;
+
+return;
+
+}
+
+
+container.innerHTML=
+items.map(
+f=>followupHTML(f)
+).join("");
+
+}
+
+
+function renderUpcomingFollowups(){
+
+const today=
+todayString();
+
+
+const items=
+followups
+.filter(
+f =>
+!f.completed &&
+f.due_date>today
+)
+.sort(
+(a,b)=>
+a.due_date.localeCompare(
+b.due_date
+)
+)
+.slice(0,5);
+
+
+const container=
+document.getElementById(
+"upcomingFollowups"
+);
+
+
+if(!items.length){
+
+container.innerHTML=
+`
+<div class="empty">
+<div class="empty-icon">📅</div>
+Geen komende follow-ups.
+</div>
+`;
+
+return;
+
+}
+
+
+container.innerHTML=
+items.map(
+f=>followupHTML(f)
+).join("");
+
+}
+
+
+function getLeadForFollowup(f){
+
+return leads.find(
+l=>l.id===f.lead_id
+)||{};
+
+}
+
+
+function followupHTML(f){
+
+const lead=
+getLeadForFollowup(f);
+
+
+const today=
+todayString();
+
+
+const overdue=
+!f.completed &&
+f.due_date<today;
+
+
+const todayDue=
+!f.completed &&
+f.due_date===today;
+
+
+const cls=
+f.completed
+?"followup-done"
+:overdue
+?"followup-overdue"
+:todayDue
+?"followup-today"
+:"followup-upcoming";
+
+
+return `
+
+<div class="followup-card ${cls}">
+
+<div class="followup-main">
+
+<div>
+
+<div class="followup-company">
+
+${escapeHTML(
+lead.company_name||
+"Onbekende lead"
+)}
+
+</div>
+
+
+<div class="followup-meta">
+
+<strong>
+${escapeHTML(
+f.action||
+"Follow-up"
+)}
+</strong>
+
+<br>
+
+📅 ${formatDate(f.due_date)}
+
+${
+f.due_time
+?
+" · ⏰ "+
+escapeHTML(f.due_time)
+:
+""
+}
+
+${
+lead.contact_name
+?
+" · "+
+escapeHTML(
+lead.contact_name
+)
+:
+""
+}
+
+
+${
+f.notes
+?
+"<br>📝 "+
+escapeHTML(
+f.notes
+)
+:
+""
+}
+
+</div>
+
+</div>
+
+
+<span
+class="priority ${priorityClass(
+lead.priority
+)}">
+
+${
+f.completed
+?
+"Afgerond"
+:
+overdue
+?
+"Te laat"
+:
+todayDue
+?
+"Vandaag"
+:
+"Gepland"
+}
+
+</span>
+
+</div>
+
+
+<div class="followup-actions">
+
+
+${
+lead.phone
+?
+`
+<a
+href="tel:${escapeHTML(
+lead.phone
+)}">
+📞 Bellen
+</a>
+`
+:
+""
+}
+
+
+${
+lead.email
+?
+`
+<a
+href="mailto:${escapeHTML(
+lead.email
+)}">
+✉️ E-mail
+</a>
+`
+:
+""
+}
+
+
+<button
+onclick=
+"toggleFollowup(
+'${f.id}',
+${!f.completed}
+)">
+
+${
+f.completed
+?
+"↩️ Openen"
+:
+"✅ Afgerond"
+}
+
+</button>
+
+
+<button
+onclick=
+"deleteFollowup(
+'${f.id}'
+)">
+
+🗑️ Verwijderen
+
+</button>
+
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function renderFollowups(){
+
+const container=
+document.getElementById(
+"allFollowups"
+);
+
+
+if(!container)return;
+
+
+const search=
+(
+document.getElementById(
+"followupSearch"
+)?.value||""
+)
+.toLowerCase();
+
+
+const filter=
+document.getElementById(
+"followupFilter"
+)?.value||"open";
+
+
+const today=
+todayString();
+
+
+let items=
+followups.filter(
+f=>{
+
+const lead=
+getLeadForFollowup(f);
+
+
+const text=
+`
+${lead.company_name||""}
+${lead.contact_name||""}
+${f.action||""}
+${f.notes||""}
+`
+.toLowerCase();
+
+
+if(
+search &&
+!text.includes(search)
+)
+return false;
+
+
+if(filter==="open")
+return !f.completed;
+
+
+if(filter==="completed")
+return f.completed;
+
+
+if(filter==="overdue")
+return !f.completed &&
+f.due_date<today;
+
+
+if(filter==="today")
+return !f.completed &&
+f.due_date===today;
+
+
+if(filter==="upcoming")
+return !f.completed &&
+f.due_date>today;
+
+
+return true;
+
+}
+);
+
+
+items.sort(
+(a,b)=>
+(
+`${a.due_date||""}${a.due_time||""}`
+)
+.localeCompare(
+`${b.due_date||""}${b.due_time||""}`
+)
+);
+
+
+document.getElementById(
+"overdueCount"
+).textContent=
+followups.filter(
+f =>
+!f.completed &&
+f.due_date<today
+).length;
+
+
+document.getElementById(
+"followupTodayCount"
+).textContent=
+followups.filter(
+f =>
+!f.completed &&
+f.due_date===today
+).length;
+
+
+document.getElementById(
+"upcomingCount"
+).textContent=
+followups.filter(
+f =>
+!f.completed &&
+f.due_date>today
+).length;
+
+
+if(!items.length){
+
+container.innerHTML=
+`
+<div class="empty">
+<div class="empty-icon">📅</div>
+<strong>Geen follow-ups gevonden</strong>
+<p>Maak een nieuwe follow-up aan via de knop hierboven.</p>
+</div>
+`;
+
+return;
+
+}
+
+
+container.innerHTML=
+items.map(
+f=>followupHTML(f)
+).join("");
+
+}
+
+
+/* =====================================================
+FOLLOW-UP MODAL
+===================================================== */
+
+function openFollowupModal(){
+
+const select=
+document.getElementById(
+"followupLead"
+);
+
+
+select.innerHTML=
+`
+<option value="">
+Kies een lead
+</option>
+`+
+leads.map(
+lead =>
+`
+<option value="${lead.id}">
+${escapeHTML(
+lead.company_name
+)}
+</option>
+`
+).join("");
+
+
+document.getElementById(
+"newFollowupDate"
+).value=
+todayString();
+
+
+document.getElementById(
+"followupAction"
+).value="";
+
+
+document.getElementById(
+"followupNotes"
+).value="";
+
+
+document.getElementById(
+"newFollowupTime"
+).value="";
+
+
+document.getElementById(
+"followupModal"
+).classList.add(
+"show"
+);
+
+}
+
+
+function closeFollowupModal(){
+
+document.getElementById(
+"followupModal"
+).classList.remove(
+"show"
+);
+
+}
+
+
+function closeFollowupOutside(event){
+
+if(
+event.target.id===
+"followupModal"
+){
+
+closeFollowupModal();
+
+}
+
+}
+
+
+/* =====================================================
+SAVE FOLLOW-UP
+===================================================== */
+
+async function saveFollowup(event){
+
+event.preventDefault();
+
+
+const button=
+document.getElementById(
+"followupSaveButton"
+);
+
+
+button.disabled=true;
+
+button.textContent=
+"Opslaan...";
+
+
+const leadId=
+document.getElementById(
+"followupLead"
+).value;
+
+
+const action=
+document.getElementById(
+"followupAction"
+).value;
+
+
+const dueDate=
+document.getElementById(
+"newFollowupDate"
+).value;
+
+
+const dueTime=
+document.getElementById(
+"newFollowupTime"
+).value ||
+null;
+
+
+const notes=
+document.getElementById(
+"followupNotes"
+).value.trim();
+
+
+const {
+error
+}=
+await supabaseClient
+.from("follow_ups")
+.insert([
+
+{
+
+lead_id:
+leadId,
+
+action:
+action,
+
+notes:
+notes,
+
+due_date:
+dueDate,
+
+due_time:
+dueTime,
+
+completed:
+false
+
+}
+
+]);
+
+
+if(error){
+
+alert(
+"Follow-up opslaan mislukt:\n\n"+
+error.message
+);
+
+
+button.disabled=false;
+
+button.textContent=
+"Follow-up opslaan";
+
+return;
+
+}
+
+
+closeFollowupModal();
+
+
+button.disabled=false;
+
+button.textContent=
+"Follow-up opslaan";
+
+
+await loadFollowups();
+
+}
+
+
+/* =====================================================
+COMPLETE FOLLOW-UP
+===================================================== */
+
+async function toggleFollowup(
+id,
+completed
+){
+
+const update=
+completed
+?
+{
+completed:true,
+completed_at:
+new Date().toISOString()
+}
+:
+{
+completed:false,
+completed_at:null
+};
+
+
+const {
+error
+}=
+await supabaseClient
+.from("follow_ups")
+.update(update)
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"Bijwerken mislukt:\n\n"+
+error.message
+);
+
+return;
+
+}
+
+
+await loadFollowups();
+
+}
+
+
+/* =====================================================
+DELETE FOLLOW-UP
+===================================================== */
+
+async function deleteFollowup(id){
+
+if(
+!confirm(
+"Deze follow-up verwijderen?"
+)
+)
+return;
+
+
+const {
+error
+}=
+await supabaseClient
+.from("follow_ups")
+.delete()
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"Verwijderen mislukt:\n\n"+
+error.message
+);
+
+return;
+
+}
+
+
+await loadFollowups();
+
+}
+
+
+/* =====================================================
 NAVIGATION
 ===================================================== */
 
-function showPage(pageId,button){
+function showPage(
+pageId,
+button
+){
 
 document
 .querySelectorAll(".page")
@@ -2871,13 +3083,12 @@ button.classList.add(
 
 }
 
-
-renderAll();
-
 }
 
 
-function showPageById(pageId){
+function showPageById(
+pageId
+){
 
 document
 .querySelectorAll(".page")
@@ -2899,12 +3110,81 @@ document
 
 
 /* =====================================================
+CLIENTS
+===================================================== */
+
+function renderClients(){
+
+const container=
+document.getElementById(
+"clients"
+);
+
+
+const clients=
+leads.filter(
+lead =>
+lead.status==="Gewonnen"
+);
+
+
+if(!clients.length){
+
+container.innerHTML=
+`
+<div class="empty">
+<div class="empty-icon">🤝</div>
+<strong>Nog geen actieve klanten</strong>
+<p>Leads met status "Gewonnen" verschijnen hier.</p>
+</div>
+`;
+
+return;
+
+}
+
+
+container.innerHTML=
+clients.map(
+lead =>
+`
+<div class="lead-row">
+
+<div>
+
+<div class="lead-name">
+${escapeHTML(
+lead.company_name
+)}
+</div>
+
+<div class="lead-contact">
+${escapeHTML(
+lead.contact_name||
+"Geen contactpersoon"
+)}
+</div>
+
+</div>
+
+<span class="status status-gewonnen">
+Actieve klant
+</span>
+
+</div>
+`
+).join("");
+
+}
+
+
+/* =====================================================
 HELPERS
 ===================================================== */
 
 function statusClass(status){
 
-const map = {
+const map={
 
 "Nieuw":
 "status-nieuw",
@@ -2933,21 +3213,19 @@ const map = {
 };
 
 
-return (
-map[status] ||
-"status-nieuw"
-);
+return map[status]||
+"status-nieuw";
 
 }
 
 
 function priorityClass(priority){
 
-if(priority === "Hoog")
+if(priority==="Hoog")
 return "priority-high";
 
 
-if(priority === "Laag")
+if(priority==="Laag")
 return "priority-low";
 
 
@@ -2956,15 +3234,38 @@ return "priority-normal";
 }
 
 
-function formatDate(dateString){
+function todayString(){
+
+const d=
+new Date();
+
+
+return(
+d.getFullYear()+
+"-"+
+String(
+d.getMonth()+1
+).padStart(2,"0")+
+"-"+
+String(
+d.getDate()
+).padStart(2,"0")
+);
+
+}
+
+
+function formatDate(
+dateString
+){
 
 if(!dateString)
 return "";
 
 
-const date =
+const date=
 new Date(
-dateString +
+dateString+
 "T00:00:00"
 );
 
@@ -2981,9 +3282,13 @@ year:"numeric"
 }
 
 
-function escapeHTML(value){
+function escapeHTML(
+value
+){
 
-return String(value || "")
+return String(
+value||""
+)
 .replace(
 /&/g,
 "&amp;"
