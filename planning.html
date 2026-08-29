@@ -1,0 +1,2623 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ARC OS — Planning</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#f4f7f5;
+color:#111815;
+}
+
+button,input,select,textarea{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+.topbar{
+height:72px;
+background:#fff;
+border-bottom:1px solid #dce5df;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 28px;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.brand img{
+width:120px;
+height:52px;
+object-fit:contain;
+}
+
+.top-actions{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logout{
+border:1px solid #dce5df;
+background:#fff;
+color:#315b49;
+padding:9px 13px;
+border-radius:8px;
+font-size:13px;
+font-weight:700;
+}
+
+.profile{
+width:42px;
+height:42px;
+border-radius:50%;
+background:#286247;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:700;
+}
+
+.layout{
+display:flex;
+min-height:calc(100vh - 72px);
+}
+
+.sidebar{
+width:240px;
+flex-shrink:0;
+background:#063b2d;
+color:#fff;
+padding:25px 16px;
+}
+
+.sidebar-title{
+margin:10px 12px 12px;
+font-size:11px;
+letter-spacing:1.5px;
+opacity:.55;
+}
+
+.nav-item{
+width:100%;
+border:0;
+background:transparent;
+color:#dce9e2;
+text-align:left;
+padding:13px 14px;
+margin-bottom:4px;
+border-radius:9px;
+font-size:14px;
+font-weight:600;
+}
+
+.nav-item:hover,
+.nav-item.active{
+background:#0a5b3e;
+color:#fff;
+}
+
+.content{
+flex:1;
+max-width:1450px;
+padding:32px;
+width:100%;
+}
+
+.page-heading{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+margin-bottom:28px;
+}
+
+.page-heading h1{
+margin:0;
+font-size:30px;
+}
+
+.page-heading p{
+margin:8px 0 0;
+color:#68736e;
+font-size:14px;
+}
+
+.button{
+border:0;
+background:#0a5b3e;
+color:#fff;
+padding:13px 18px;
+border-radius:9px;
+font-size:14px;
+font-weight:700;
+}
+
+.button:hover{
+background:#084b34;
+}
+
+.button.secondary{
+background:#edf2ef;
+color:#0a5b3e;
+}
+
+.button.danger{
+background:#fff0f0;
+color:#a52d2d;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+margin-bottom:28px;
+}
+
+.stat-card{
+background:#fff;
+border:1px solid #dce5df;
+border-radius:13px;
+padding:21px;
+}
+
+.stat-label{
+color:#68736e;
+font-size:13px;
+margin-bottom:9px;
+}
+
+.stat-number{
+color:#0a5b3e;
+font-size:30px;
+font-weight:800;
+}
+
+.toolbar{
+display:flex;
+gap:10px;
+align-items:center;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.date-button{
+border:1px solid #d4dfd8;
+background:#fff;
+border-radius:9px;
+padding:11px 14px;
+font-weight:700;
+color:#315b49;
+}
+
+.date-label{
+font-weight:700;
+font-size:15px;
+min-width:170px;
+text-align:center;
+}
+
+.filter{
+border:1px solid #d4dfd8;
+background:#fff;
+border-radius:9px;
+padding:11px 13px;
+min-width:170px;
+}
+
+.calendar{
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+.day-card{
+background:#fff;
+border:1px solid #dce5df;
+border-radius:14px;
+overflow:hidden;
+}
+
+.day-header{
+padding:16px 20px;
+background:#fafcfb;
+border-bottom:1px solid #e5ebe7;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.day-name{
+font-size:16px;
+font-weight:800;
+}
+
+.day-date{
+font-size:12px;
+color:#68736e;
+margin-top:4px;
+}
+
+.day-count{
+font-size:12px;
+font-weight:700;
+color:#0a5b3e;
+}
+
+.job-list{
+padding:8px 16px;
+}
+
+.job{
+display:grid;
+grid-template-columns:100px 1fr auto;
+gap:18px;
+align-items:center;
+padding:17px 5px;
+border-bottom:1px solid #edf1ee;
+}
+
+.job:last-child{
+border-bottom:0;
+}
+
+.job-time{
+font-weight:800;
+font-size:14px;
+color:#0a5b3e;
+}
+
+.job-main{
+min-width:0;
+}
+
+.job-service{
+font-weight:800;
+font-size:14px;
+}
+
+.job-meta{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+font-size:12px;
+color:#68736e;
+margin-top:6px;
+}
+
+.job-actions{
+display:flex;
+gap:7px;
+align-items:center;
+}
+
+.status{
+display:inline-flex;
+padding:6px 10px;
+border-radius:20px;
+font-size:11px;
+font-weight:700;
+white-space:nowrap;
+}
+
+.status-gepland{
+background:#edf1ee;
+color:#56615b;
+}
+
+.status-gestart{
+background:#fff1cf;
+color:#8a6200;
+}
+
+.status-afgerond{
+background:#dff5e5;
+color:#176738;
+}
+
+.status-geannuleerd{
+background:#fbeaea;
+color:#a52d2d;
+}
+
+.small-button{
+border:1px solid #dce5df;
+background:#f8faf9;
+color:#315b49;
+padding:8px 10px;
+border-radius:8px;
+font-size:12px;
+font-weight:700;
+}
+
+.small-button:hover{
+background:#edf2ef;
+}
+
+.empty{
+text-align:center;
+padding:45px 20px;
+color:#68736e;
+}
+
+.empty-icon{
+font-size:35px;
+margin-bottom:10px;
+}
+
+.modal-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.48);
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:1000;
+}
+
+.modal-overlay.show{
+display:flex;
+}
+
+.modal{
+width:100%;
+max-width:760px;
+max-height:92vh;
+overflow-y:auto;
+background:#fff;
+border-radius:16px;
+padding:25px;
+}
+
+.modal-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:22px;
+}
+
+.modal-header h2{
+margin:0;
+font-size:22px;
+}
+
+.close{
+border:0;
+background:#edf2ef;
+width:36px;
+height:36px;
+border-radius:50%;
+font-size:20px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+.form-group{
+display:flex;
+flex-direction:column;
+gap:7px;
+}
+
+.form-group.full{
+grid-column:1/-1;
+}
+
+.form-group label{
+font-size:13px;
+font-weight:700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+width:100%;
+border:1px solid #d4dfd8;
+border-radius:8px;
+padding:12px;
+outline:none;
+background:#fff;
+}
+
+.form-group textarea{
+min-height:100px;
+resize:vertical;
+}
+
+.modal-footer{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-top:22px;
+}
+
+.detail-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.detail-box{
+background:#fafcfb;
+border:1px solid #e1e8e3;
+border-radius:10px;
+padding:15px;
+}
+
+.detail-box strong{
+display:block;
+font-size:11px;
+color:#68736e;
+text-transform:uppercase;
+margin-bottom:6px;
+}
+
+.error-box{
+background:#fff1f1;
+border:1px solid #efc4c4;
+color:#a52d2d;
+border-radius:10px;
+padding:15px;
+margin-bottom:20px;
+font-size:14px;
+}
+
+@media(max-width:1000px){
+
+.sidebar{
+display:none;
+}
+
+.content{
+padding:24px 18px;
+}
+
+.stats{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:650px){
+
+.topbar{
+padding:0 14px;
+}
+
+.page-heading{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.page-heading .button{
+width:100%;
+}
+
+.stats{
+grid-template-columns:1fr 1fr;
+}
+
+.job{
+grid-template-columns:1fr;
+gap:8px;
+}
+
+.job-actions{
+justify-content:flex-start;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+.form-group.full{
+grid-column:auto;
+}
+
+.detail-grid{
+grid-template-columns:1fr;
+}
+
+}
+</style>
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+<div class="brand">
+
+<img
+src="arc-logo-reference.jpg"
+alt="ARC Cleaning Business"
+>
+
+</div>
+
+
+<div class="top-actions">
+
+<button
+class="logout"
+onclick="logout()"
+>
+Uitloggen
+</button>
+
+<div
+class="profile"
+id="profile"
+>
+CA
+</div>
+
+</div>
+
+</header>
+
+
+<div class="layout">
+
+
+<aside class="sidebar">
+
+<div class="sidebar-title">
+ARC OS
+</div>
+
+
+<button
+class="nav-item"
+onclick="goDashboard()"
+>
+📊 Dashboard
+</button>
+
+
+<button
+class="nav-item"
+onclick="goLeads()"
+>
+👥 Leads
+</button>
+
+
+<button
+class="nav-item"
+onclick="goDashboard()"
+>
+📅 Follow-ups
+</button>
+
+
+<button
+class="nav-item"
+onclick="goDashboard()"
+>
+📄 Offertes
+</button>
+
+
+<button
+class="nav-item"
+onclick="goDashboard()"
+>
+🤝 Klanten
+</button>
+
+
+<div class="sidebar-title">
+BEHEER
+</div>
+
+
+<button
+class="nav-item"
+onclick="goPersoneel()"
+>
+👷 Personeel
+</button>
+
+
+<button
+class="nav-item"
+onclick="goLocaties()"
+>
+🏢 Locaties
+</button>
+
+
+<button
+class="nav-item active"
+>
+📅 Planning
+</button>
+
+
+<button
+class="nav-item"
+onclick="goDashboard()"
+>
+💰 Facturen
+</button>
+
+
+<button
+class="nav-item"
+onclick="goDashboard()"
+>
+⚙ Instellingen
+</button>
+
+</aside>
+
+
+<main class="content">
+
+
+<div class="page-heading">
+
+<div>
+
+<h1>
+Planning
+</h1>
+
+<p>
+Beheer alle schoonmaakwerkzaamheden en opdrachten.
+</p>
+
+</div>
+
+
+<button
+class="button"
+onclick="openJobModal()"
+>
++ Nieuwe opdracht
+</button>
+
+</div>
+
+
+<div class="stats">
+
+
+<div class="stat-card">
+
+<div class="stat-label">
+Vandaag
+</div>
+
+<div
+class="stat-number"
+id="todayJobs"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-label">
+Deze week
+</div>
+
+<div
+class="stat-number"
+id="weekJobs"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-label">
+Gepland
+</div>
+
+<div
+class="stat-number"
+id="plannedJobs"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-label">
+Afgerond
+</div>
+
+<div
+class="stat-number"
+id="completedJobs"
+>
+0
+</div>
+
+</div>
+
+</div>
+
+
+<div class="toolbar">
+
+<button
+class="date-button"
+onclick="changeWeek(-1)"
+>
+← Vorige
+</button>
+
+
+<div
+class="date-label"
+id="weekLabel"
+>
+Deze week
+</div>
+
+
+<button
+class="date-button"
+onclick="changeWeek(1)"
+>
+Volgende →
+</button>
+
+
+<button
+class="date-button"
+onclick="goToday()"
+>
+Vandaag
+</button>
+
+
+<select
+class="filter"
+id="employeeFilter"
+onchange="renderCalendar()"
+>
+
+<option value="">
+Alle medewerkers
+</option>
+
+</select>
+
+
+<select
+class="filter"
+id="statusFilter"
+onchange="renderCalendar()"
+>
+
+<option value="">
+Alle statussen
+</option>
+
+<option value="Gepland">
+Gepland
+</option>
+
+<option value="Gestart">
+Gestart
+</option>
+
+<option value="Afgerond">
+Afgerond
+</option>
+
+<option value="Geannuleerd">
+Geannuleerd
+</option>
+
+</select>
+
+</div>
+
+
+<div id="errorContainer"></div>
+
+
+<div
+class="calendar"
+id="calendar"
+>
+
+<div class="empty">
+Planning laden...
+</div>
+
+</div>
+
+
+</main>
+
+</div>
+
+
+<!-- =====================================================
+JOB MODAL
+===================================================== -->
+
+<div
+class="modal-overlay"
+id="jobModal"
+onclick="closeJobOutside(event)"
+>
+
+<div
+class="modal"
+onclick="event.stopPropagation()"
+>
+
+
+<div class="modal-header">
+
+<h2 id="jobModalTitle">
+Nieuwe opdracht
+</h2>
+
+<button
+class="close"
+onclick="closeJobModal()"
+>
+×
+</button>
+
+</div>
+
+
+<form
+id="jobForm"
+onsubmit="saveJob(event)"
+>
+
+
+<input
+type="hidden"
+id="jobId"
+>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>
+Medewerker *
+</label>
+
+<select
+id="jobEmployee"
+required
+>
+
+<option value="">
+Kies medewerker
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Locatie *
+</label>
+
+<select
+id="jobLocation"
+required
+>
+
+<option value="">
+Kies locatie
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Datum *
+</label>
+
+<input
+type="date"
+id="jobDate"
+required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Dienst
+</label>
+
+<input
+id="jobService"
+value="Schoonmaak"
+placeholder="Bijv. Kantoorschoonmaak"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Starttijd
+</label>
+
+<input
+type="time"
+id="jobStart"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Eindtijd
+</label>
+
+<input
+type="time"
+id="jobEnd"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Status
+</label>
+
+<select id="jobStatus">
+
+<option value="Gepland">
+Gepland
+</option>
+
+<option value="Gestart">
+Gestart
+</option>
+
+<option value="Afgerond">
+Afgerond
+</option>
+
+<option value="Geannuleerd">
+Geannuleerd
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+Notities
+</label>
+
+<textarea
+id="jobNotes"
+placeholder="Bijzonderheden voor deze opdracht..."
+></textarea>
+
+</div>
+
+
+</div>
+
+
+<div class="modal-footer">
+
+<button
+type="button"
+class="button secondary"
+onclick="closeJobModal()"
+>
+Annuleren
+</button>
+
+
+<button
+type="submit"
+class="button"
+id="saveJobButton"
+>
+Opdracht opslaan
+</button>
+
+</div>
+
+
+</form>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+DETAIL MODAL
+===================================================== -->
+
+<div
+class="modal-overlay"
+id="detailModal"
+onclick="closeDetailOutside(event)"
+>
+
+<div
+class="modal"
+onclick="event.stopPropagation()"
+>
+
+
+<div class="modal-header">
+
+<h2>
+Opdracht
+</h2>
+
+<button
+class="close"
+onclick="closeDetailModal()"
+>
+×
+</button>
+
+</div>
+
+
+<div id="detailContent"></div>
+
+
+<div class="modal-footer">
+
+<button
+class="button danger"
+id="deleteJobButton"
+>
+🗑️ Verwijderen
+</button>
+
+
+<button
+class="button secondary"
+onclick="closeDetailModal()"
+>
+Sluiten
+</button>
+
+
+<button
+class="button"
+id="editJobButton"
+>
+✏️ Bewerken
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+"https://dsmiokncislpdwhauleu.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_FGXia9BmU2mW2yYv9iwfxw_hvhMFnbB";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* =====================================================
+STATE
+===================================================== */
+
+let employees = [];
+let locations = [];
+let jobs = [];
+
+let weekOffset = 0;
+
+
+/* =====================================================
+AUTH
+===================================================== */
+
+async function checkAuth(){
+
+const {
+data,
+error
+} =
+await supabaseClient.auth.getSession();
+
+
+if(error || !data.session){
+
+window.location.href =
+"login.html";
+
+return false;
+
+}
+
+
+const email =
+data.session.user.email || "CA";
+
+
+document.getElementById(
+"profile"
+).textContent =
+email.substring(0,2).toUpperCase();
+
+
+return true;
+
+}
+
+
+/* =====================================================
+NAVIGATION
+===================================================== */
+
+function goDashboard(){
+
+window.location.href =
+"dashboard.html";
+
+}
+
+
+function goPersoneel(){
+
+window.location.href =
+"personeel.html";
+
+}
+
+
+function goLocaties(){
+
+window.location.href =
+"locaties.html";
+
+}
+
+
+function goLeads(){
+
+window.location.href =
+"dashboard.html";
+
+}
+
+
+/* =====================================================
+LOGOUT
+===================================================== */
+
+async function logout(){
+
+await supabaseClient.auth.signOut();
+
+window.location.href =
+"login.html";
+
+}
+
+
+/* =====================================================
+LOAD EMPLOYEES
+===================================================== */
+
+async function loadEmployees(){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("employees")
+.select("*")
+.order("name",{ascending:true});
+
+
+if(error){
+
+showError(
+"Medewerkers laden mislukt: " +
+error.message
+);
+
+return;
+
+}
+
+
+employees =
+data || [];
+
+
+const filter =
+document.getElementById(
+"employeeFilter"
+);
+
+
+const employeeSelect =
+document.getElementById(
+"jobEmployee"
+);
+
+
+filter.innerHTML = `
+<option value="">
+Alle medewerkers
+</option>
+`;
+
+
+employeeSelect.innerHTML = `
+<option value="">
+Kies medewerker
+</option>
+`;
+
+
+employees.forEach(employee => {
+
+const name =
+employee.name ||
+(
+(employee.first_name || "") +
+" " +
+(employee.last_name || "")
+).trim();
+
+
+filter.innerHTML += `
+<option value="${escapeHTML(employee.id)}">
+${escapeHTML(name || "Medewerker")}
+</option>
+`;
+
+
+employeeSelect.innerHTML += `
+<option value="${escapeHTML(employee.id)}">
+${escapeHTML(name || "Medewerker")}
+</option>
+`;
+
+});
+
+}
+
+
+/* =====================================================
+LOAD LOCATIONS
+===================================================== */
+
+async function loadLocations(){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("locations")
+.select("*")
+.order("name",{ascending:true});
+
+
+if(error){
+
+showError(
+"Locaties laden mislukt: " +
+error.message
+);
+
+return;
+
+}
+
+
+locations =
+data || [];
+
+
+const select =
+document.getElementById(
+"jobLocation"
+);
+
+
+select.innerHTML = `
+<option value="">
+Kies locatie
+</option>
+`;
+
+
+locations.forEach(location => {
+
+select.innerHTML += `
+<option value="${escapeHTML(location.id)}">
+${escapeHTML(location.name || "Locatie")}
+</option>
+`;
+
+});
+
+}
+
+
+/* =====================================================
+LOAD JOBS
+===================================================== */
+
+async function loadJobs(){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("jobs")
+.select("*")
+.order("job_date",{ascending:true})
+.order("start_time",{ascending:true});
+
+
+if(error){
+
+showError(
+"Planning laden mislukt: " +
+error.message
+);
+
+return;
+
+}
+
+
+jobs =
+data || [];
+
+
+renderStats();
+
+renderCalendar();
+
+}
+
+
+/* =====================================================
+WEEK HELPERS
+===================================================== */
+
+function getMonday(date){
+
+const d =
+new Date(date);
+
+const day =
+d.getDay();
+
+const diff =
+day === 0
+? -6
+: 1 - day;
+
+d.setDate(
+d.getDate() + diff
+);
+
+d.setHours(0,0,0,0);
+
+return d;
+
+}
+
+
+function getCurrentMonday(){
+
+const today =
+new Date();
+
+const monday =
+getMonday(today);
+
+monday.setDate(
+monday.getDate() +
+weekOffset * 7
+);
+
+return monday;
+
+}
+
+
+function dateToISO(date){
+
+const year =
+date.getFullYear();
+
+const month =
+String(
+date.getMonth()+1
+).padStart(2,"0");
+
+const day =
+String(
+date.getDate()
+).padStart(2,"0");
+
+return `${year}-${month}-${day}`;
+
+}
+
+
+function formatShortDate(date){
+
+return date.toLocaleDateString(
+"nl-NL",
+{
+day:"numeric",
+month:"short"
+}
+);
+
+}
+
+
+function formatLongDate(date){
+
+return date.toLocaleDateString(
+"nl-NL",
+{
+weekday:"long",
+day:"numeric",
+month:"long"
+}
+);
+
+}
+
+
+/* =====================================================
+CHANGE WEEK
+===================================================== */
+
+function changeWeek(amount){
+
+weekOffset += amount;
+
+renderCalendar();
+
+}
+
+
+function goToday(){
+
+weekOffset = 0;
+
+renderCalendar();
+
+}
+
+
+/* =====================================================
+WEEK LABEL
+===================================================== */
+
+function renderWeekLabel(){
+
+const monday =
+getCurrentMonday();
+
+
+const sunday =
+new Date(monday);
+
+sunday.setDate(
+sunday.getDate()+6
+);
+
+
+document.getElementById(
+"weekLabel"
+).textContent =
+`${formatShortDate(monday)} – ${formatShortDate(sunday)}`;
+
+}
+
+
+/* =====================================================
+STATS
+===================================================== */
+
+function renderStats(){
+
+const today =
+new Date();
+
+
+const todayISO =
+dateToISO(today);
+
+
+const monday =
+getCurrentMonday();
+
+
+const sunday =
+new Date(monday);
+
+sunday.setDate(
+sunday.getDate()+6
+);
+
+
+const mondayISO =
+dateToISO(monday);
+
+const sundayISO =
+dateToISO(sunday);
+
+
+const todayCount =
+jobs.filter(
+job =>
+job.job_date === todayISO
+).length;
+
+
+const weekCount =
+jobs.filter(
+job =>
+job.job_date >= mondayISO &&
+job.job_date <= sundayISO
+).length;
+
+
+const plannedCount =
+jobs.filter(
+job =>
+job.status === "Gepland"
+).length;
+
+
+const completedCount =
+jobs.filter(
+job =>
+job.status === "Afgerond"
+).length;
+
+
+document.getElementById(
+"todayJobs"
+).textContent =
+todayCount;
+
+
+document.getElementById(
+"weekJobs"
+).textContent =
+weekCount;
+
+
+document.getElementById(
+"plannedJobs"
+).textContent =
+plannedCount;
+
+
+document.getElementById(
+"completedJobs"
+).textContent =
+completedCount;
+
+}
+
+
+/* =====================================================
+RENDER CALENDAR
+===================================================== */
+
+function renderCalendar(){
+
+renderWeekLabel();
+
+
+const monday =
+getCurrentMonday();
+
+
+const employeeFilter =
+document.getElementById(
+"employeeFilter"
+).value;
+
+
+const statusFilter =
+document.getElementById(
+"statusFilter"
+).value;
+
+
+const container =
+document.getElementById(
+"calendar"
+);
+
+
+let html = "";
+
+
+for(let i=0;i<7;i++){
+
+const date =
+new Date(monday);
+
+date.setDate(
+date.getDate()+i
+);
+
+
+const iso =
+dateToISO(date);
+
+
+let dayJobs =
+jobs.filter(
+job =>
+job.job_date === iso
+);
+
+
+if(employeeFilter){
+
+dayJobs =
+dayJobs.filter(
+job =>
+String(job.employee_id) ===
+String(employeeFilter)
+);
+
+}
+
+
+if(statusFilter){
+
+dayJobs =
+dayJobs.filter(
+job =>
+job.status === statusFilter
+);
+
+}
+
+
+dayJobs.sort(
+(a,b) =>
+String(a.start_time || "")
+.localeCompare(
+String(b.start_time || "")
+)
+);
+
+
+html += `
+
+<div class="day-card">
+
+<div class="day-header">
+
+<div>
+
+<div class="day-name">
+
+${capitalize(
+formatLongDate(date)
+)}
+
+</div>
+
+<div class="day-date">
+${iso}
+</div>
+
+</div>
+
+<div class="day-count">
+
+${dayJobs.length}
+${dayJobs.length === 1 ? "opdracht" : "opdrachten"}
+
+</div>
+
+</div>
+
+
+<div class="job-list">
+
+${
+dayJobs.length
+?
+dayJobs.map(
+job => renderJob(job)
+).join("")
+:
+`
+<div class="empty">
+
+Geen werkzaamheden gepland.
+
+</div>
+`
+}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+container.innerHTML =
+html;
+
+renderStats();
+
+}
+
+
+/* =====================================================
+RENDER JOB
+===================================================== */
+
+function renderJob(job){
+
+const employee =
+employees.find(
+employee =>
+String(employee.id) ===
+String(job.employee_id)
+);
+
+
+const location =
+locations.find(
+location =>
+String(location.id) ===
+String(job.location_id)
+);
+
+
+const employeeName =
+employee?.name ||
+(
+(employee?.first_name || "") +
+" " +
+(employee?.last_name || "")
+).trim() ||
+"Onbekende medewerker";
+
+
+const locationName =
+location?.name ||
+"Onbekende locatie";
+
+
+const time =
+job.start_time
+?
+`${formatTime(job.start_time)}${job.end_time ? " – " + formatTime(job.end_time) : ""}`
+:
+"Geen tijd";
+
+
+return `
+
+<div class="job">
+
+
+<div class="job-time">
+
+${escapeHTML(time)}
+
+</div>
+
+
+<div class="job-main">
+
+<div class="job-service">
+
+${escapeHTML(
+job.service ||
+"Schoonmaak"
+)}
+
+</div>
+
+
+<div class="job-meta">
+
+<span>
+👷 ${escapeHTML(employeeName)}
+</span>
+
+<span>
+🏢 ${escapeHTML(locationName)}
+</span>
+
+</div>
+
+</div>
+
+
+<div class="job-actions">
+
+<span class="${jobStatusClass(job.status)}">
+
+${escapeHTML(
+job.status || "Gepland"
+)}
+
+</span>
+
+
+<button
+class="small-button"
+onclick="openJobDetail('${job.id}')"
+>
+Bekijk
+</button>
+
+</div>
+
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+OPEN NEW JOB
+===================================================== */
+
+function openJobModal(job=null){
+
+document.getElementById(
+"jobModal"
+).classList.add("show");
+
+
+if(job){
+
+document.getElementById(
+"jobModalTitle"
+).textContent =
+"Opdracht bewerken";
+
+
+document.getElementById(
+"jobId"
+).value =
+job.id;
+
+
+document.getElementById(
+"jobEmployee"
+).value =
+job.employee_id || "";
+
+
+document.getElementById(
+"jobLocation"
+).value =
+job.location_id || "";
+
+
+document.getElementById(
+"jobDate"
+).value =
+job.job_date || "";
+
+
+document.getElementById(
+"jobService"
+).value =
+job.service || "Schoonmaak";
+
+
+document.getElementById(
+"jobStart"
+).value =
+job.start_time
+?
+String(job.start_time).substring(0,5)
+:
+"";
+
+
+document.getElementById(
+"jobEnd"
+).value =
+job.end_time
+?
+String(job.end_time).substring(0,5)
+:
+"";
+
+
+document.getElementById(
+"jobStatus"
+).value =
+job.status || "Gepland";
+
+
+document.getElementById(
+"jobNotes"
+).value =
+job.notes || "";
+
+}
+
+else{
+
+document.getElementById(
+"jobForm"
+).reset();
+
+
+document.getElementById(
+"jobId"
+).value =
+"";
+
+
+document.getElementById(
+"jobDate"
+).value =
+dateToISO(new Date());
+
+
+document.getElementById(
+"jobService"
+).value =
+"Schoonmaak";
+
+
+document.getElementById(
+"jobStatus"
+).value =
+"Gepland";
+
+}
+
+}
+
+
+/* =====================================================
+SAVE JOB
+===================================================== */
+
+async function saveJob(event){
+
+event.preventDefault();
+
+
+const button =
+document.getElementById(
+"saveJobButton"
+);
+
+
+button.disabled =
+true;
+
+button.textContent =
+"Opslaan...";
+
+
+const id =
+document.getElementById(
+"jobId"
+).value;
+
+
+const jobData = {
+
+employee_id:
+document.getElementById(
+"jobEmployee"
+).value,
+
+location_id:
+document.getElementById(
+"jobLocation"
+).value,
+
+job_date:
+document.getElementById(
+"jobDate"
+).value,
+
+start_time:
+document.getElementById(
+"jobStart"
+).value || null,
+
+end_time:
+document.getElementById(
+"jobEnd"
+).value || null,
+
+service:
+document.getElementById(
+"jobService"
+).value.trim() ||
+"Schoonmaak",
+
+status:
+document.getElementById(
+"jobStatus"
+).value,
+
+notes:
+document.getElementById(
+"jobNotes"
+).value.trim() || null
+
+};
+
+
+let result;
+
+
+if(id){
+
+result =
+await supabaseClient
+.from("jobs")
+.update(jobData)
+.eq("id",id)
+.select()
+.single();
+
+}
+
+else{
+
+result =
+await supabaseClient
+.from("jobs")
+.insert([jobData])
+.select()
+.single();
+
+}
+
+
+if(result.error){
+
+console.error(result.error);
+
+alert(
+"Opslaan mislukt:\n\n" +
+result.error.message
+);
+
+button.disabled =
+false;
+
+button.textContent =
+"Opdracht opslaan";
+
+return;
+
+}
+
+
+closeJobModal();
+
+
+button.disabled =
+false;
+
+button.textContent =
+"Opdracht opslaan";
+
+
+await loadJobs();
+
+}
+
+
+/* =====================================================
+JOB DETAIL
+===================================================== */
+
+function openJobDetail(id){
+
+const job =
+jobs.find(
+item =>
+String(item.id) ===
+String(id)
+);
+
+
+if(!job)
+return;
+
+
+const employee =
+employees.find(
+item =>
+String(item.id) ===
+String(job.employee_id)
+);
+
+
+const location =
+locations.find(
+item =>
+String(item.id) ===
+String(job.location_id)
+);
+
+
+const employeeName =
+employee?.name ||
+(
+(employee?.first_name || "") +
+" " +
+(employee?.last_name || "")
+).trim() ||
+"Onbekend";
+
+
+const locationName =
+location?.name ||
+"Onbekende locatie";
+
+
+document.getElementById(
+"detailContent"
+).innerHTML = `
+
+<div class="detail-grid">
+
+
+<div class="detail-box">
+
+<strong>
+Medewerker
+</strong>
+
+${escapeHTML(employeeName)}
+
+</div>
+
+
+<div class="detail-box">
+
+<strong>
+Locatie
+</strong>
+
+${escapeHTML(locationName)}
+
+</div>
+
+
+<div class="detail-box">
+
+<strong>
+Datum
+</strong>
+
+${escapeHTML(
+job.job_date || "-"
+)}
+
+</div>
+
+
+<div class="detail-box">
+
+<strong>
+Tijd
+</strong>
+
+${
+job.start_time
+?
+escapeHTML(formatTime(job.start_time))
+:
+"-"
+}
+
+${
+job.end_time
+?
+" – " +
+escapeHTML(formatTime(job.end_time))
+:
+""
+}
+
+</div>
+
+
+<div class="detail-box">
+
+<strong>
+Dienst
+</strong>
+
+${escapeHTML(
+job.service || "Schoonmaak"
+)}
+
+</div>
+
+
+<div class="detail-box">
+
+<strong>
+Status
+</strong>
+
+<span class="${jobStatusClass(job.status)}">
+
+${escapeHTML(
+job.status || "Gepland"
+)}
+
+</span>
+
+</div>
+
+
+<div
+class="detail-box"
+style="grid-column:1/-1"
+>
+
+<strong>
+Notities
+</strong>
+
+${escapeHTML(
+job.notes || "Geen notities."
+)}
+
+</div>
+
+
+</div>
+
+`;
+
+
+document.getElementById(
+"editJobButton"
+).onclick =
+function(){
+
+closeDetailModal();
+
+openJobModal(job);
+
+};
+
+
+document.getElementById(
+"deleteJobButton"
+).onclick =
+function(){
+
+deleteJob(job.id);
+
+};
+
+
+document.getElementById(
+"detailModal"
+).classList.add("show");
+
+}
+
+
+/* =====================================================
+DELETE JOB
+===================================================== */
+
+async function deleteJob(id){
+
+const job =
+jobs.find(
+item =>
+String(item.id) ===
+String(id)
+);
+
+
+if(!job)
+return;
+
+
+const confirmed =
+confirm(
+"Weet je zeker dat je deze opdracht wilt verwijderen?"
+);
+
+
+if(!confirmed)
+return;
+
+
+const {
+error
+} =
+await supabaseClient
+.from("jobs")
+.delete()
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"Verwijderen mislukt:\n\n" +
+error.message
+);
+
+return;
+
+}
+
+
+closeDetailModal();
+
+await loadJobs();
+
+}
+
+
+/* =====================================================
+CLOSE MODALS
+===================================================== */
+
+function closeJobModal(){
+
+document.getElementById(
+"jobModal"
+).classList.remove("show");
+
+}
+
+
+function closeDetailModal(){
+
+document.getElementById(
+"detailModal"
+).classList.remove("show");
+
+}
+
+
+function closeJobOutside(event){
+
+if(
+event.target.id ===
+"jobModal"
+){
+
+closeJobModal();
+
+}
+
+}
+
+
+function closeDetailOutside(event){
+
+if(
+event.target.id ===
+"detailModal"
+){
+
+closeDetailModal();
+
+}
+
+}
+
+
+/* =====================================================
+HELPERS
+===================================================== */
+
+function jobStatusClass(status){
+
+if(status === "Gestart")
+return "status status-gestart";
+
+
+if(status === "Afgerond")
+return "status status-afgerond";
+
+
+if(status === "Geannuleerd")
+return "status status-geannuleerd";
+
+
+return "status status-gepland";
+
+}
+
+
+function formatTime(time){
+
+if(!time)
+return "";
+
+
+return String(time)
+.substring(0,5);
+
+}
+
+
+function capitalize(text){
+
+if(!text)
+return "";
+
+
+return text.charAt(0).toUpperCase() +
+text.slice(1);
+
+}
+
+
+function escapeHTML(value){
+
+return String(value || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function showError(message){
+
+document.getElementById(
+"errorContainer"
+).innerHTML = `
+
+<div class="error-box">
+
+<strong>
+Er ging iets mis
+</strong>
+
+<br><br>
+
+${escapeHTML(message)}
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+START
+===================================================== */
+
+(async function(){
+
+const authenticated =
+await checkAuth();
+
+
+if(!authenticated)
+return;
+
+
+await loadEmployees();
+
+await loadLocations();
+
+await loadJobs();
+
+})();
+
+</script>
+
+</body>
+</html>
