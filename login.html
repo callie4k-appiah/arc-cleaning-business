@@ -6,6 +6,7 @@
 
   <title>ARC OS — Inloggen</title>
 
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -26,170 +27,246 @@
       color: #111;
     }
 
-    .login-wrapper {
+    .page {
       width: 100%;
-      max-width: 430px;
+      max-width: 440px;
     }
 
-    .logo {
+    /* LOGO */
+    .logo-container {
       text-align: center;
       margin-bottom: 25px;
     }
 
-    .logo img {
-      width: 180px;
-      max-width: 70%;
+    .logo {
+      width: 190px;
+      max-width: 75%;
+      height: auto;
     }
 
+    /* CARD */
     .login-card {
       background: #ffffff;
       border: 1px solid #dce5df;
       border-radius: 24px;
-      padding: 35px 28px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.07);
+      padding: 38px 30px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
     }
 
-    .os-label {
+    .brand {
       text-align: center;
       color: #286247;
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 800;
       letter-spacing: 2px;
       margin-bottom: 10px;
     }
 
     h1 {
       text-align: center;
-      font-size: 32px;
+      font-size: 34px;
       margin-bottom: 10px;
+      color: #111;
     }
 
     .subtitle {
       text-align: center;
-      color: #6c7771;
+      color: #6b756f;
       font-size: 16px;
       line-height: 1.5;
       margin-bottom: 30px;
     }
 
+    /* ERROR */
+    .error-message {
+      display: none;
+      background: #fff1f1;
+      border: 1px solid #efc4c4;
+      color: #b42318;
+      border-radius: 12px;
+      padding: 13px 14px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    /* FORM */
     .form-group {
       margin-bottom: 20px;
     }
 
     label {
       display: block;
+      font-size: 15px;
       font-weight: 700;
       margin-bottom: 8px;
-      font-size: 15px;
+      color: #202522;
     }
 
     input {
       width: 100%;
-      padding: 16px;
+      height: 54px;
+      padding: 0 16px;
       border: 1px solid #ccd8d1;
       border-radius: 12px;
+      background: #fbfcfb;
+      color: #111;
       font-size: 16px;
       outline: none;
-      background: #fbfcfb;
+      transition: 0.2s;
     }
 
     input:focus {
       border-color: #286247;
-      box-shadow: 0 0 0 3px rgba(40,98,71,0.10);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(40, 98, 71, 0.10);
     }
 
-    button {
+    input::placeholder {
+      color: #9aa59f;
+    }
+
+    /* BUTTON */
+    .login-button {
       width: 100%;
+      height: 56px;
       border: none;
       border-radius: 12px;
-      padding: 17px;
       background: #286247;
-      color: white;
+      color: #ffffff;
       font-size: 17px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       transition: 0.2s;
+      margin-top: 5px;
     }
 
-    button:hover {
+    .login-button:hover {
       background: #1f513a;
     }
 
-    button:disabled {
-      opacity: 0.6;
+    .login-button:active {
+      transform: scale(0.99);
+    }
+
+    .login-button:disabled {
+      opacity: 0.65;
       cursor: not-allowed;
     }
 
-    .error {
-      display: none;
-      background: #fff0f0;
-      color: #b42318;
-      border: 1px solid #f1c4c4;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 18px;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
+    /* FOOTER */
     .footer {
       text-align: center;
       margin-top: 25px;
       color: #7b847f;
       font-size: 13px;
+      line-height: 1.6;
     }
 
     .footer strong {
       color: #286247;
+    }
+
+    /* MOBILE */
+    @media (max-width: 480px) {
+
+      body {
+        padding: 16px;
+      }
+
+      .login-card {
+        padding: 32px 22px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .logo {
+        width: 170px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="login-wrapper">
+  <main class="page">
 
-    <div class="logo">
-      <!-- VERVANG DIT EVENTUEEL MET JOUW EIGEN LOGO-PAD -->
-      <img src="logo.png" alt="ARC Cleaning Business">
+    <!-- ARC LOGO -->
+    <div class="logo-container">
+      <img
+        src="logo.png"
+        alt="ARC Cleaning Business"
+        class="logo"
+      >
     </div>
 
-    <div class="login-card">
+    <!-- LOGIN CARD -->
+    <section class="login-card">
 
-      <div class="os-label">ARC CLEANING BUSINESS</div>
+      <div class="brand">
+        ARC CLEANING BUSINESS
+      </div>
 
-      <h1>ARC OS</h1>
+      <h1>
+        ARC OS
+      </h1>
 
       <p class="subtitle">
         Welkom terug.<br>
         Log in om je ARC-dashboard te openen.
       </p>
 
-      <div id="errorMessage" class="error"></div>
+      <!-- ERROR MESSAGE -->
+      <div
+        id="errorMessage"
+        class="error-message"
+      ></div>
 
+      <!-- LOGIN FORM -->
       <form id="loginForm">
 
         <div class="form-group">
-          <label for="email">E-mailadres</label>
+
+          <label for="email">
+            E-mailadres
+          </label>
+
           <input
             type="email"
             id="email"
+            name="email"
             placeholder="jouw@bedrijf.nl"
+            autocomplete="email"
             required
           >
+
         </div>
 
         <div class="form-group">
-          <label for="password">Wachtwoord</label>
+
+          <label for="password">
+            Wachtwoord
+          </label>
+
           <input
             type="password"
             id="password"
+            name="password"
             placeholder="Je wachtwoord"
+            autocomplete="current-password"
             required
           >
+
         </div>
 
-        <button type="submit" id="loginButton">
+        <button
+          type="submit"
+          id="loginButton"
+          class="login-button"
+        >
           Inloggen
         </button>
 
@@ -200,97 +277,228 @@
         ARC Cleaning Business
       </div>
 
-    </div>
+    </section>
 
-  </div>
-
-<script>
-
-  /*
-   * =====================================================
-   * ARC OS — SUPABASE CONFIGURATION
-   * =====================================================
-   */
-
-  const SUPABASE_URL = "PLAK_HIER_JOUW_SUPABASE_URL";
-  const SUPABASE_ANON_KEY = "PLAK_HIER_JOUW_SUPABASE_ANON_KEY";
-
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+  </main>
 
 
-  /*
-   * =====================================================
-   * LOGIN
-   * =====================================================
-   */
+  <script>
 
-  const loginForm = document.getElementById("loginForm");
-  const loginButton = document.getElementById("loginButton");
-  const errorMessage = document.getElementById("errorMessage");
+    /*
+    =====================================================
+    ARC OS — SUPABASE CONFIG
+    =====================================================
+    */
 
-  loginForm.addEventListener("submit", async function(event) {
+    const SUPABASE_URL =
+      "https://dsmiokncislpdwhauleu.supabase.co";
 
-    event.preventDefault();
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_FGXia9BmU2mW2yYv9iwfxw_hvhMFnbB";
 
-    errorMessage.style.display = "none";
 
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
+    /*
+    =====================================================
+    CREATE SUPABASE CLIENT
+    =====================================================
+    */
 
-    loginButton.disabled = true;
-    loginButton.textContent = "Bezig met inloggen...";
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
 
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
 
-    if (error) {
+    /*
+    =====================================================
+    ELEMENTS
+    =====================================================
+    */
 
-      errorMessage.textContent =
-        "Inloggen mislukt. Controleer je e-mailadres en wachtwoord.";
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const errorMessage =
+      document.getElementById("errorMessage");
+
+
+    /*
+    =====================================================
+    SHOW ERROR
+    =====================================================
+    */
+
+    function showError(message) {
+
+      errorMessage.textContent = message;
 
       errorMessage.style.display = "block";
 
-      loginButton.disabled = false;
-      loginButton.textContent = "Inloggen";
-
-      return;
     }
+
 
     /*
-     * LOGIN GELUKT
-     *
-     * Hier sturen we de gebruiker naar ARC OS.
-     */
+    =====================================================
+    HIDE ERROR
+    =====================================================
+    */
 
-    window.location.href = "dashboard.html";
+    function hideError() {
 
-  });
+      errorMessage.textContent = "";
 
+      errorMessage.style.display = "none";
 
-  /*
-   * =====================================================
-   * ALS GEBRUIKER AL INGELOGD IS
-   * =====================================================
-   */
-
-  async function checkExistingSession() {
-
-    const { data } = await supabaseClient.auth.getSession();
-
-    if (data.session) {
-      window.location.href = "dashboard.html";
     }
 
-  }
 
-  checkExistingSession();
+    /*
+    =====================================================
+    CHECK EXISTING LOGIN
+    =====================================================
+    */
 
-</script>
+    async function checkSession() {
+
+      const {
+        data,
+        error
+      } = await supabaseClient.auth.getSession();
+
+      if (error) {
+
+        console.error(
+          "Session error:",
+          error
+        );
+
+        return;
+
+      }
+
+      if (data.session) {
+
+        window.location.href =
+          "dashboard.html";
+
+      }
+
+    }
+
+
+    /*
+    =====================================================
+    LOGIN
+    =====================================================
+    */
+
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        hideError();
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        /*
+        BUTTON LOADING
+        */
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+          "Bezig met inloggen...";
+
+
+        /*
+        SUPABASE AUTH
+        */
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+          });
+
+
+        /*
+        LOGIN ERROR
+        */
+
+        if (error) {
+
+          console.error(
+            "Login error:",
+            error
+          );
+
+          showError(
+            "Inloggen mislukt. Controleer je e-mailadres en wachtwoord."
+          );
+
+          loginButton.disabled = false;
+
+          loginButton.textContent =
+            "Inloggen";
+
+          return;
+
+        }
+
+
+        /*
+        LOGIN SUCCESS
+        */
+
+        if (data.session) {
+
+          loginButton.textContent =
+            "Ingelogd ✓";
+
+          /*
+          REDIRECT TO ARC OS
+          */
+
+          window.location.href =
+            "dashboard.html";
+
+        }
+
+      }
+    );
+
+
+    /*
+    =====================================================
+    START
+    =====================================================
+    */
+
+    checkSession();
+
+  </script>
 
 </body>
 </html>
