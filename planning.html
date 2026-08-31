@@ -9,9 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
@@ -20,13 +18,8 @@ background:#f4f7f5;
 color:#111815;
 }
 
-button,input,select,textarea{
-font:inherit;
-}
-
-button{
-cursor:pointer;
-}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
 
 .topbar{
 height:72px;
@@ -357,9 +350,20 @@ padding:45px 20px;
 color:#68736e;
 }
 
-.empty-icon{
-font-size:35px;
-margin-bottom:10px;
+.error-box{
+background:#fff1f1;
+border:1px solid #efc4c4;
+color:#a52d2d;
+border-radius:10px;
+padding:15px;
+margin-bottom:20px;
+font-size:14px;
+}
+
+.loading{
+text-align:center;
+padding:40px;
+color:#68736e;
 }
 
 .modal-overlay{
@@ -473,16 +477,6 @@ text-transform:uppercase;
 margin-bottom:6px;
 }
 
-.error-box{
-background:#fff1f1;
-border:1px solid #efc4c4;
-color:#a52d2d;
-border-radius:10px;
-padding:15px;
-margin-bottom:20px;
-font-size:14px;
-}
-
 @media(max-width:1000px){
 
 .sidebar{
@@ -558,7 +552,6 @@ alt="ARC Cleaning Business"
 
 </div>
 
-
 <div class="top-actions">
 
 <button
@@ -589,67 +582,58 @@ CA
 ARC OS
 </div>
 
-
 <button
 class="nav-item"
-onclick="goDashboard()"
+onclick="go('dashboard.html')"
 >
 📊 Dashboard
 </button>
 
-
 <button
 class="nav-item"
-onclick="goLeads()"
+onclick="go('dashboard.html')"
 >
 👥 Leads
 </button>
 
-
 <button
 class="nav-item"
-onclick="goDashboard()"
+onclick="go('dashboard.html')"
 >
 📅 Follow-ups
 </button>
 
-
 <button
 class="nav-item"
-onclick="goDashboard()"
+onclick="go('dashboard.html')"
 >
 📄 Offertes
 </button>
 
-
 <button
 class="nav-item"
-onclick="goDashboard()"
+onclick="go('dashboard.html')"
 >
 🤝 Klanten
 </button>
-
 
 <div class="sidebar-title">
 BEHEER
 </div>
 
-
 <button
 class="nav-item"
-onclick="goPersoneel()"
+onclick="go('personeel.html')"
 >
 👷 Personeel
 </button>
 
-
 <button
 class="nav-item"
-onclick="goLocaties()"
+onclick="go('locaties.html')"
 >
 🏢 Locaties
 </button>
-
 
 <button
 class="nav-item active"
@@ -657,18 +641,16 @@ class="nav-item active"
 📅 Planning
 </button>
 
-
 <button
 class="nav-item"
-onclick="goDashboard()"
+onclick="go('dashboard.html')"
 >
 💰 Facturen
 </button>
 
-
 <button
 class="nav-item"
-onclick="goDashboard()"
+onclick="go('dashboard.html')"
 >
 ⚙ Instellingen
 </button>
@@ -693,7 +675,6 @@ Beheer alle schoonmaakwerkzaamheden en opdrachten.
 
 </div>
 
-
 <button
 class="button"
 onclick="openJobModal()"
@@ -705,7 +686,6 @@ onclick="openJobModal()"
 
 
 <div class="stats">
-
 
 <div class="stat-card">
 
@@ -782,7 +762,6 @@ onclick="changeWeek(-1)"
 ← Vorige
 </button>
 
-
 <div
 class="date-label"
 id="weekLabel"
@@ -790,14 +769,12 @@ id="weekLabel"
 Deze week
 </div>
 
-
 <button
 class="date-button"
 onclick="changeWeek(1)"
 >
 Volgende →
 </button>
-
 
 <button
 class="date-button"
@@ -859,7 +836,7 @@ class="calendar"
 id="calendar"
 >
 
-<div class="empty">
+<div class="loading">
 Planning laden...
 </div>
 
@@ -872,7 +849,7 @@ Planning laden...
 
 
 <!-- =====================================================
-JOB MODAL
+NIEUWE OPDRACHT
 ===================================================== -->
 
 <div
@@ -885,7 +862,6 @@ onclick="closeJobOutside(event)"
 class="modal"
 onclick="event.stopPropagation()"
 >
-
 
 <div class="modal-header">
 
@@ -907,7 +883,6 @@ onclick="closeJobModal()"
 id="jobForm"
 onsubmit="saveJob(event)"
 >
-
 
 <input
 type="hidden"
@@ -1072,7 +1047,6 @@ onclick="closeJobModal()"
 Annuleren
 </button>
 
-
 <button
 type="submit"
 class="button"
@@ -1083,7 +1057,6 @@ Opdracht opslaan
 
 </div>
 
-
 </form>
 
 </div>
@@ -1092,7 +1065,7 @@ Opdracht opslaan
 
 
 <!-- =====================================================
-DETAIL MODAL
+OPDRACHT DETAILS
 ===================================================== -->
 
 <div
@@ -1105,7 +1078,6 @@ onclick="closeDetailOutside(event)"
 class="modal"
 onclick="event.stopPropagation()"
 >
-
 
 <div class="modal-header">
 
@@ -1135,14 +1107,12 @@ id="deleteJobButton"
 🗑️ Verwijderen
 </button>
 
-
 <button
 class="button secondary"
 onclick="closeDetailModal()"
 >
 Sluiten
 </button>
-
 
 <button
 class="button"
@@ -1152,7 +1122,6 @@ id="editJobButton"
 </button>
 
 </div>
-
 
 </div>
 
@@ -1168,13 +1137,13 @@ SUPABASE
 const SUPABASE_URL =
 "https://dsmiokncislpdwhauleu.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
+const SUPABASE_KEY =
 "sb_publishable_FGXia9BmU2mW2yYv9iwfxw_hvhMFnbB";
 
 const supabaseClient =
 window.supabase.createClient(
 SUPABASE_URL,
-SUPABASE_PUBLISHABLE_KEY
+SUPABASE_KEY
 );
 
 
@@ -1231,34 +1200,9 @@ return true;
 NAVIGATION
 ===================================================== */
 
-function goDashboard(){
+function go(page){
 
-window.location.href =
-"dashboard.html";
-
-}
-
-
-function goPersoneel(){
-
-window.location.href =
-"personeel.html";
-
-}
-
-
-function goLocaties(){
-
-window.location.href =
-"locaties.html";
-
-}
-
-
-function goLeads(){
-
-window.location.href =
-"dashboard.html";
+window.location.href = page;
 
 }
 
@@ -1278,6 +1222,34 @@ window.location.href =
 
 
 /* =====================================================
+EMPLOYEE NAME
+===================================================== */
+
+function employeeName(employee){
+
+if(!employee){
+return "Onbekende medewerker";
+}
+
+
+const first =
+employee.first_name || "";
+
+const last =
+employee.last_name || "";
+
+
+const full =
+`${first} ${last}`.trim();
+
+
+return full ||
+"Onbekende medewerker";
+
+}
+
+
+/* =====================================================
 LOAD EMPLOYEES
 ===================================================== */
 
@@ -1290,17 +1262,22 @@ error
 await supabaseClient
 .from("employees")
 .select("*")
-.order("name",{ascending:true});
+.order("first_name",{ascending:true});
 
 
 if(error){
+
+console.error(
+"Employees error:",
+error
+);
 
 showError(
 "Medewerkers laden mislukt: " +
 error.message
 );
 
-return;
+return false;
 
 }
 
@@ -1315,7 +1292,7 @@ document.getElementById(
 );
 
 
-const employeeSelect =
+const select =
 document.getElementById(
 "jobEmployee"
 );
@@ -1328,7 +1305,7 @@ Alle medewerkers
 `;
 
 
-employeeSelect.innerHTML = `
+select.innerHTML = `
 <option value="">
 Kies medewerker
 </option>
@@ -1338,28 +1315,26 @@ Kies medewerker
 employees.forEach(employee => {
 
 const name =
-employee.name ||
-(
-(employee.first_name || "") +
-" " +
-(employee.last_name || "")
-).trim();
+employeeName(employee);
 
 
 filter.innerHTML += `
 <option value="${escapeHTML(employee.id)}">
-${escapeHTML(name || "Medewerker")}
+${escapeHTML(name)}
 </option>
 `;
 
 
-employeeSelect.innerHTML += `
+select.innerHTML += `
 <option value="${escapeHTML(employee.id)}">
-${escapeHTML(name || "Medewerker")}
+${escapeHTML(name)}
 </option>
 `;
 
 });
+
+
+return true;
 
 }
 
@@ -1382,12 +1357,17 @@ await supabaseClient
 
 if(error){
 
+console.error(
+"Locations error:",
+error
+);
+
 showError(
 "Locaties laden mislukt: " +
 error.message
 );
 
-return;
+return false;
 
 }
 
@@ -1419,6 +1399,9 @@ ${escapeHTML(location.name || "Locatie")}
 
 });
 
+
+return true;
+
 }
 
 
@@ -1441,12 +1424,17 @@ await supabaseClient
 
 if(error){
 
+console.error(
+"Jobs error:",
+error
+);
+
 showError(
 "Planning laden mislukt: " +
 error.message
 );
 
-return;
+return false;
 
 }
 
@@ -1459,11 +1447,14 @@ renderStats();
 
 renderCalendar();
 
+
+return true;
+
 }
 
 
 /* =====================================================
-WEEK HELPERS
+DATE
 ===================================================== */
 
 function getMonday(date){
@@ -1471,19 +1462,26 @@ function getMonday(date){
 const d =
 new Date(date);
 
+
 const day =
 d.getDay();
+
 
 const diff =
 day === 0
 ? -6
 : 1 - day;
 
+
 d.setDate(
-d.getDate() + diff
+d.getDate()+diff
 );
 
-d.setHours(0,0,0,0);
+
+d.setHours(
+0,0,0,0
+);
+
 
 return d;
 
@@ -1492,16 +1490,17 @@ return d;
 
 function getCurrentMonday(){
 
-const today =
-new Date();
-
 const monday =
-getMonday(today);
+getMonday(
+new Date()
+);
+
 
 monday.setDate(
 monday.getDate() +
 weekOffset * 7
 );
+
 
 return monday;
 
@@ -1513,15 +1512,18 @@ function dateToISO(date){
 const year =
 date.getFullYear();
 
+
 const month =
 String(
 date.getMonth()+1
 ).padStart(2,"0");
 
+
 const day =
 String(
 date.getDate()
 ).padStart(2,"0");
+
 
 return `${year}-${month}-${day}`;
 
@@ -1555,8 +1557,21 @@ month:"long"
 }
 
 
+function formatTime(time){
+
+if(!time){
+return "";
+}
+
+
+return String(time)
+.substring(0,5);
+
+}
+
+
 /* =====================================================
-CHANGE WEEK
+WEEK
 ===================================================== */
 
 function changeWeek(amount){
@@ -1589,6 +1604,7 @@ getCurrentMonday();
 
 const sunday =
 new Date(monday);
+
 
 sunday.setDate(
 sunday.getDate()+6
@@ -1624,6 +1640,7 @@ getCurrentMonday();
 const sunday =
 new Date(monday);
 
+
 sunday.setDate(
 sunday.getDate()+6
 );
@@ -1631,6 +1648,7 @@ sunday.getDate()+6
 
 const mondayISO =
 dateToISO(monday);
+
 
 const sundayISO =
 dateToISO(sunday);
@@ -1692,7 +1710,7 @@ completedCount;
 
 
 /* =====================================================
-RENDER CALENDAR
+CALENDAR
 ===================================================== */
 
 function renderCalendar(){
@@ -1729,6 +1747,7 @@ for(let i=0;i<7;i++){
 
 const date =
 new Date(monday);
+
 
 date.setDate(
 date.getDate()+i
@@ -1788,14 +1807,18 @@ html += `
 
 <div class="day-name">
 
-${capitalize(
+${escapeHTML(
+capitalize(
 formatLongDate(date)
+)
 )}
 
 </div>
 
 <div class="day-date">
-${iso}
+
+${escapeHTML(iso)}
+
 </div>
 
 </div>
@@ -1840,13 +1863,14 @@ Geen werkzaamheden gepland.
 container.innerHTML =
 html;
 
+
 renderStats();
 
 }
 
 
 /* =====================================================
-RENDER JOB
+JOB RENDER
 ===================================================== */
 
 function renderJob(job){
@@ -1867,14 +1891,8 @@ String(job.location_id)
 );
 
 
-const employeeName =
-employee?.name ||
-(
-(employee?.first_name || "") +
-" " +
-(employee?.last_name || "")
-).trim() ||
-"Onbekende medewerker";
+const name =
+employeeName(employee);
 
 
 const locationName =
@@ -1917,7 +1935,7 @@ job.service ||
 <div class="job-meta">
 
 <span>
-👷 ${escapeHTML(employeeName)}
+👷 ${escapeHTML(name)}
 </span>
 
 <span>
@@ -1934,7 +1952,8 @@ job.service ||
 <span class="${jobStatusClass(job.status)}">
 
 ${escapeHTML(
-job.status || "Gepland"
+job.status ||
+"Gepland"
 )}
 
 </span>
@@ -1958,7 +1977,7 @@ Bekijk
 
 
 /* =====================================================
-OPEN NEW JOB
+OPEN JOB MODAL
 ===================================================== */
 
 function openJobModal(job=null){
@@ -2092,6 +2111,7 @@ document.getElementById(
 button.disabled =
 true;
 
+
 button.textContent =
 "Opslaan...";
 
@@ -2122,12 +2142,14 @@ document.getElementById(
 start_time:
 document.getElementById(
 "jobStart"
-).value || null,
+).value ||
+null,
 
 end_time:
 document.getElementById(
 "jobEnd"
-).value || null,
+).value ||
+null,
 
 service:
 document.getElementById(
@@ -2143,7 +2165,8 @@ document.getElementById(
 notes:
 document.getElementById(
 "jobNotes"
-).value.trim() || null
+).value.trim() ||
+null
 
 };
 
@@ -2184,11 +2207,14 @@ alert(
 result.error.message
 );
 
+
 button.disabled =
 false;
 
+
 button.textContent =
 "Opdracht opslaan";
+
 
 return;
 
@@ -2200,6 +2226,7 @@ closeJobModal();
 
 button.disabled =
 false;
+
 
 button.textContent =
 "Opdracht opslaan";
@@ -2244,14 +2271,8 @@ String(job.location_id)
 );
 
 
-const employeeName =
-employee?.name ||
-(
-(employee?.first_name || "") +
-" " +
-(employee?.last_name || "")
-).trim() ||
-"Onbekend";
+const name =
+employeeName(employee);
 
 
 const locationName =
@@ -2272,7 +2293,7 @@ document.getElementById(
 Medewerker
 </strong>
 
-${escapeHTML(employeeName)}
+${escapeHTML(name)}
 
 </div>
 
@@ -2310,7 +2331,9 @@ Tijd
 ${
 job.start_time
 ?
-escapeHTML(formatTime(job.start_time))
+escapeHTML(
+formatTime(job.start_time)
+)
 :
 "-"
 }
@@ -2319,7 +2342,9 @@ ${
 job.end_time
 ?
 " – " +
-escapeHTML(formatTime(job.end_time))
+escapeHTML(
+formatTime(job.end_time)
+)
 :
 ""
 }
@@ -2334,7 +2359,8 @@ Dienst
 </strong>
 
 ${escapeHTML(
-job.service || "Schoonmaak"
+job.service ||
+"Schoonmaak"
 )}
 
 </div>
@@ -2349,7 +2375,8 @@ Status
 <span class="${jobStatusClass(job.status)}">
 
 ${escapeHTML(
-job.status || "Gepland"
+job.status ||
+"Gepland"
 )}
 
 </span>
@@ -2367,7 +2394,8 @@ Notities
 </strong>
 
 ${escapeHTML(
-job.notes || "Geen notities."
+job.notes ||
+"Geen notities."
 )}
 
 </div>
@@ -2412,18 +2440,6 @@ DELETE JOB
 ===================================================== */
 
 async function deleteJob(id){
-
-const job =
-jobs.find(
-item =>
-String(item.id) ===
-String(id)
-);
-
-
-if(!job)
-return;
-
 
 const confirmed =
 confirm(
@@ -2536,18 +2552,6 @@ return "status status-gepland";
 }
 
 
-function formatTime(time){
-
-if(!time)
-return "";
-
-
-return String(time)
-.substring(0,5);
-
-}
-
-
 function capitalize(text){
 
 if(!text)
@@ -2562,35 +2566,12 @@ text.slice(1);
 
 function escapeHTML(value){
 
-return String(value || "")
+return String(value ?? "")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
 .replace(/"/g,"&quot;")
 .replace(/'/g,"&#039;");
-
-}
-
-
-function showError(message){
-
-document.getElementById(
-"errorContainer"
-).innerHTML = `
-
-<div class="error-box">
-
-<strong>
-Er ging iets mis
-</strong>
-
-<br><br>
-
-${escapeHTML(message)}
-
-</div>
-
-`;
 
 }
 
@@ -2609,7 +2590,13 @@ if(!authenticated)
 return;
 
 
+const employeesLoaded =
 await loadEmployees();
+
+
+if(!employeesLoaded)
+return;
+
 
 await loadLocations();
 
