@@ -1639,6 +1639,102 @@ href="mailto:${escapeHTML(employee.email)}"
 `
 }
 
+
+${
+employee.user_id
+?
+`
+<button
+class="small-button"
+disabled
+style="opacity:.6;cursor:not-allowed"
+>
+✅ Login actief
+</button>
+`
+:
+`
+<button
+class="small-button"
+onclick="createEmployeeLogin('${employee.id}')"
+>
+🔐 Login aanmaken
+</button>
+`
+}
+
+</div>
+👤 Profiel
+</button>
+
+<button
+class="small-button"
+onclick="editEmployee('${employee.id}')"
+>
+✏️ Bewerken
+</button>
+
+
+${
+employee.phone
+?
+`
+<a
+class="small-button"
+href="tel:${escapeHTML(employee.phone)}"
+>
+📞 Bellen
+</a>
+`
+:
+`
+<div class="small-button">
+📞 Bellen
+</div>
+`
+}
+
+
+${
+employee.phone
+?
+`
+<a
+class="small-button"
+target="_blank"
+href="https://wa.me/${whatsappNumber(employee.phone)}"
+>
+💬 WhatsApp
+</a>
+`
+:
+`
+<div class="small-button">
+💬 WhatsApp
+</div>
+`
+}
+
+
+${
+employee.email
+?
+`
+<a
+class="small-button"
+href="mailto:${escapeHTML(employee.email)}"
+>
+✉️ E-mail
+</a>
+`
+:
+`
+<div class="small-button">
+✉️ E-mail
+</div>
+`
+}
+
 </div>
 
 
