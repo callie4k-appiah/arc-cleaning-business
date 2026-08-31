@@ -393,11 +393,155 @@
 
 
         const {
-          data,
-          error
-        } =
-          await supabaseClient.auth
-            .signInWithPassword({
+  data,
+  error
+} =
+  await supabaseClient.auth
+    .signInWithPassword({
+
+      email: email,
+
+      password: password
+
+    });
+
+
+if (error) {
+
+  console.error(
+    "Login error:",
+    error
+  );
+
+
+  showError(
+    "Inloggen mislukt. Controleer je e-mailadres en wachtwoord."
+  );
+
+
+  loginButton.disabled = false;
+
+  loginButton.textContent =
+    "Inloggen";
+
+  return;
+
+}
+
+
+/*
+ * Login is succesvol.
+ * We controleren nu of dit account
+ * gekoppeld is aan een medewerker.
+ */
+
+const {
+  data: employee,
+  error: employeeError
+} =
+  await supabaseClient
+    .from("employees")
+    .select(
+      "id, user_id, first_name, last_name, status"
+    )
+    .eq(
+      "user_id",
+      data.user.id
+    )
+    .maybeSingle();
+
+
+/*
+ * Er ging iets mis bij het controleren
+ * van het medewerkerprofiel.
+ */
+
+if (employeeError) {
+
+  console.error(
+    "Employee lookup error:",
+    employeeError
+  );
+
+
+  showError(
+    "Inloggen gelukt, maar het medewerkerprofiel kon niet worden gecontroleerd."
+  );
+
+
+  loginButton.disabled = false;
+
+  loginButton.textContent =
+    "Inloggen";
+
+  return;
+
+}
+
+
+/*
+ * ACCOUNT IS EEN MEDEWERKER
+ */
+
+if (employee) {
+
+  /*
+   * Alleen actieve medewerkers mogen
+   * de medewerkeromgeving gebruiken.
+   */
+
+  if (
+    employee.status &&
+    employee.status !== "Actief"
+  ) {
+
+    await supabaseClient.auth.signOut();
+
+
+    showError(
+      "Je medewerkeraccount is momenteel niet actief."
+    );
+
+
+    loginButton.disabled = false;
+
+    loginButton.textContent =
+      "Inloggen";
+
+    return;
+
+  }
+
+
+  loginButton.textContent =
+    "Ingelogd ✓";
+
+
+  window.location.href =
+    "medewerker.html";
+
+
+  return;
+
+}
+
+
+/*
+ * GEEN MEDEWERKER GEVONDEN
+ *
+ * Dit behandelen we als een admin-account.
+ */
+
+if (data.session) {
+
+  loginButton.textContent =
+    "Ingelogd ✓";
+
+
+  window.location.href =
+    "dashboard.html";
+
+}
 
               email: email,
 
