@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>ARC OS — Mijn Werk</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#f4f7f5;
+color:#111815;
+}
+
+button,input,textarea,select{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+.topbar{
+height:72px;
+background:#fff;
+border-bottom:1px solid #dce5df;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 28px;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.logo{
+width:120px;
+height:52px;
+object-fit:contain;
+}
+
+.top-right{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.avatar{
+width:42px;
+height:42px;
+border-radius:50%;
+background:#0a5b3e;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:800;
+}
+
+.logout{
+border:1px solid #dce5df;
+background:#fff;
+color:#315b49;
+padding:9px 13px;
+border-radius:8px;
+font-size:13px;
+font-weight:700;
+}
+
+.main{
+max-width:1100px;
+margin:0 auto;
+padding:30px 20px 50px;
+}
+
+.welcome{
+margin-bottom:25px;
+}
+
+.welcome h1{
+margin:0;
+font-size:28px;
+}
+
+.welcome p{
+margin:7px 0 0;
+color:#68736e;
+font-size:14px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+margin-bottom:25px;
+}
+
+.stat{
+background:#fff;
+border:1px solid #dce5df;
+border-radius:14px;
+padding:20px;
+}
+
+.stat-label{
+font-size:13px;
+color:#68736e;
+}
+
+.stat-number{
+font-size:30px;
+font-weight:800;
+color:#0a5b3e;
+margin-top:8px;
+}
+
+.section{
+background:#fff;
+border:1px solid #dce5df;
+border-radius:14px;
+margin-bottom:20px;
+overflow:hidden;
+}
+
+.section-header{
+padding:18px 20px;
+border-bottom:1px solid #e5ebe7;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.section-header h2{
+margin:0;
+font-size:18px;
+}
+
+.today-job{
+padding:20px;
+}
+
+.job-card{
+border:1px solid #dce5df;
+border-radius:13px;
+padding:18px;
+margin-bottom:12px;
+background:#fafcfb;
+}
+
+.job-card:last-child{
+margin-bottom:0;
+}
+
+.job-top{
+display:flex;
+justify-content:space-between;
+gap:15px;
+}
+
+.service{
+font-size:16px;
+font-weight:800;
+}
+
+.status{
+display:inline-flex;
+padding:6px 10px;
+border-radius:20px;
+font-size:11px;
+font-weight:700;
+white-space:nowrap;
+}
+
+.status-gepland{
+background:#edf1ee;
+color:#56615b;
+}
+
+.status-gestart{
+background:#fff1cf;
+color:#8a6200;
+}
+
+.status-afgerond{
+background:#dff5e5;
+color:#176738;
+}
+
+.status-geannuleerd{
+background:#fbeaea;
+color:#a52d2d;
+}
+
+.job-info{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin:15px 0;
+}
+
+.info{
+font-size:13px;
+color:#4f5b55;
+}
+
+.info strong{
+display:block;
+font-size:11px;
+color:#68736e;
+margin-bottom:3px;
+text-transform:uppercase;
+}
+
+.job-actions{
+display:flex;
+gap:9px;
+flex-wrap:wrap;
+}
+
+.button{
+border:0;
+background:#0a5b3e;
+color:#fff;
+padding:11px 15px;
+border-radius:9px;
+font-size:13px;
+font-weight:700;
+}
+
+.button.secondary{
+background:#edf2ef;
+color:#0a5b3e;
+}
+
+.button.danger{
+background:#fff0f0;
+color:#a52d2d;
+}
+
+.button:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+
+.week-list{
+padding:0 20px 20px;
+}
+
+.day{
+padding:16px 0;
+border-bottom:1px solid #edf1ee;
+}
+
+.day:last-child{
+border-bottom:0;
+}
+
+.day-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:9px;
+}
+
+.day-name{
+font-weight:800;
+font-size:14px;
+}
+
+.day-date{
+font-size:12px;
+color:#68736e;
+}
+
+.mini-job{
+display:flex;
+justify-content:space-between;
+gap:15px;
+padding:12px;
+background:#fafcfb;
+border:1px solid #e7ece9;
+border-radius:9px;
+}
+
+.mini-main{
+font-size:13px;
+font-weight:700;
+}
+
+.mini-meta{
+font-size:12px;
+color:#68736e;
+margin-top:4px;
+}
+
+.profile-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+padding:20px;
+}
+
+.profile-box{
+border:1px solid #e1e8e3;
+border-radius:11px;
+padding:16px;
+}
+
+.profile-box h3{
+margin:0 0 14px;
+font-size:15px;
+}
+
+.detail{
+margin-bottom:12px;
+font-size:13px;
+}
+
+.detail strong{
+display:block;
+font-size:10px;
+color:#68736e;
+text-transform:uppercase;
+margin-bottom:4px;
+}
+
+.empty{
+padding:40px 20px;
+text-align:center;
+color:#68736e;
+}
+
+.empty-icon{
+font-size:34px;
+margin-bottom:10px;
+}
+
+.loading{
+padding:40px;
+text-align:center;
+color:#68736e;
+}
+
+.error{
+background:#fff1f1;
+border:1px solid #efc4c4;
+color:#a52d2d;
+border-radius:10px;
+padding:15px;
+margin-bottom:20px;
+}
+
+.modal-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.48);
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:500;
+}
+
+.modal-overlay.show{
+display:flex;
+}
+
+.modal{
+background:#fff;
+width:100%;
+max-width:600px;
+max-height:90vh;
+overflow-y:auto;
+border-radius:16px;
+padding:24px;
+}
+
+.modal-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:20px;
+}
+
+.modal-header h2{
+margin:0;
+font-size:20px;
+}
+
+.close{
+border:0;
+background:#edf2ef;
+width:36px;
+height:36px;
+border-radius:50%;
+font-size:20px;
+}
+
+textarea{
+width:100%;
+min-height:130px;
+border:1px solid #d4dfd8;
+border-radius:9px;
+padding:12px;
+resize:vertical;
+outline:none;
+}
+
+.modal-footer{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-top:18px;
+}
+
+@media(max-width:700px){
+
+.topbar{
+padding:0 14px;
+}
+
+.logout{
+display:none;
+}
+
+.main{
+padding:22px 14px;
+}
+
+.stats{
+grid-template-columns:1fr;
+}
+
+.job-info{
+grid-template-columns:1fr;
+}
+
+.profile-grid{
+grid-template-columns:1fr;
+}
+
+.job-top{
+flex-direction:column;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+<img
+src="arc-logo-reference.jpg"
+class="logo"
+alt="ARC Cleaning Business"
+>
+
+
+<div class="top-right">
+
+<button
+class="logout"
+onclick="logout()"
+>
+Uitloggen
+</button>
+
+<div
+class="avatar"
+id="avatar"
+>
+ME
+</div>
+
+</div>
+
+</header>
+
+
+<main class="main">
+
+
+<div
+id="errorContainer"
+></div>
+
+
+<div class="welcome">
+
+<h1 id="welcomeTitle">
+Goedemorgen
+</h1>
+
+<p>
+Welkom bij ARC OS. Hier vind je jouw planning en werkzaamheden.
+</p>
+
+</div>
+
+
+<div class="stats">
+
+
+<div class="stat">
+
+<div class="stat-label">
+Vandaag
+</div>
+
+<div
+class="stat-number"
+id="todayCount"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Deze week
+</div>
+
+<div
+class="stat-number"
+id="weekCount"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Afgerond
+</div>
+
+<div
+class="stat-number"
+id="completedCount"
+>
+0
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+VANDAAG
+===================================================== -->
+
+<section class="section">
+
+<div class="section-header">
+
+<h2>
+📅 Vandaag
+</h2>
+
+</div>
+
+
+<div
+class="today-job"
+id="todayJobs"
+>
+
+<div class="loading">
+Planning laden...
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+DEZE WEEK
+===================================================== -->
+
+<section class="section">
+
+<div class="section-header">
+
+<h2>
+📆 Mijn week
+</h2>
+
+</div>
+
+
+<div
+class="week-list"
+id="weekJobs"
+>
+
+<div class="loading">
+Planning laden...
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+PROFIEL
+===================================================== -->
+
+<section class="section">
+
+<div class="section-header">
+
+<h2>
+👤 Mijn profiel
+</h2>
+
+</div>
+
+
+<div
+class="profile-grid"
+id="employeeProfile"
+>
+
+<div class="loading">
+Profiel laden...
+</div>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<!-- =====================================================
+RAPPORT MODAL
+===================================================== -->
+
+<div
+class="modal-overlay"
+id="reportModal"
+onclick="closeReportOutside(event)"
+>
+
+<div
+class="modal"
+onclick="event.stopPropagation()"
+>
+
+<div class="modal-header">
+
+<h2>
+📝 Werkrapport
+</h2>
+
+<button
+class="close"
+onclick="closeReportModal()"
+>
+×
+</button>
+
+</div>
+
+
+<p
+id="reportJobTitle"
+style="color:#68736e;font-size:13px"
+>
+Werkrapport
+</p>
+
+
+<textarea
+id="reportText"
+placeholder="Beschrijf hoe de werkzaamheden zijn verlopen..."
+></textarea>
+
+
+<div class="modal-footer">
+
+<button
+class="button secondary"
+onclick="closeReportModal()"
+>
+Annuleren
+</button>
+
+<button
+class="button"
+onclick="submitReport()"
+>
+Rapport versturen
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+"https://dsmiokncislpdwhauleu.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_FGXia9BmU2mW2yYv9iwfxw_hvhMFnbB";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* =====================================================
+STATE
+===================================================== */
+
+let currentUser = null;
+let employee = null;
+let jobs = [];
+let reportJob = null;
+
+
+/* =====================================================
+AUTH
+===================================================== */
+
+async function checkAuth(){
+
+const {
+data,
+error
+} =
+await supabaseClient.auth.getSession();
+
+
+if(error || !data.session){
+
+window.location.href =
+"login.html";
+
+return false;
+
+}
+
+
+currentUser =
+data.session.user;
+
+
+return true;
+
+}
+
+
+/* =====================================================
+LOAD EMPLOYEE
+===================================================== */
+
+async function loadEmployee(){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("employees")
+.select("*")
+.eq(
+"user_id",
+currentUser.id
+)
+.maybeSingle();
+
+
+if(error){
+
+showError(
+"Medewerker laden mislukt: " +
+error.message
+);
+
+return false;
+
+}
+
+
+if(!data){
+
+showError(
+"Er is nog geen medewerkerprofiel gekoppeld aan jouw account. Neem contact op met ARC OS."
+);
+
+return false;
+
+}
+
+
+employee =
+data;
+
+
+const firstName =
+employee.first_name ||
+"";
+
+
+document.getElementById(
+"welcomeTitle"
+).textContent =
+`Goedemorgen ${escapeHTML(firstName)}`;
+
+
+const initials =
+(
+(employee.first_name || "").charAt(0) +
+(employee.last_name || "").charAt(0)
+).toUpperCase();
+
+
+document.getElementById(
+"avatar"
+).textContent =
+initials || "ME";
+
+
+renderProfile();
+
+
+return true;
+
+}
+
+
+/* =====================================================
+LOAD JOBS
+===================================================== */
+
+async function loadJobs(){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("jobs")
+.select("*")
+.eq(
+"employee_id",
+employee.id
+)
+.order(
+"job_date",
+{
+ascending:true
+}
+)
+.order(
+"start_time",
+{
+ascending:true
+}
+);
+
+
+if(error){
+
+showError(
+"Planning laden mislukt: " +
+error.message
+);
+
+return;
+
+}
+
+
+jobs =
+data || [];
+
+
+renderStats();
+
+renderToday();
+
+renderWeek();
+
+}
+
+
+/* =====================================================
+STATS
+===================================================== */
+
+function renderStats(){
+
+const todayISO =
+dateToISO(new Date());
+
+
+const monday =
+getMonday(new Date());
+
+
+const sunday =
+new Date(monday);
+
+
+sunday.setDate(
+sunday.getDate()+6
+);
+
+
+const mondayISO =
+dateToISO(monday);
+
+
+const sundayISO =
+dateToISO(sunday);
+
+
+const today =
+jobs.filter(
+job =>
+job.job_date === todayISO
+).length;
+
+
+const week =
+jobs.filter(
+job =>
+job.job_date >= mondayISO &&
+job.job_date <= sundayISO
+).length;
+
+
+const completed =
+jobs.filter(
+job =>
+job.status === "Afgerond"
+).length;
+
+
+document.getElementById(
+"todayCount"
+).textContent =
+today;
+
+
+document.getElementById(
+"weekCount"
+).textContent =
+week;
+
+
+document.getElementById(
+"completedCount"
+).textContent =
+completed;
+
+}
+
+
+/* =====================================================
+TODAY
+===================================================== */
+
+function renderToday(){
+
+const todayISO =
+dateToISO(new Date());
+
+
+const todayJobs =
+jobs.filter(
+job =>
+job.job_date === todayISO
+);
+
+
+const container =
+document.getElementById(
+"todayJobs"
+);
+
+
+if(!todayJobs.length){
+
+container.innerHTML = `
+
+<div class="empty">
+
+<div class="empty-icon">
+🎉
+</div>
+
+<strong>
+Geen werkzaamheden vandaag
+</strong>
+
+<p>
+Je hebt vandaag geen geplande opdrachten.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+container.innerHTML =
+todayJobs
+.map(
+job =>
+renderJobCard(job)
+)
+.join("");
+
+}
+
+
+/* =====================================================
+WEEK
+===================================================== */
+
+function renderWeek(){
+
+const monday =
+getMonday(new Date());
+
+
+const sunday =
+new Date(monday);
+
+
+sunday.setDate(
+sunday.getDate()+6
+);
+
+
+const container =
+document.getElementById(
+"weekJobs"
+);
+
+
+let html = "";
+
+
+for(let i=0;i<7;i++){
+
+const date =
+new Date(monday);
+
+
+date.setDate(
+date.getDate()+i
+);
+
+
+const iso =
+dateToISO(date);
+
+
+const dayJobs =
+jobs.filter(
+job =>
+job.job_date === iso
+);
+
+
+html += `
+
+<div class="day">
+
+<div class="day-header">
+
+<div>
+
+<div class="day-name">
+${escapeHTML(
+capitalize(
+date.toLocaleDateString(
+"nl-NL",
+{
+weekday:"long"
+}
+)
+)}
+</div>
+
+<div class="day-date">
+${escapeHTML(
+date.toLocaleDateString(
+"nl-NL",
+{
+day:"numeric",
+month:"long"
+}
+)
+)}
+</div>
+
+</div>
+
+<div>
+${dayJobs.length}
+</div>
+
+</div>
+
+
+${
+dayJobs.length
+?
+dayJobs.map(job => `
+
+<div
+class="mini-job"
+onclick="openJob('${job.id}')"
+style="cursor:pointer"
+>
+
+<div>
+
+<div class="mini-main">
+
+${escapeHTML(
+job.service ||
+"Schoonmaak"
+)}
+
+</div>
+
+<div class="mini-meta">
+
+${
+job.start_time
+?
+escapeHTML(
+formatTime(job.start_time)
+)
+:
+""
+}
+
+${
+job.end_time
+?
+" – " +
+escapeHTML(
+formatTime(job.end_time)
+)
+:
+""
+}
+
+&nbsp; · &nbsp;
+
+${escapeHTML(
+getLocationName(job.location_id)
+)}
+
+</div>
+
+</div>
+
+
+<span class="${statusClass(job.status)}">
+
+${escapeHTML(
+job.status ||
+"Gepland"
+)}
+
+</span>
+
+</div>
+
+`).join("")
+:
+`
+<div
+style="
+font-size:12px;
+color:#8a938e;
+padding:5px 0;
+"
+>
+Geen werkzaamheden
+</div>
+`
+}
+
+</div>
+
+`;
+
+}
+
+
+container.innerHTML =
+html;
+
+}
+
+
+/* =====================================================
+JOB CARD
+===================================================== */
+
+function renderJobCard(job){
+
+const location =
+getLocationName(
+job.location_id
+);
+
+
+return `
+
+<div class="job-card">
+
+<div class="job-top">
+
+<div class="service">
+
+${escapeHTML(
+job.service ||
+"Schoonmaak"
+)}
+
+</div>
+
+
+<span class="${statusClass(job.status)}">
+
+${escapeHTML(
+job.status ||
+"Gepland"
+)}
+
+</span>
+
+</div>
+
+
+<div class="job-info">
+
+
+<div class="info">
+
+<strong>
+Tijd
+</strong>
+
+${
+job.start_time
+?
+escapeHTML(
+formatTime(job.start_time)
+)
+:
+"Geen starttijd"
+}
+
+${
+job.end_time
+?
+" – " +
+escapeHTML(
+formatTime(job.end_time)
+)
+:
+""
+}
+
+</div>
+
+
+<div class="info">
+
+<strong>
+Locatie
+</strong>
+
+${escapeHTML(location)}
+
+</div>
+
+
+</div>
+
+
+${
+job.notes
+?
+`
+<div
+class="info"
+style="margin-bottom:15px"
+>
+
+<strong>
+Instructies
+</strong>
+
+${escapeHTML(job.notes)}
+
+</div>
+`
+:
+""
+}
+
+
+<div class="job-actions">
+
+
+${
+job.status === "Gepland"
+?
+`
+<button
+class="button"
+onclick="startJob('${job.id}')"
+>
+▶ Start werkzaamheden
+</button>
+`
+:
+""
+}
+
+
+${
+job.status === "Gestart"
+?
+`
+<button
+class="button"
+onclick="completeJob('${job.id}')"
+>
+✅ Werk afronden
+</button>
+`
+:
+""
+}
+
+
+<button
+class="button secondary"
+onclick="openReport('${job.id}')"
+>
+📝 Werkrapport
+</button>
+
+
+${
+employee.phone
+?
+`
+<a
+class="button secondary"
+href="tel:${escapeHTML(employee.phone)}"
+style="text-decoration:none"
+>
+📞 Contact
+</a>
+`
+:
+""
+}
+
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+START JOB
+===================================================== */
+
+async function startJob(id){
+
+const confirmed =
+confirm(
+"Wil je deze werkzaamheden nu starten?"
+);
+
+
+if(!confirmed)
+return;
+
+
+const {
+error
+} =
+await supabaseClient
+.from("jobs")
+.update({
+status:"Gestart",
+actual_start:new Date().toISOString()
+})
+.eq("id",id)
+.eq(
+"employee_id",
+employee.id
+);
+
+
+if(error){
+
+alert(
+"Starten mislukt:\n\n" +
+error.message
+);
+
+return;
+
+}
+
+
+await loadJobs();
+
+}
+
+
+/* =====================================================
+COMPLETE JOB
+===================================================== */
+
+async function completeJob(id){
+
+const confirmed =
+confirm(
+"Wil je deze werkzaamheden afronden?"
+);
+
+
+if(!confirmed)
+return;
+
+
+const {
+error
+} =
+await supabaseClient
+.from("jobs")
+.update({
+status:"Afgerond",
+actual_end:new Date().toISOString()
+})
+.eq("id",id)
+.eq(
+"employee_id",
+employee.id
+);
+
+
+if(error){
+
+alert(
+"Afgerond melden mislukt:\n\n" +
+error.message
+);
+
+return;
+
+}
+
+
+await loadJobs();
+
+}
+
+
+/* =====================================================
+REPORT
+===================================================== */
+
+function openReport(id){
+
+reportJob =
+jobs.find(
+job =>
+String(job.id) ===
+String(id)
+);
+
+
+if(!reportJob)
+return;
+
+
+document.getElementById(
+"reportJobTitle"
+).textContent =
+reportJob.service ||
+"Schoonmaak";
+
+
+document.getElementById(
+"reportText"
+).value =
+"";
+
+
+document.getElementById(
+"reportModal"
+).classList.add("show");
+
+}
+
+
+async function submitReport(){
+
+if(!reportJob)
+return;
+
+
+const text =
+document.getElementById(
+"reportText"
+).value.trim();
+
+
+if(!text){
+
+alert(
+"Schrijf eerst een rapport."
+);
+
+return;
+
+}
+
+
+const {
+error
+} =
+await supabaseClient
+.from("activities")
+.insert({
+
+description:
+`Werkrapport medewerker: ${text}`,
+
+type:
+"work_report",
+
+lead_id:
+null
+
+});
+
+
+if(error){
+
+/*
+Als activities een verplichte lead_id heeft,
+wordt het rapport later gekoppeld via
+een aparte reports-tabel.
+*/
+
+alert(
+"Rapport opslaan mislukt:\n\n" +
+error.message
+);
+
+return;
+
+}
+
+
+alert(
+"Werkrapport is verstuurd."
+);
+
+
+closeReportModal();
+
+}
+
+
+/* =====================================================
+PROFILE
+===================================================== */
+
+function renderProfile(){
+
+document.getElementById(
+"employeeProfile"
+).innerHTML = `
+
+<div class="profile-box">
+
+<h3>
+👤 Persoonlijk
+</h3>
+
+<div class="detail">
+
+<strong>
+Naam
+</strong>
+
+${escapeHTML(
+(employee.first_name || "") +
+" " +
+(employee.last_name || "")
+)}
+
+</div>
+
+
+<div class="detail">
+
+<strong>
+Functie
+</strong>
+
+${escapeHTML(
+employee.job_title ||
+employee.role ||
+"Medewerker"
+)}
+
+</div>
+
+
+<div class="detail">
+
+<strong>
+Status
+</strong>
+
+${escapeHTML(
+employee.status ||
+"Actief"
+)}
+
+</div>
+
+</div>
+
+
+<div class="profile-box">
+
+<h3>
+📞 Contact
+</h3>
+
+<div class="detail">
+
+<strong>
+Telefoon
+</strong>
+
+${
+employee.phone
+?
+escapeHTML(employee.phone)
+:
+"Niet ingevuld"
+}
+
+</div>
+
+
+<div class="detail">
+
+<strong>
+E-mail
+</strong>
+
+${
+employee.email
+?
+escapeHTML(employee.email)
+:
+"Niet ingevuld"
+}
+
+</div>
+
+
+<div class="detail">
+
+<strong>
+Plaats
+</strong>
+
+${escapeHTML(
+employee.city ||
+"Amsterdam"
+)}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+LOCATION
+===================================================== */
+
+function getLocationName(id){
+
+/*
+De jobs-tabel bevat location_id.
+Omdat we de locaties niet opnieuw willen laden
+voor iedere job, gebruiken we hier de geladen
+locations-array.
+*/
+
+const location =
+window.arcLocations?.find(
+location =>
+String(location.id) ===
+String(id)
+);
+
+
+return location?.name ||
+"Locatie";
+
+}
+
+
+/* =====================================================
+LOAD LOCATIONS
+===================================================== */
+
+async function loadLocations(){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("locations")
+.select("*")
+.order(
+"name",
+{
+ascending:true
+}
+);
+
+
+if(error){
+
+console.error(error);
+
+window.arcLocations = [];
+
+return;
+
+}
+
+
+window.arcLocations =
+data || [];
+
+}
+
+
+/* =====================================================
+OPEN JOB
+===================================================== */
+
+function openJob(id){
+
+const job =
+jobs.find(
+item =>
+String(item.id) ===
+String(id)
+);
+
+
+if(!job)
+return;
+
+
+openReport(id);
+
+}
+
+
+/* =====================================================
+REPORT CLOSE
+===================================================== */
+
+function closeReportModal(){
+
+document.getElementById(
+"reportModal"
+).classList.remove("show");
+
+reportJob = null;
+
+}
+
+
+function closeReportOutside(event){
+
+if(
+event.target.id ===
+"reportModal"
+){
+
+closeReportModal();
+
+}
+
+}
+
+
+/* =====================================================
+DATE HELPERS
+===================================================== */
+
+function getMonday(date){
+
+const d =
+new Date(date);
+
+
+const day =
+d.getDay();
+
+
+const diff =
+day === 0
+?
+-6
+:
+1 - day;
+
+
+d.setDate(
+d.getDate()+diff
+);
+
+
+d.setHours(
+0,0,0,0
+);
+
+
+return d;
+
+}
+
+
+function dateToISO(date){
+
+const year =
+date.getFullYear();
+
+
+const month =
+String(
+date.getMonth()+1
+).padStart(2,"0");
+
+
+const day =
+String(
+date.getDate()
+).padStart(2,"0");
+
+
+return `${year}-${month}-${day}`;
+
+}
+
+
+function formatTime(time){
+
+return String(time)
+.substring(0,5);
+
+}
+
+
+function capitalize(text){
+
+return text
+?
+text.charAt(0).toUpperCase() +
+text.slice(1)
+:
+"";
+
+}
+
+
+function statusClass(status){
+
+if(status === "Gestart")
+return "status status-gestart";
+
+if(status === "Afgerond")
+return "status status-afgerond";
+
+if(status === "Geannuleerd")
+return "status status-geannuleerd";
+
+return "status status-gepland";
+
+}
+
+
+function escapeHTML(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function showError(message){
+
+document.getElementById(
+"errorContainer"
+).innerHTML = `
+
+<div class="error">
+
+<strong>
+Er ging iets mis
+</strong>
+
+<br><br>
+
+${escapeHTML(message)}
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+START
+===================================================== */
+
+(async function(){
+
+const authenticated =
+await checkAuth();
+
+
+if(!authenticated)
+return;
+
+
+const employeeLoaded =
+await loadEmployee();
+
+
+if(!employeeLoaded)
+return;
+
+
+await loadLocations();
+
+await loadJobs();
+
+})();
+
+</script>
+
+</body>
+</html>
