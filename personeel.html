@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <title>ARC OS — Personeel</title>
 
@@ -11,566 +16,590 @@
 <style>
 
 *{
-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#f4f7f5;
-color:#111815;
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f7f5;
+  color:#111815;
 }
 
-button,input,select,textarea{
-font:inherit;
+button,
+input,
+select,
+textarea{
+  font:inherit;
 }
 
 button{
-cursor:pointer;
+  cursor:pointer;
 }
 
 .topbar{
-height:72px;
-background:#fff;
-border-bottom:1px solid #dce5df;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 28px;
-position:sticky;
-top:0;
-z-index:100;
+  height:72px;
+  background:#fff;
+  border-bottom:1px solid #dce5df;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 
 .brand img{
-width:120px;
-height:52px;
-object-fit:contain;
+  width:120px;
+  height:52px;
+  object-fit:contain;
 }
 
 .top-actions{
-display:flex;
-align-items:center;
-gap:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
 .logout{
-border:1px solid #dce5df;
-background:#fff;
-color:#315b49;
-padding:9px 13px;
-border-radius:8px;
-font-size:13px;
-font-weight:700;
+  border:1px solid #dce5df;
+  background:#fff;
+  color:#315b49;
+  padding:9px 13px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:700;
 }
 
 .profile{
-width:42px;
-height:42px;
-border-radius:50%;
-background:#286247;
-color:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:700;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#286247;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
 }
 
 .layout{
-display:flex;
-min-height:calc(100vh - 72px);
+  display:flex;
+  min-height:calc(100vh - 72px);
 }
 
 .sidebar{
-width:240px;
-flex-shrink:0;
-background:#063b2d;
-color:#fff;
-padding:25px 16px;
+  width:240px;
+  flex-shrink:0;
+  background:#063b2d;
+  color:#fff;
+  padding:25px 16px;
 }
 
 .sidebar-title{
-margin:10px 12px 12px;
-font-size:11px;
-letter-spacing:1.5px;
-opacity:.55;
+  margin:10px 12px 12px;
+  font-size:11px;
+  letter-spacing:1.5px;
+  opacity:.55;
 }
 
 .nav-item{
-width:100%;
-border:0;
-background:transparent;
-color:#dce9e2;
-text-align:left;
-padding:13px 14px;
-margin-bottom:4px;
-border-radius:9px;
-font-size:14px;
-font-weight:600;
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#dce9e2;
+  text-align:left;
+  padding:13px 14px;
+  margin-bottom:4px;
+  border-radius:9px;
+  font-size:14px;
+  font-weight:600;
 }
 
 .nav-item:hover,
 .nav-item.active{
-background:#0a5b3e;
-color:#fff;
+  background:#0a5b3e;
+  color:#fff;
 }
 
 .content{
-flex:1;
-max-width:1450px;
-padding:32px;
-width:100%;
+  flex:1;
+  max-width:1450px;
+  padding:32px;
+  width:100%;
 }
 
 .page-heading{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px;
-margin-bottom:28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:28px;
 }
 
 .page-heading h1{
-margin:0;
-font-size:30px;
+  margin:0;
+  font-size:30px;
 }
 
 .page-heading p{
-margin:8px 0 0;
-color:#68736e;
-font-size:14px;
+  margin:8px 0 0;
+  color:#68736e;
+  font-size:14px;
 }
 
 .button{
-border:0;
-background:#0a5b3e;
-color:#fff;
-padding:13px 18px;
-border-radius:9px;
-font-size:14px;
-font-weight:700;
+  border:0;
+  background:#0a5b3e;
+  color:#fff;
+  padding:13px 18px;
+  border-radius:9px;
+  font-size:14px;
+  font-weight:700;
 }
 
 .button:hover{
-background:#084b34;
+  background:#084b34;
 }
 
 .button.secondary{
-background:#edf2ef;
-color:#0a5b3e;
+  background:#edf2ef;
+  color:#0a5b3e;
 }
 
 .button.danger{
-background:#fff0f0;
-color:#a52d2d;
+  background:#fff0f0;
+  color:#a52d2d;
+}
+
+.button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
 }
 
 .stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:16px;
-margin-bottom:28px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:28px;
 }
 
 .stat-card{
-background:#fff;
-border:1px solid #dce5df;
-border-radius:13px;
-padding:21px;
+  background:#fff;
+  border:1px solid #dce5df;
+  border-radius:13px;
+  padding:21px;
 }
 
 .stat-label{
-color:#68736e;
-font-size:13px;
-margin-bottom:9px;
+  color:#68736e;
+  font-size:13px;
+  margin-bottom:9px;
 }
 
 .stat-number{
-color:#0a5b3e;
-font-size:30px;
-font-weight:800;
-}
-
-.card{
-background:#fff;
-border:1px solid #dce5df;
-border-radius:13px;
-padding:22px;
-margin-bottom:20px;
-}
-
-.card-header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
-margin-bottom:18px;
-}
-
-.card-header h2{
-margin:0;
-font-size:18px;
+  color:#0a5b3e;
+  font-size:30px;
+  font-weight:800;
 }
 
 .toolbar{
-display:flex;
-gap:12px;
-margin-bottom:20px;
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
 }
 
 .search{
-flex:1;
-border:1px solid #d4dfd8;
-border-radius:9px;
-padding:12px 14px;
-background:#fff;
-outline:none;
+  flex:1;
+  border:1px solid #d4dfd8;
+  border-radius:9px;
+  padding:12px 14px;
+  background:#fff;
+  outline:none;
 }
 
 .filter{
-border:1px solid #d4dfd8;
-border-radius:9px;
-padding:12px 14px;
-background:#fff;
+  border:1px solid #d4dfd8;
+  border-radius:9px;
+  padding:12px 14px;
+  background:#fff;
+  min-width:170px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #dce5df;
+  border-radius:13px;
+  padding:22px;
 }
 
 .employee-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:16px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
 }
 
 .employee-card{
-background:#fff;
-border:1px solid #dce5df;
-border-radius:14px;
-padding:20px;
-transition:.15s;
+  background:#fff;
+  border:1px solid #dce5df;
+  border-radius:14px;
+  padding:20px;
+  transition:.15s;
 }
 
 .employee-card:hover{
-border-color:#a9c8b8;
-box-shadow:0 5px 18px rgba(0,0,0,.05);
+  border-color:#a9c8b8;
+  box-shadow:0 5px 18px rgba(0,0,0,.05);
 }
 
 .employee-top{
-display:flex;
-align-items:center;
-gap:14px;
-margin-bottom:18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:16px;
 }
 
-.avatar{
-width:52px;
-height:52px;
-border-radius:50%;
-background:#0a5b3e;
-color:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:800;
-font-size:17px;
-flex-shrink:0;
+.employee-avatar{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  background:#0a5b3e;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:17px;
+  font-weight:800;
+  flex-shrink:0;
 }
 
 .employee-name{
-font-size:17px;
-font-weight:800;
+  font-size:17px;
+  font-weight:800;
 }
 
 .employee-role{
-font-size:12px;
-color:#68736e;
-margin-top:4px;
-}
-
-.employee-info{
-display:flex;
-flex-direction:column;
-gap:8px;
-margin-bottom:18px;
-font-size:13px;
-}
-
-.employee-info div{
-display:flex;
-gap:8px;
-}
-
-.employee-actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
-}
-
-.small-button{
-border:1px solid #dce5df;
-background:#f8faf9;
-color:#315b49;
-padding:9px 10px;
-border-radius:8px;
-font-size:12px;
-font-weight:700;
-text-align:center;
-text-decoration:none;
-}
-
-.small-button:hover{
-background:#edf2ef;
-}
-
-.small-button.primary{
-background:#0a5b3e;
-color:#fff;
-border-color:#0a5b3e;
+  font-size:12px;
+  color:#68736e;
+  margin-top:4px;
 }
 
 .status{
-display:inline-flex;
-padding:5px 9px;
-border-radius:20px;
-font-size:11px;
-font-weight:700;
+  display:inline-flex;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700;
 }
 
 .status-active{
-background:#dff5e5;
-color:#176738;
+  background:#dff5e5;
+  color:#176738;
 }
 
 .status-inactive{
-background:#fbeaea;
-color:#a52d2d;
+  background:#fbeaea;
+  color:#a52d2d;
 }
 
 .status-vacation{
-background:#fff1cf;
-color:#8a6200;
+  background:#fff1cf;
+  color:#8a6200;
+}
+
+.employee-info{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  margin:16px 0;
+  font-size:13px;
+}
+
+.employee-info-row{
+  display:flex;
+  gap:8px;
+  align-items:flex-start;
+}
+
+.employee-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.small-button{
+  border:1px solid #dce5df;
+  background:#f8faf9;
+  color:#315b49;
+  padding:9px 8px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:700;
+  text-align:center;
+  text-decoration:none;
+}
+
+.small-button:hover{
+  background:#edf2ef;
+}
+
+.small-button.primary{
+  background:#0a5b3e;
+  border-color:#0a5b3e;
+  color:#fff;
+}
+
+.small-button.login{
+  background:#eef7f2;
+  border-color:#bcd7c8;
+  color:#0a5b3e;
 }
 
 .empty{
-text-align:center;
-padding:45px 20px;
-color:#68736e;
+  text-align:center;
+  padding:50px 20px;
+  color:#68736e;
 }
 
 .empty-icon{
-font-size:36px;
-margin-bottom:12px;
+  font-size:38px;
+  margin-bottom:10px;
+}
+
+.loading{
+  text-align:center;
+  padding:40px;
+  color:#68736e;
+}
+
+.error-box{
+  background:#fff1f1;
+  border:1px solid #efc4c4;
+  color:#a52d2d;
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:20px;
+  font-size:14px;
 }
 
 .modal-overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.48);
-display:none;
-align-items:center;
-justify-content:center;
-padding:20px;
-z-index:1000;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.48);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:1000;
 }
 
 .modal-overlay.show{
-display:flex;
+  display:flex;
 }
 
 .modal{
-width:100%;
-max-width:850px;
-max-height:92vh;
-overflow-y:auto;
-background:#fff;
-border-radius:16px;
-padding:25px;
+  width:100%;
+  max-width:850px;
+  max-height:92vh;
+  overflow-y:auto;
+  background:#fff;
+  border-radius:16px;
+  padding:25px;
 }
 
 .modal-header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:22px;
 }
 
 .modal-header h2{
-margin:0;
-font-size:22px;
+  margin:0;
+  font-size:22px;
 }
 
 .close{
-border:0;
-background:#edf2ef;
-width:36px;
-height:36px;
-border-radius:50%;
-font-size:20px;
+  border:0;
+  background:#edf2ef;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  font-size:20px;
 }
 
 .form-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
 }
 
 .form-group{
-display:flex;
-flex-direction:column;
-gap:7px;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
 }
 
 .form-group.full{
-grid-column:1/-1;
+  grid-column:1/-1;
 }
 
 .form-group label{
-font-size:13px;
-font-weight:700;
+  font-size:13px;
+  font-weight:700;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea{
-width:100%;
-border:1px solid #d4dfd8;
-border-radius:8px;
-padding:12px;
-outline:none;
-background:#fff;
+  width:100%;
+  border:1px solid #d4dfd8;
+  border-radius:8px;
+  padding:12px;
+  outline:none;
+  background:#fff;
 }
 
 .form-group textarea{
-min-height:100px;
-resize:vertical;
+  min-height:100px;
+  resize:vertical;
 }
 
 .modal-footer{
-display:flex;
-justify-content:flex-end;
-gap:10px;
-margin-top:22px;
-}
-
-.profile-modal{
-max-width:900px;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:22px;
 }
 
 .profile-header{
-display:flex;
-align-items:center;
-gap:18px;
-padding-bottom:22px;
-border-bottom:1px solid #edf1ee;
-margin-bottom:22px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding-bottom:22px;
+  border-bottom:1px solid #edf1ee;
+  margin-bottom:22px;
 }
 
 .profile-avatar{
-width:78px;
-height:78px;
-border-radius:50%;
-background:#0a5b3e;
-color:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:25px;
-font-weight:800;
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  background:#0a5b3e;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  font-weight:800;
 }
 
 .profile-name{
-font-size:24px;
-font-weight:800;
+  font-size:24px;
+  font-weight:800;
 }
 
 .profile-role{
-color:#68736e;
-margin-top:5px;
+  color:#68736e;
+  margin-top:5px;
 }
 
 .profile-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
 }
 
 .profile-box{
-border:1px solid #e1e8e3;
-border-radius:12px;
-padding:18px;
+  border:1px solid #e1e8e3;
+  border-radius:12px;
+  padding:18px;
+}
+
+.profile-box.full{
+  grid-column:1/-1;
 }
 
 .profile-box h3{
-margin:0 0 14px;
-font-size:15px;
+  margin:0 0 14px;
+  font-size:15px;
 }
 
 .detail{
-margin-bottom:10px;
-font-size:13px;
+  margin-bottom:11px;
+  font-size:13px;
 }
 
 .detail strong{
-display:block;
-font-size:11px;
-color:#68736e;
-margin-bottom:3px;
-text-transform:uppercase;
-letter-spacing:.5px;
+  display:block;
+  font-size:10px;
+  color:#68736e;
+  margin-bottom:3px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
 }
 
 .contact-buttons{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
 .jobs{
-display:flex;
-flex-direction:column;
-gap:10px;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
 }
 
 .job{
-padding:12px;
-border:1px solid #edf1ee;
-border-radius:9px;
-background:#fafcfb;
+  border:1px solid #e1e8e3;
+  background:#fafcfb;
+  border-radius:9px;
+  padding:12px;
 }
 
 .job-title{
-font-weight:700;
-font-size:13px;
+  font-weight:700;
+  font-size:13px;
 }
 
 .job-details{
-font-size:12px;
-color:#68736e;
-margin-top:4px;
+  font-size:12px;
+  color:#68736e;
+  margin-top:4px;
 }
 
-.loading{
-text-align:center;
-padding:35px;
-color:#68736e;
+.login-box{
+  background:#eef7f2;
+  border:1px solid #c5ddcf;
+  border-radius:11px;
+  padding:16px;
 }
 
-.error-box{
-background:#fff1f1;
-border:1px solid #efc4c4;
-color:#a52d2d;
-border-radius:10px;
-padding:15px;
-margin-bottom:20px;
-font-size:14px;
+.login-box strong{
+  color:#0a5b3e;
+}
+
+.login-password{
+  background:#fff;
+  border:1px dashed #aac8b7;
+  border-radius:8px;
+  padding:12px;
+  margin-top:10px;
+  font-family:monospace;
+  font-weight:700;
+  word-break:break-all;
 }
 
 @media(max-width:1100px){
 
 .employee-grid{
-grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(2,1fr);
 }
 
 .stats{
-grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(2,1fr);
 }
 
 }
@@ -578,96 +607,116 @@ grid-template-columns:repeat(2,1fr);
 @media(max-width:1000px){
 
 .sidebar{
-display:none;
+  display:none;
 }
 
 .content{
-padding:24px 18px;
+  padding:24px 18px;
 }
 
 }
 
-@media(max-width:600px){
+@media(max-width:650px){
 
 .topbar{
-height:68px;
-padding:0 14px;
-}
-
-.brand img{
-width:110px;
-}
-
-.content{
-padding:20px 14px;
-}
-
-.page-heading{
-flex-direction:column;
-align-items:flex-start;
-}
-
-.page-heading h1{
-font-size:26px;
-}
-
-.page-heading .button{
-width:100%;
-}
-
-.employee-grid{
-grid-template-columns:1fr;
-}
-
-.stats{
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
-
-.form-grid{
-grid-template-columns:1fr;
-}
-
-.form-group.full{
-grid-column:auto;
-}
-
-.profile-grid{
-grid-template-columns:1fr;
-}
-
-.modal-footer{
-flex-direction:column-reverse;
-}
-
-.modal-footer button{
-width:100%;
+  padding:0 14px;
 }
 
 .logout{
-display:none;
+  display:none;
+}
+
+.content{
+  padding:20px 14px;
+}
+
+.page-heading{
+  flex-direction:column;
+  align-items:flex-start;
+}
+
+.page-heading .button{
+  width:100%;
+}
+
+.toolbar{
+  flex-direction:column;
+}
+
+.search,
+.filter{
+  width:100%;
+}
+
+.employee-grid{
+  grid-template-columns:1fr;
+}
+
+.stats{
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.form-grid{
+  grid-template-columns:1fr;
+}
+
+.form-group.full{
+  grid-column:auto;
+}
+
+.profile-grid{
+  grid-template-columns:1fr;
+}
+
+.profile-box.full{
+  grid-column:auto;
+}
+
+.modal-footer{
+  flex-direction:column-reverse;
+}
+
+.modal-footer button{
+  width:100%;
 }
 
 }
 
 </style>
+
 </head>
 
+
 <body>
+
 
 <header class="topbar">
 
 <div class="brand">
-<img src="arc-logo-reference.jpg" alt="ARC Cleaning Business">
+
+<img
+src="arc-logo-reference.jpg"
+alt="ARC Cleaning Business"
+>
+
 </div>
+
 
 <div class="top-actions">
 
-<button class="logout" onclick="logout()">
+<button
+class="logout"
+onclick="logout()"
+>
 Uitloggen
 </button>
 
-<div class="profile">
+
+<div
+class="profile"
+id="adminProfile"
+>
 CA
 </div>
 
@@ -678,49 +727,94 @@ CA
 
 <div class="layout">
 
+
 <aside class="sidebar">
 
 <div class="sidebar-title">
 ARC OS
 </div>
 
-<button class="nav-item" onclick="go('index.html')">
+
+<button
+class="nav-item"
+onclick="go('dashboard.html')"
+>
 📊 Dashboard
 </button>
 
-<button class="nav-item" onclick="go('leads.html')">
+
+<button
+class="nav-item"
+onclick="go('dashboard.html')"
+>
 👥 Leads
 </button>
 
-<button class="nav-item" onclick="go('followups.html')">
+
+<button
+class="nav-item"
+onclick="go('dashboard.html')"
+>
 📅 Follow-ups
 </button>
 
-<button class="nav-item" onclick="go('offertes.html')">
+
+<button
+class="nav-item"
+onclick="go('dashboard.html')"
+>
 📄 Offertes
 </button>
 
-<button class="nav-item" onclick="go('klanten.html')">
+
+<button
+class="nav-item"
+onclick="go('dashboard.html')"
+>
 🤝 Klanten
 </button>
+
 
 <div class="sidebar-title">
 BEHEER
 </div>
 
-<button class="nav-item active">
+
+<button
+class="nav-item active"
+>
 👷 Personeel
 </button>
 
-<button class="nav-item" onclick="go('locaties.html')">
+
+<button
+class="nav-item"
+onclick="go('locaties.html')"
+>
 🏢 Locaties
 </button>
 
-<button class="nav-item" onclick="go('facturen.html')">
+
+<button
+class="nav-item"
+onclick="go('planning.html')"
+>
+📅 Planning
+</button>
+
+
+<button
+class="nav-item"
+onclick="go('dashboard.html')"
+>
 💰 Facturen
 </button>
 
-<button class="nav-item" onclick="go('instellingen.html')">
+
+<button
+class="nav-item"
+onclick="go('dashboard.html')"
+>
 ⚙ Instellingen
 </button>
 
@@ -739,12 +833,16 @@ Personeel
 </h1>
 
 <p>
-Beheer medewerkers, contactgegevens, locaties en werkzaamheden.
+Beheer medewerkers, profielen, locaties, contact en logins.
 </p>
 
 </div>
 
-<button class="button" onclick="openEmployeeModal()">
+
+<button
+class="button"
+onclick="openEmployeeModal()"
+>
 + Nieuwe medewerker
 </button>
 
@@ -753,13 +851,17 @@ Beheer medewerkers, contactgegevens, locaties en werkzaamheden.
 
 <div class="stats">
 
+
 <div class="stat-card">
 
 <div class="stat-label">
 Totaal personeel
 </div>
 
-<div class="stat-number" id="totalEmployees">
+<div
+class="stat-number"
+id="totalEmployees"
+>
 0
 </div>
 
@@ -769,10 +871,13 @@ Totaal personeel
 <div class="stat-card">
 
 <div class="stat-label">
-Actieve medewerkers
+Actief
 </div>
 
-<div class="stat-number" id="activeEmployees">
+<div
+class="stat-number"
+id="activeEmployees"
+>
 0
 </div>
 
@@ -782,10 +887,13 @@ Actieve medewerkers
 <div class="stat-card">
 
 <div class="stat-label">
-Op locatie
+Met locatie
 </div>
 
-<div class="stat-number" id="assignedEmployees">
+<div
+class="stat-number"
+id="assignedEmployees"
+>
 0
 </div>
 
@@ -795,10 +903,13 @@ Op locatie
 <div class="stat-card">
 
 <div class="stat-label">
-Beschikbaar
+Met login
 </div>
 
-<div class="stat-number" id="availableEmployees">
+<div
+class="stat-number"
+id="loginEmployees"
+>
 0
 </div>
 
@@ -812,9 +923,10 @@ Beschikbaar
 <input
 class="search"
 id="search"
-placeholder="Zoek medewerker, telefoonnummer of e-mail..."
+placeholder="Zoek naam, telefoonnummer of e-mail..."
 oninput="renderEmployees()"
 >
+
 
 <select
 class="filter"
@@ -845,7 +957,9 @@ Vakantie
 
 <div class="card">
 
-<div id="employeesContainer">
+<div
+id="employeesContainer"
+>
 
 <div class="loading">
 Medewerkers laden...
@@ -876,11 +990,13 @@ class="modal"
 onclick="event.stopPropagation()"
 >
 
+
 <div class="modal-header">
 
 <h2 id="employeeModalTitle">
 Nieuwe medewerker
 </h2>
+
 
 <button
 class="close"
@@ -897,6 +1013,7 @@ id="employeeForm"
 onsubmit="saveEmployee(event)"
 >
 
+
 <input
 type="hidden"
 id="employeeId"
@@ -909,13 +1026,13 @@ id="employeeId"
 <div class="form-group">
 
 <label>
-Naam *
+Voornaam *
 </label>
 
 <input
-id="employeeName"
+id="employeeFirstName"
 required
-placeholder="Voor- en achternaam"
+placeholder="Voornaam"
 >
 
 </div>
@@ -924,12 +1041,13 @@ placeholder="Voor- en achternaam"
 <div class="form-group">
 
 <label>
-Functie
+Achternaam *
 </label>
 
 <input
-id="employeeJobTitle"
-placeholder="Bijv. Schoonmaker"
+id="employeeLastName"
+required
+placeholder="Achternaam"
 >
 
 </div>
@@ -938,12 +1056,13 @@ placeholder="Bijv. Schoonmaker"
 <div class="form-group">
 
 <label>
-E-mailadres
+E-mailadres *
 </label>
 
 <input
 type="email"
 id="employeeEmail"
+required
 placeholder="naam@email.nl"
 >
 
@@ -968,20 +1087,63 @@ placeholder="06 12345678"
 <div class="form-group">
 
 <label>
+Functie
+</label>
+
+<input
+id="employeeJobTitle"
+placeholder="Bijv. Schoonmaker"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Rol
+</label>
+
+<select id="employeeRole">
+
+<option value="Medewerker">
+Medewerker
+</option>
+
+<option value="Teamleider">
+Teamleider
+</option>
+
+<option value="Manager">
+Manager
+</option>
+
+<option value="Admin">
+Admin
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
 Status
 </label>
 
 <select id="employeeStatus">
 
-<option>
+<option value="Actief">
 Actief
 </option>
 
-<option>
+<option value="Inactief">
 Inactief
 </option>
 
-<option>
+<option value="Vakantie">
 Vakantie
 </option>
 
@@ -1010,7 +1172,7 @@ placeholder="15.50"
 <div class="form-group full">
 
 <label>
-Locatie
+Vaste locatie
 </label>
 
 <select id="employeeLocation">
@@ -1060,6 +1222,7 @@ Plaats
 
 <input
 id="employeeCity"
+placeholder="Amsterdam"
 value="Amsterdam"
 >
 
@@ -1074,7 +1237,7 @@ Notities
 
 <textarea
 id="employeeNotes"
-placeholder="Extra informatie over deze medewerker..."
+placeholder="Extra informatie..."
 ></textarea>
 
 </div>
@@ -1093,6 +1256,7 @@ onclick="closeEmployeeModal()"
 Annuleren
 </button>
 
+
 <button
 type="submit"
 class="button"
@@ -1102,6 +1266,7 @@ Medewerker opslaan
 </button>
 
 </div>
+
 
 </form>
 
@@ -1121,15 +1286,17 @@ onclick="closeProfileOutside(event)"
 >
 
 <div
-class="modal profile-modal"
+class="modal"
 onclick="event.stopPropagation()"
 >
+
 
 <div class="modal-header">
 
 <h2>
 Medewerkerprofiel
 </h2>
+
 
 <button
 class="close"
@@ -1141,8 +1308,7 @@ onclick="closeProfileModal()"
 </div>
 
 
-<div id="profileContent">
-</div>
+<div id="profileContent"></div>
 
 </div>
 
@@ -1169,10 +1335,11 @@ SUPABASE_PUBLISHABLE_KEY
 
 
 /* =====================================================
-DATA
+STATE
 ===================================================== */
 
 let employees = [];
+
 let locations = [];
 
 
@@ -1188,18 +1355,34 @@ error
 } =
 await supabaseClient.auth.getSession();
 
-if(error || !data.session){
+
+if(
+error ||
+!data.session
+){
 
 window.location.href =
 "login.html";
 
-return;
+return false;
 
 }
 
-await loadLocations();
 
-await loadEmployees();
+const email =
+data.session.user.email ||
+"CA";
+
+
+document.getElementById(
+"adminProfile"
+).textContent =
+email
+.substring(0,2)
+.toUpperCase();
+
+
+return true;
 
 }
 
@@ -1224,7 +1407,8 @@ NAVIGATION
 
 function go(page){
 
-window.location.href = page;
+window.location.href =
+page;
 
 }
 
@@ -1242,12 +1426,20 @@ error
 await supabaseClient
 .from("locations")
 .select("*")
-.order("name",{ascending:true});
+.order(
+"name",
+{
+ascending:true
+}
+);
 
 
 if(error){
 
-console.error(error);
+console.error(
+"Locations error:",
+error
+);
 
 locations = [];
 
@@ -1267,18 +1459,30 @@ document.getElementById(
 
 
 select.innerHTML = `
+
 <option value="">
 Geen vaste locatie
 </option>
+
 `;
 
 
-locations.forEach(location => {
+locations.forEach(
+location => {
 
 select.innerHTML += `
-<option value="${escapeHTML(location.id)}">
-${escapeHTML(location.name || "Locatie")}
+
+<option
+value="${escapeHTML(location.id)}"
+>
+
+${escapeHTML(
+location.name ||
+"Locatie"
+)}
+
 </option>
+
 `;
 
 });
@@ -1298,19 +1502,22 @@ error
 } =
 await supabaseClient
 .from("employees")
-.select(`
-*,
-locations (
-id,
-name
-)
-`)
-.order("created_at",{ascending:false});
+.select("*")
+.order(
+"first_name",
+{
+ascending:true
+}
+);
 
 
 if(error){
 
-console.error(error);
+console.error(
+"Employees error:",
+error
+);
+
 
 document.getElementById(
 "employeesContainer"
@@ -1319,12 +1526,14 @@ document.getElementById(
 <div class="error-box">
 
 <strong>
-Database fout
+Medewerkers laden mislukt
 </strong>
 
-<p>
-${escapeHTML(error.message)}
-</p>
+<br><br>
+
+${escapeHTML(
+error.message
+)}
 
 </div>
 
@@ -1377,13 +1586,84 @@ employee.location_id
 
 
 document.getElementById(
-"availableEmployees"
+"loginEmployees"
 ).textContent =
 employees.filter(
 employee =>
-employee.status === "Actief" &&
-!employee.location_id
+employee.user_id
 ).length;
+
+}
+
+
+/* =====================================================
+EMPLOYEE NAME
+===================================================== */
+
+function getEmployeeName(employee){
+
+if(!employee){
+
+return "Onbekende medewerker";
+
+}
+
+
+return (
+
+(employee.first_name || "") +
+" " +
+(employee.last_name || "")
+
+).trim() ||
+"Onbekende medewerker";
+
+}
+
+
+/* =====================================================
+INITIALS
+===================================================== */
+
+function getInitials(employee){
+
+const first =
+employee.first_name ||
+"";
+
+
+const last =
+employee.last_name ||
+"";
+
+
+return (
+
+first.charAt(0) +
+last.charAt(0)
+
+).toUpperCase() ||
+"M";
+
+}
+
+
+/* =====================================================
+LOCATION
+===================================================== */
+
+function getLocationName(id){
+
+const location =
+locations.find(
+item =>
+String(item.id) ===
+String(id)
+);
+
+
+return location?.name ||
+"Geen vaste locatie";
 
 }
 
@@ -1404,7 +1684,8 @@ const search =
 (
 document.getElementById(
 "search"
-).value || ""
+).value ||
+""
 )
 .toLowerCase();
 
@@ -1416,11 +1697,14 @@ document.getElementById(
 
 
 const filtered =
-employees.filter(employee => {
+employees.filter(
+employee => {
+
 
 const text = [
 
-employee.name,
+employee.first_name,
+employee.last_name,
 employee.email,
 employee.phone,
 employee.job_title,
@@ -1480,47 +1764,88 @@ container.innerHTML = `
 
 <div class="employee-grid">
 
-${filtered.map(employee => {
+${filtered
+.map(
+employee =>
+renderEmployeeCard(employee)
+)
+.join("")}
 
-const initials =
-getInitials(employee.name);
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+EMPLOYEE CARD
+===================================================== */
+
+function renderEmployeeCard(employee){
+
+const name =
+getEmployeeName(employee);
 
 
 const location =
-employee.locations?.name ||
-"Geen locatie";
+getLocationName(
+employee.location_id
+);
 
 
 return `
 
 <div class="employee-card">
 
+
 <div class="employee-top">
 
-<div class="avatar">
-${escapeHTML(initials)}
+
+<div class="employee-avatar">
+
+${escapeHTML(
+getInitials(employee)
+)}
+
 </div>
+
 
 <div>
 
 <div class="employee-name">
-${escapeHTML(employee.name || "Naam onbekend")}
+
+${escapeHTML(name)}
+
 </div>
+
 
 <div class="employee-role">
-${escapeHTML(employee.job_title || "Medewerker")}
-</div>
+
+${escapeHTML(
+employee.job_title ||
+employee.role ||
+"Medewerker"
+)}
 
 </div>
 
 </div>
 
 
-<div style="margin-bottom:14px">
+</div>
 
-<span class="${statusClass(employee.status)}">
 
-${escapeHTML(employee.status || "Actief")}
+<div>
+
+<span class="${statusClass(
+employee.status
+)}">
+
+${escapeHTML(
+employee.status ||
+"Actief"
+)}
 
 </span>
 
@@ -1529,40 +1854,86 @@ ${escapeHTML(employee.status || "Actief")}
 
 <div class="employee-info">
 
-<div>
-📞
+
+<div class="employee-info-row">
+
+<span>📞</span>
+
 <span>
-${escapeHTML(employee.phone || "Geen telefoonnummer")}
+
+${
+employee.phone
+?
+escapeHTML(employee.phone)
+:
+"Geen telefoonnummer"
+}
+
 </span>
+
 </div>
 
-<div>
-✉️
+
+<div class="employee-info-row">
+
+<span>✉️</span>
+
 <span>
-${escapeHTML(employee.email || "Geen e-mailadres")}
+
+${
+employee.email
+?
+escapeHTML(employee.email)
+:
+"Geen e-mailadres"
+}
+
 </span>
+
 </div>
 
-<div>
-📍
+
+<div class="employee-info-row">
+
+<span>📍</span>
+
 <span>
+
 ${escapeHTML(location)}
+
 </span>
+
 </div>
 
-<div>
-💶
+
+<div class="employee-info-row">
+
+<span>💶</span>
+
 <span>
-${employee.hourly_rate
-? "€ " + Number(employee.hourly_rate).toFixed(2) + " per uur"
-: "Uurloon niet ingesteld"}
+
+${
+employee.hourly_rate
+?
+"€ " +
+Number(
+employee.hourly_rate
+).toFixed(2) +
+" per uur"
+:
+"Uurloon niet ingesteld"
+}
+
 </span>
+
 </div>
+
 
 </div>
 
 
 <div class="employee-actions">
+
 
 <button
 class="small-button primary"
@@ -1571,6 +1942,7 @@ onclick="openProfile('${employee.id}')"
 👤 Profiel
 </button>
 
+
 <button
 class="small-button"
 onclick="editEmployee('${employee.id}')"
@@ -1583,18 +1955,22 @@ ${
 employee.phone
 ?
 `
+
 <a
 class="small-button"
 href="tel:${escapeHTML(employee.phone)}"
 >
 📞 Bellen
 </a>
+
 `
 :
 `
+
 <div class="small-button">
 📞 Bellen
 </div>
+
 `
 }
 
@@ -1603,6 +1979,7 @@ ${
 employee.phone
 ?
 `
+
 <a
 class="small-button"
 target="_blank"
@@ -1610,12 +1987,15 @@ href="https://wa.me/${whatsappNumber(employee.phone)}"
 >
 💬 WhatsApp
 </a>
+
 `
 :
 `
+
 <div class="small-button">
 💬 WhatsApp
 </div>
+
 `
 }
 
@@ -1624,18 +2004,22 @@ ${
 employee.email
 ?
 `
+
 <a
 class="small-button"
 href="mailto:${escapeHTML(employee.email)}"
 >
 ✉️ E-mail
 </a>
+
 `
 :
 `
+
 <div class="small-button">
 ✉️ E-mail
 </div>
+
 `
 }
 
@@ -1644,105 +2028,51 @@ ${
 employee.user_id
 ?
 `
+
 <button
 class="small-button"
 disabled
-style="opacity:.6;cursor:not-allowed"
 >
 ✅ Login actief
 </button>
+
 `
 :
 `
+
+${
+employee.email
+?
+`
+
 <button
-class="small-button"
+class="small-button login"
 onclick="createEmployeeLogin('${employee.id}')"
 >
 🔐 Login aanmaken
 </button>
-`
-}
 
-</div>
-👤 Profiel
-</button>
-
-<button
-class="small-button"
-onclick="editEmployee('${employee.id}')"
->
-✏️ Bewerken
-</button>
-
-
-${
-employee.phone
-?
-`
-<a
-class="small-button"
-href="tel:${escapeHTML(employee.phone)}"
->
-📞 Bellen
-</a>
 `
 :
 `
-<div class="small-button">
-📞 Bellen
-</div>
-`
-}
 
-
-${
-employee.phone
-?
-`
-<a
+<div
 class="small-button"
-target="_blank"
-href="https://wa.me/${whatsappNumber(employee.phone)}"
+style="opacity:.5"
 >
-💬 WhatsApp
-</a>
-`
-:
-`
-<div class="small-button">
-💬 WhatsApp
+🔐 E-mail vereist
 </div>
+
 `
 }
 
+`
 
-${
-employee.email
-?
-`
-<a
-class="small-button"
-href="mailto:${escapeHTML(employee.email)}"
->
-✉️ E-mail
-</a>
-`
-:
-`
-<div class="small-button">
-✉️ E-mail
-</div>
-`
 }
 
-</div>
-
 
 </div>
 
-`;
-
-}).join("")}
 
 </div>
 
@@ -1752,374 +2082,7 @@ href="mailto:${escapeHTML(employee.email)}"
 
 
 /* =====================================================
-PROFILE
-===================================================== */
-
-function openProfile(id){
-
-const employee =
-employees.find(
-item => item.id === id
-);
-
-
-if(!employee)
-return;
-
-
-const location =
-employee.locations?.name ||
-"Geen vaste locatie";
-
-
-document.getElementById(
-"profileContent"
-).innerHTML = `
-
-<div class="profile-header">
-
-<div class="profile-avatar">
-
-${escapeHTML(
-getInitials(employee.name)
-)}
-
-</div>
-
-<div>
-
-<div class="profile-name">
-
-${escapeHTML(
-employee.name || "Naam onbekend"
-)}
-
-</div>
-
-<div class="profile-role">
-
-${escapeHTML(
-employee.job_title || "Medewerker"
-)}
-
-</div>
-
-<div style="margin-top:8px">
-
-<span class="${statusClass(employee.status)}">
-
-${escapeHTML(
-employee.status || "Actief"
-)}
-
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="profile-grid">
-
-
-<div class="profile-box">
-
-<h3>
-📞 Contact
-</h3>
-
-
-<div class="detail">
-
-<strong>
-Telefoon
-</strong>
-
-${
-employee.phone
-?
-escapeHTML(employee.phone)
-:
-"Niet ingevuld"
-}
-
-</div>
-
-
-<div class="detail">
-
-<strong>
-E-mail
-</strong>
-
-${
-employee.email
-?
-escapeHTML(employee.email)
-:
-"Niet ingevuld"
-}
-
-</div>
-
-
-<div class="contact-buttons">
-
-${
-employee.phone
-?
-`
-<a
-class="small-button primary"
-href="tel:${escapeHTML(employee.phone)}"
->
-📞 Bellen
-</a>
-
-<a
-class="small-button"
-target="_blank"
-href="https://wa.me/${whatsappNumber(employee.phone)}"
->
-💬 WhatsApp
-</a>
-`
-:
-""
-}
-
-
-${
-employee.email
-?
-`
-<a
-class="small-button"
-href="mailto:${escapeHTML(employee.email)}"
->
-✉️ E-mail
-</a>
-`
-:
-""
-}
-
-</div>
-
-</div>
-
-
-<div class="profile-box">
-
-<h3>
-📍 Locatie
-</h3>
-
-
-<div class="detail">
-
-<strong>
-Vaste locatie
-</strong>
-
-${escapeHTML(location)}
-
-</div>
-
-
-<div class="detail">
-
-<strong>
-Adres
-</strong>
-
-${escapeHTML(
-employee.address || "Niet ingevuld"
-)}
-
-</div>
-
-
-<div class="detail">
-
-<strong>
-Postcode / plaats
-</strong>
-
-${escapeHTML(
-employee.postal_code || ""
-)
-}
-${employee.postal_code ? " · " : ""}
-${escapeHTML(
-employee.city || ""
-)}
-
-</div>
-
-</div>
-
-
-<div class="profile-box">
-
-<h3>
-💰 Arbeidsgegevens
-</h3>
-
-
-<div class="detail">
-
-<strong>
-Functie
-</strong>
-
-${escapeHTML(
-employee.job_title || "Medewerker"
-)}
-
-</div>
-
-
-<div class="detail">
-
-<strong>
-Uurloon
-</strong>
-
-${
-employee.hourly_rate
-?
-"€ " +
-Number(employee.hourly_rate).toFixed(2) +
-" per uur"
-:
-"Niet ingesteld"
-}
-
-</div>
-
-
-<div class="detail">
-
-<strong>
-Status
-</strong>
-
-${escapeHTML(
-employee.status || "Actief"
-)}
-
-</div>
-
-</div>
-
-
-<div class="profile-box">
-
-<h3>
-📋 Werkzaamheden
-</h3>
-
-
-<div class="jobs">
-
-<div class="job">
-
-<div class="job-title">
-${escapeHTML(
-employee.job_title ||
-"Schoonmaakwerkzaamheden"
-)}
-</div>
-
-<div class="job-details">
-Medewerker is gekoppeld aan ${escapeHTML(location)}.
-</div>
-
-</div>
-
-<div class="job">
-
-<div class="job-title">
-Planning
-</div>
-
-<div class="job-details">
-Werkzaamheden kunnen hier later per dag, tijd en locatie worden gekoppeld.
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="profile-box" style="grid-column:1/-1">
-
-<h3>
-📝 Notities
-</h3>
-
-<div class="detail">
-
-${escapeHTML(
-employee.notes ||
-"Geen notities."
-)}
-
-</div>
-
-</div>
-
-
-</div>
-
-
-<div class="modal-footer">
-
-<button
-class="button secondary"
-onclick="closeProfileModal()"
->
-Sluiten
-</button>
-
-<button
-class="button"
-onclick="editEmployeeFromProfile('${employee.id}')"
->
-✏️ Profiel bewerken
-</button>
-
-</div>
-
-`;
-
-document.getElementById(
-"profileModal"
-).classList.add("show");
-
-}
-
-
-/* =====================================================
-EDIT FROM PROFILE
-===================================================== */
-
-function editEmployeeFromProfile(id){
-
-closeProfileModal();
-
-editEmployee(id);
-
-}
-
-
-/* =====================================================
-OPEN EMPLOYEE MODAL
+OPEN NEW EMPLOYEE
 ===================================================== */
 
 function openEmployeeModal(employee=null){
@@ -2144,15 +2107,15 @@ employee.id;
 
 
 document.getElementById(
-"employeeName"
+"employeeFirstName"
 ).value =
-employee.name || "";
+employee.first_name || "";
 
 
 document.getElementById(
-"employeeJobTitle"
+"employeeLastName"
 ).value =
-employee.job_title || "";
+employee.last_name || "";
 
 
 document.getElementById(
@@ -2165,6 +2128,18 @@ document.getElementById(
 "employeePhone"
 ).value =
 employee.phone || "";
+
+
+document.getElementById(
+"employeeJobTitle"
+).value =
+employee.job_title || "";
+
+
+document.getElementById(
+"employeeRole"
+).value =
+employee.role || "Medewerker";
 
 
 document.getElementById(
@@ -2224,15 +2199,21 @@ document.getElementById(
 
 
 document.getElementById(
-"employeeCity"
-).value =
-"Amsterdam";
-
-
-document.getElementById(
 "employeeStatus"
 ).value =
 "Actief";
+
+
+document.getElementById(
+"employeeRole"
+).value =
+"Medewerker";
+
+
+document.getElementById(
+"employeeCity"
+).value =
+"Amsterdam";
 
 
 document.getElementById(
@@ -2253,7 +2234,9 @@ function editEmployee(id){
 
 const employee =
 employees.find(
-item => item.id === id
+item =>
+String(item.id) ===
+String(id)
 );
 
 
@@ -2281,7 +2264,9 @@ document.getElementById(
 );
 
 
-button.disabled = true;
+button.disabled =
+true;
+
 
 button.textContent =
 "Opslaan...";
@@ -2295,14 +2280,14 @@ document.getElementById(
 
 const employeeData = {
 
-name:
+first_name:
 document.getElementById(
-"employeeName"
+"employeeFirstName"
 ).value.trim(),
 
-job_title:
+last_name:
 document.getElementById(
-"employeeJobTitle"
+"employeeLastName"
 ).value.trim(),
 
 email:
@@ -2314,6 +2299,16 @@ phone:
 document.getElementById(
 "employeePhone"
 ).value.trim(),
+
+job_title:
+document.getElementById(
+"employeeJobTitle"
+).value.trim(),
+
+role:
+document.getElementById(
+"employeeRole"
+).value,
 
 status:
 document.getElementById(
@@ -2336,8 +2331,7 @@ null,
 location_id:
 document.getElementById(
 "employeeLocation"
-).value
-||
+).value ||
 null,
 
 address:
@@ -2358,10 +2352,7 @@ document.getElementById(
 notes:
 document.getElementById(
 "employeeNotes"
-).value.trim(),
-
-updated_at:
-new Date().toISOString()
+).value.trim()
 
 };
 
@@ -2380,13 +2371,14 @@ await supabaseClient
 .single();
 
 }
-
 else{
 
 result =
 await supabaseClient
 .from("employees")
-.insert([employeeData])
+.insert(
+[employeeData]
+)
 .select()
 .single();
 
@@ -2395,17 +2387,24 @@ await supabaseClient
 
 if(result.error){
 
-console.error(result.error);
+console.error(
+result.error
+);
+
 
 alert(
 "Opslaan mislukt:\n\n" +
 result.error.message
 );
 
-button.disabled = false;
+
+button.disabled =
+false;
+
 
 button.textContent =
 "Medewerker opslaan";
+
 
 return;
 
@@ -2414,13 +2413,884 @@ return;
 
 closeEmployeeModal();
 
-button.disabled = false;
+
+button.disabled =
+false;
+
 
 button.textContent =
 "Medewerker opslaan";
 
 
 await loadEmployees();
+
+}
+
+
+/* =====================================================
+CREATE EMPLOYEE LOGIN
+===================================================== */
+
+async function createEmployeeLogin(employeeId){
+
+const employee =
+employees.find(
+item =>
+String(item.id) ===
+String(employeeId)
+);
+
+
+if(!employee){
+
+alert(
+"Medewerker niet gevonden."
+);
+
+return;
+
+}
+
+
+if(employee.user_id){
+
+alert(
+"Deze medewerker heeft al een login."
+);
+
+return;
+
+}
+
+
+if(!employee.email){
+
+alert(
+"Deze medewerker heeft nog geen e-mailadres."
+);
+
+return;
+
+}
+
+
+const name =
+getEmployeeName(employee);
+
+
+const password =
+prompt(
+
+`Maak een tijdelijk wachtwoord voor ${name}.\n\n` +
+`Minimaal 8 tekens.`
+
+);
+
+
+if(password === null){
+
+return;
+
+}
+
+
+if(password.length < 8){
+
+alert(
+"Het wachtwoord moet minimaal 8 tekens bevatten."
+);
+
+return;
+
+}
+
+
+const confirmed =
+confirm(
+
+`Login aanmaken voor:\n\n` +
+
+`${name}\n` +
+
+`${employee.email}\n\n` +
+
+`Doorgaan?`
+
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+try{
+
+const {
+data:sessionData,
+error:sessionError
+} =
+await supabaseClient
+.auth
+.getSession();
+
+
+if(
+sessionError ||
+!sessionData.session
+){
+
+alert(
+"Je bent niet ingelogd."
+);
+
+return;
+
+}
+
+
+const response =
+await fetch(
+
+`${SUPABASE_URL}/functions/v1/create-employee`,
+
+{
+
+method:"POST",
+
+headers:{
+
+"Authorization":
+`Bearer ${sessionData.session.access_token}`,
+
+"apikey":
+SUPABASE_PUBLISHABLE_KEY,
+
+"Content-Type":
+"application/json"
+
+},
+
+body:
+JSON.stringify({
+
+employee_id:
+employee.id,
+
+email:
+employee.email,
+
+password:
+password
+
+})
+
+}
+
+);
+
+
+const result =
+await response.json();
+
+
+if(!response.ok){
+
+console.error(
+"Create employee login error:",
+result
+);
+
+
+alert(
+
+"Login aanmaken mislukt:\n\n" +
+
+(
+result.error ||
+"Onbekende fout."
+)
+
+);
+
+return;
+
+}
+
+
+alert(
+
+`✅ Login succesvol aangemaakt!\n\n` +
+
+`Medewerker: ${name}\n` +
+
+`E-mail: ${employee.email}\n\n` +
+
+`Tijdelijk wachtwoord:\n${password}\n\n` +
+
+`Geef deze gegevens veilig aan de medewerker.`
+
+);
+
+
+await loadEmployees();
+
+
+}
+catch(error){
+
+console.error(error);
+
+
+alert(
+
+"Er ging iets mis:\n\n" +
+
+error.message
+
+);
+
+}
+
+}
+
+
+/* =====================================================
+PROFILE
+===================================================== */
+
+function openProfile(id){
+
+const employee =
+employees.find(
+item =>
+String(item.id) ===
+String(id)
+);
+
+
+if(!employee)
+return;
+
+
+const name =
+getEmployeeName(employee);
+
+
+const location =
+getLocationName(
+employee.location_id
+);
+
+
+document.getElementById(
+"profileContent"
+).innerHTML = `
+
+<div class="profile-header">
+
+
+<div class="profile-avatar">
+
+${escapeHTML(
+getInitials(employee)
+)}
+
+</div>
+
+
+<div>
+
+<div class="profile-name">
+
+${escapeHTML(name)}
+
+</div>
+
+
+<div class="profile-role">
+
+${escapeHTML(
+employee.job_title ||
+employee.role ||
+"Medewerker"
+)}
+
+</div>
+
+
+<div style="margin-top:8px">
+
+<span class="${statusClass(
+employee.status
+)}">
+
+${escapeHTML(
+employee.status ||
+"Actief"
+)}
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="profile-grid">
+
+
+<div class="profile-box">
+
+<h3>
+📞 Contact
+</h3>
+
+
+<div class="detail">
+
+<strong>
+Telefoon
+</strong>
+
+${
+employee.phone
+?
+escapeHTML(employee.phone)
+:
+"Niet ingevuld"
+}
+
+</div>
+
+
+<div class="detail">
+
+<strong>
+E-mail
+</strong>
+
+${
+employee.email
+?
+escapeHTML(employee.email)
+:
+"Niet ingevuld"
+}
+
+</div>
+
+
+<div class="contact-buttons">
+
+
+${
+employee.phone
+?
+`
+
+<a
+class="small-button primary"
+href="tel:${escapeHTML(employee.phone)}"
+>
+📞 Bellen
+</a>
+
+
+<a
+class="small-button"
+target="_blank"
+href="https://wa.me/${whatsappNumber(employee.phone)}"
+>
+💬 WhatsApp
+</a>
+
+`
+:
+""
+
+}
+
+
+${
+employee.email
+?
+`
+
+<a
+class="small-button"
+href="mailto:${escapeHTML(employee.email)}"
+>
+✉️ E-mail
+</a>
+
+`
+:
+""
+
+}
+
+
+</div>
+
+</div>
+
+
+<div class="profile-box">
+
+<h3>
+📍 Locatie
+</h3>
+
+
+<div class="detail">
+
+<strong>
+Vaste locatie
+</strong>
+
+${escapeHTML(location)}
+
+</div>
+
+
+<div class="detail">
+
+<strong>
+Adres
+</strong>
+
+${escapeHTML(
+employee.address ||
+"Niet ingevuld"
+)}
+
+</div>
+
+
+<div class="detail">
+
+<strong>
+Postcode / plaats
+</strong>
+
+${escapeHTML(
+employee.postal_code ||
+""
+)}
+
+${
+employee.postal_code
+?
+" · "
+:
+""
+}
+
+${escapeHTML(
+employee.city ||
+""
+)}
+
+</div>
+
+</div>
+
+
+<div class="profile-box">
+
+<h3>
+💰 Arbeidsgegevens
+</h3>
+
+
+<div class="detail">
+
+<strong>
+Functie
+</strong>
+
+${escapeHTML(
+employee.job_title ||
+employee.role ||
+"Medewerker"
+)}
+
+</div>
+
+
+<div class="detail">
+
+<strong>
+Rol
+</strong>
+
+${escapeHTML(
+employee.role ||
+"Medewerker"
+)}
+
+</div>
+
+
+<div class="detail">
+
+<strong>
+Uurloon
+</strong>
+
+${
+employee.hourly_rate
+?
+"€ " +
+Number(
+employee.hourly_rate
+).toFixed(2) +
+" per uur"
+:
+"Niet ingesteld"
+}
+
+</div>
+
+</div>
+
+
+<div class="profile-box">
+
+<h3>
+🔐 Login
+</h3>
+
+
+${
+employee.user_id
+?
+
+`
+
+<div class="login-box">
+
+<strong>
+✅ Login actief
+</strong>
+
+<p style="font-size:12px;color:#68736e">
+
+Deze medewerker heeft een ARC OS-account.
+
+</p>
+
+</div>
+
+`
+
+:
+
+`
+
+<div class="login-box">
+
+<strong>
+Nog geen login
+</strong>
+
+<p style="font-size:12px;color:#68736e">
+
+Maak een login aan zodat deze medewerker kan inloggen op de medewerkeromgeving.
+
+</p>
+
+<button
+class="button"
+onclick="createEmployeeLogin('${employee.id}')"
+>
+🔐 Login aanmaken
+</button>
+
+</div>
+
+`
+
+}
+
+</div>
+
+
+<div class="profile-box full">
+
+<h3>
+📅 Werkzaamheden
+</h3>
+
+
+<div
+class="jobs"
+id="profileJobs"
+>
+
+<div class="loading">
+Werkzaamheden laden...
+</div>
+
+</div>
+
+</div>
+
+
+<div class="profile-box full">
+
+<h3>
+📝 Notities
+</h3>
+
+
+<div class="detail">
+
+${escapeHTML(
+employee.notes ||
+"Geen notities."
+)}
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="modal-footer">
+
+
+<button
+class="button danger"
+onclick="deleteEmployee('${employee.id}')"
+>
+🗑️ Verwijderen
+</button>
+
+
+<button
+class="button secondary"
+onclick="closeProfileModal()"
+>
+Sluiten
+</button>
+
+
+<button
+class="button"
+onclick="editEmployeeFromProfile('${employee.id}')"
+>
+✏️ Bewerken
+</button>
+
+
+</div>
+
+`;
+
+
+document.getElementById(
+"profileModal"
+).classList.add("show");
+
+
+loadEmployeeJobs(
+employee.id
+);
+
+}
+
+
+/* =====================================================
+LOAD EMPLOYEE JOBS
+===================================================== */
+
+async function loadEmployeeJobs(employeeId){
+
+const container =
+document.getElementById(
+"profileJobs"
+);
+
+
+if(!container)
+return;
+
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("jobs")
+.select("*")
+.eq(
+"employee_id",
+employeeId
+)
+.order(
+"job_date",
+{
+ascending:true
+}
+)
+.order(
+"start_time",
+{
+ascending:true
+}
+)
+.limit(20);
+
+
+if(error){
+
+container.innerHTML = `
+
+<div class="error-box">
+
+Werkzaamheden konden niet worden geladen.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+if(!data || !data.length){
+
+container.innerHTML = `
+
+<div
+style="
+font-size:13px;
+color:#68736e;
+"
+>
+
+Nog geen werkzaamheden gekoppeld.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+container.innerHTML =
+data
+.map(job => {
+
+const location =
+getLocationName(
+job.location_id
+);
+
+
+return `
+
+<div class="job">
+
+<div class="job-title">
+
+${escapeHTML(
+job.service ||
+"Schoonmaak"
+)}
+
+</div>
+
+
+<div class="job-details">
+
+📅
+${escapeHTML(
+job.job_date ||
+"-"
+)}
+
+&nbsp; · &nbsp;
+
+🕐
+${
+job.start_time
+?
+escapeHTML(
+String(
+job.start_time
+).substring(0,5)
+)
+:
+"-"
+}
+
+${
+job.end_time
+?
+" – " +
+escapeHTML(
+String(
+job.end_time
+).substring(0,5)
+)
+:
+""
+}
+
+&nbsp; · &nbsp;
+
+📍
+${escapeHTML(location)}
+
+</div>
+
+
+<div style="margin-top:7px">
+
+<span class="${jobStatusClass(
+job.status
+)}">
+
+${escapeHTML(
+job.status ||
+"Gepland"
+)}
+
+</span>
+
+</div>
+
+</div>
+
+`;
+
+})
+.join("");
+
+}
+
+
+/* =====================================================
+EDIT FROM PROFILE
+===================================================== */
+
+function editEmployeeFromProfile(id){
+
+closeProfileModal();
+
+editEmployee(id);
 
 }
 
@@ -2433,7 +3303,9 @@ async function deleteEmployee(id){
 
 const employee =
 employees.find(
-item => item.id === id
+item =>
+String(item.id) ===
+String(id)
 );
 
 
@@ -2443,7 +3315,11 @@ return;
 
 const confirmed =
 confirm(
-`Weet je zeker dat je "${employee.name}" wilt verwijderen?`
+
+`Weet je zeker dat je "${getEmployeeName(employee)}" wilt verwijderen?\n\n` +
+
+"De medewerker wordt uit ARC OS verwijderd."
+
 );
 
 
@@ -2457,14 +3333,19 @@ error
 await supabaseClient
 .from("employees")
 .delete()
-.eq("id",id);
+.eq(
+"id",
+id
+);
 
 
 if(error){
 
 alert(
+
 "Verwijderen mislukt:\n\n" +
 error.message
+
 );
 
 return;
@@ -2475,6 +3356,109 @@ return;
 closeProfileModal();
 
 await loadEmployees();
+
+}
+
+
+/* =====================================================
+STATUS
+===================================================== */
+
+function statusClass(status){
+
+if(status === "Inactief"){
+
+return "status status-inactive";
+
+}
+
+
+if(status === "Vakantie"){
+
+return "status status-vacation";
+
+}
+
+
+return "status status-active";
+
+}
+
+
+function jobStatusClass(status){
+
+if(status === "Gestart"){
+
+return "status status-vacation";
+
+}
+
+
+if(status === "Afgerond"){
+
+return "status status-active";
+
+}
+
+
+if(status === "Geannuleerd"){
+
+return "status status-inactive";
+
+}
+
+
+return "status status-gepland";
+
+}
+
+
+/* =====================================================
+WHATSAPP
+===================================================== */
+
+function whatsappNumber(phone){
+
+return String(
+phone || ""
+)
+.replace(
+/\D/g,
+""
+);
+
+}
+
+
+/* =====================================================
+ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+return String(
+value ?? ""
+)
+.replace(
+/&/g,
+"&amp;"
+)
+.replace(
+/</g,
+"&lt;"
+)
+.replace(
+/>/g,
+"&gt;"
+)
+.replace(
+/"/g,
+"&quot;"
+)
+.replace(
+/'/g,
+"&#039;"
+);
 
 }
 
@@ -2530,67 +3514,24 @@ closeProfileModal();
 
 
 /* =====================================================
-HELPERS
-===================================================== */
-
-function getInitials(name){
-
-if(!name)
-return "M";
-
-
-return name
-.split(" ")
-.filter(Boolean)
-.slice(0,2)
-.map(
-part => part.charAt(0).toUpperCase()
-)
-.join("");
-
-}
-
-
-function statusClass(status){
-
-if(status === "Inactief")
-return "status status-inactive";
-
-
-if(status === "Vakantie")
-return "status status-vacation";
-
-
-return "status status-active";
-
-}
-
-
-function whatsappNumber(phone){
-
-return String(phone || "")
-.replace(/\D/g,"");
-
-}
-
-
-function escapeHTML(value){
-
-return String(value || "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-/* =====================================================
 START
 ===================================================== */
 
-checkAuth();
+(async function(){
+
+const authenticated =
+await checkAuth();
+
+
+if(!authenticated)
+return;
+
+
+await loadLocations();
+
+await loadEmployees();
+
+})();
 
 </script>
 
